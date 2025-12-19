@@ -3,7 +3,7 @@ name: Sync upstream and apply patch
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "0 */6 * * *"   # 每 6 小时运行一次（UTC 时间）
+    - cron: "0 */6 * * *"   # 每 6 小时跑一次（UTC）
 
 permissions:
   contents: write
@@ -12,9 +12,10 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout fork
+      - name: Checkout fork (master)
         uses: actions/checkout@v4
         with:
+          ref: master
           fetch-depth: 0
 
       - name: Configure git identity
@@ -26,18 +27,52 @@ jobs:
         run: |
           git remote add upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git || git remote set-url upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git
           git fetch upstream --prune
+          git fetch origin master --prune
+          git fetch origin patches --prune
 
-      - name: Reset master to upstream and apply patch
+      # （可选）上游没变化就跳过：对比上游提交 vs 当前 master 的第一父提交（master 通常是“上游基底 + 一次补丁提交”）
+      - name: Check if upstream changed
+        id: check
+        shell: bash
+        run: |
+          UP="$(git rev-parse upstream/master)"
+          if git rev-parse origin/master^ >/dev/null 2>&1; then
+            BASE="$(git rev-parse origin/master^)"
+          else
+            BASE="$(git rev-parse origin/master)"
+          fi
+          echo "upstream=$UP"
+          echo "base=$BASE"
+          if [ "$UP" = "$BASE" ]; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream update. Skip."
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "Upstream updated. Continue."
+          fi
+
+      - name: Load patch from patches branch
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          # 不检出到工作区，直接写到临时文件，避免 reset 后丢失
+          git show origin/patches:patches/custom.patch > "$RUNNER_TEMP/custom.patch"
+          test -s "$RUNNER_TEMP/custom.patch"
+
+      - name: Reset to upstream and apply patch
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
         run: |
           git checkout master
-          git reset --hard upstream/master   # 如果上游默认分支是 main，把这一行改成 upstream/main
+          git reset --hard upstream/master   # 上游是 main 改 upstream/main
 
-          # 应用补丁（冲突则直接失败，提醒你手动处理一次并更新 patch）
-          git apply --3way --whitespace=nowarn patches/custom.patch
+          # 失败就直接报错退出（让你知道需要刷新 patch）
+          git apply --3way --whitespace=nowarn "$RUNNER_TEMP/custom.patch"
 
       - name: Commit if changed
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
         run: |
-          git status --porcelain
           if [ -n "$(git status --porcelain)" ]; then
             git add -A
             git commit -m "Sync upstream + apply custom patch"
@@ -45,6 +80,7 @@ jobs:
             echo "No changes after applying patch."
           fi
 
-      - name: Push to fork
+      - name: Push to fork master
+        if: steps.check.outputs.updated == 'true'
         run: |
-          git push origin master
+          git push --force-with-lease origin master
