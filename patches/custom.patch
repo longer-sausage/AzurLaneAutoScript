@@ -1,18 +1,279 @@
-diff --git ".\\AzurLaneAutoScript/README.md" ".\\AzurLaneAutoScriptyukikaze21/README.md"
+From 8491812417fea150dd9c45175a173f4c87ea79b3 Mon Sep 17 00:00:00 2001
+From: longer-sausage <longer-sausage@outlook.com>
+Date: Fri, 19 Dec 2025 17:24:56 +0800
+Subject: [PATCH] custom changes
+
+---
+ README.md                                     |   2 +
+ alas.bat                                      |  17 +
+ alas.py                                       | 343 +++++--
+ assets/cn/campaign/OCR_COIN_LIMIT.png         | Bin 0 -> 6816 bytes
+ assets/cn/campaign/OCR_GEM.png                | Bin 0 -> 6057 bytes
+ assets/cn/campaign/OCR_OIL_LIMIT.png          | Bin 0 -> 6748 bytes
+ assets/cn/equipment/EMPTY_SHIP_R.png          | Bin 0 -> 10599 bytes
+ assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png  | Bin 0 -> 9012 bytes
+ .../cn/equipment/EQUIPMENT_CODE_CONFIRM.png   | Bin 0 -> 9229 bytes
+ assets/cn/equipment/EQUIPMENT_CODE_ENTER.png  | Bin 0 -> 9496 bytes
+ .../cn/equipment/EQUIPMENT_CODE_ENTRANCE.png  | Bin 0 -> 8083 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_0.png   | Bin 0 -> 8692 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_1.png   | Bin 0 -> 8643 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_2.png   | Bin 0 -> 8628 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_3.png   | Bin 0 -> 9306 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_4.png   | Bin 0 -> 9194 bytes
+ .../cn/equipment/EQUIPMENT_CODE_EQUIP_5.png   | Bin 0 -> 14767 bytes
+ .../EQUIPMENT_CODE_EQUIP_5_LOCKED.png         | Bin 0 -> 20191 bytes
+ assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 8900 bytes
+ .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
+ .../cn/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 10872 bytes
+ .../cn/template/TEMPLATE_COMBAT_LOADING.png   | Bin 781 -> 3268 bytes
+ assets/en/campaign/OCR_COIN_LIMIT.png         | Bin 0 -> 6816 bytes
+ assets/en/campaign/OCR_OIL_LIMIT.png          | Bin 0 -> 6748 bytes
+ assets/en/equipment/EMPTY_SHIP_R.png          | Bin 0 -> 10599 bytes
+ assets/en/equipment/EQUIPMENT_CODE_CLEAR.png  | Bin 0 -> 5950 bytes
+ .../en/equipment/EQUIPMENT_CODE_CONFIRM.png   | Bin 0 -> 7851 bytes
+ assets/en/equipment/EQUIPMENT_CODE_ENTER.png  | Bin 0 -> 6670 bytes
+ .../en/equipment/EQUIPMENT_CODE_ENTRANCE.png  | Bin 0 -> 5239 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_0.png   | Bin 0 -> 8692 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_1.png   | Bin 0 -> 8643 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_2.png   | Bin 0 -> 8628 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_3.png   | Bin 0 -> 9306 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_4.png   | Bin 0 -> 9194 bytes
+ .../en/equipment/EQUIPMENT_CODE_EQUIP_5.png   | Bin 0 -> 14767 bytes
+ .../EQUIPMENT_CODE_EQUIP_5_LOCKED.png         | Bin 0 -> 20191 bytes
+ assets/en/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 7709 bytes
+ .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
+ .../en/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 7091 bytes
+ .../en/template/TEMPLATE_COMBAT_LOADING.png   | Bin 781 -> 3268 bytes
+ assets/gui/css/alas-mobile.css                |  30 +
+ assets/gui/css/alas-pc.css                    |   2 +-
+ assets/gui/css/alas.css                       |  93 +-
+ assets/gui/css/azurlane-alas.css              | 289 ++++++
+ assets/gui/css/dark-alas.css                  |  15 +-
+ assets/gui/css/light-alas.css                 |   8 +
+ assets/jp/campaign/OCR_COIN_LIMIT.png         | Bin 0 -> 6816 bytes
+ assets/jp/campaign/OCR_OIL_LIMIT.png          | Bin 0 -> 6748 bytes
+ assets/jp/equipment/EMPTY_SHIP_R.png          | Bin 0 -> 10599 bytes
+ assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png  | Bin 0 -> 13189 bytes
+ .../jp/equipment/EQUIPMENT_CODE_CONFIRM.png   | Bin 0 -> 14391 bytes
+ assets/jp/equipment/EQUIPMENT_CODE_ENTER.png  | Bin 0 -> 13680 bytes
+ .../jp/equipment/EQUIPMENT_CODE_ENTRANCE.png  | Bin 0 -> 12534 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_0.png   | Bin 0 -> 8692 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_1.png   | Bin 0 -> 8643 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_2.png   | Bin 0 -> 8628 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_3.png   | Bin 0 -> 9306 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_4.png   | Bin 0 -> 9194 bytes
+ .../jp/equipment/EQUIPMENT_CODE_EQUIP_5.png   | Bin 0 -> 14767 bytes
+ .../EQUIPMENT_CODE_EQUIP_5_LOCKED.png         | Bin 0 -> 20191 bytes
+ assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 14354 bytes
+ .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
+ .../jp/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 17446 bytes
+ .../jp/template/TEMPLATE_COMBAT_LOADING.png   | Bin 781 -> 3268 bytes
+ assets/spa/manifest.json                      |  20 +
+ assets/spa/screen1.jpg                        | Bin 0 -> 78511 bytes
+ assets/spa/screen2.jpg                        | Bin 0 -> 82089 bytes
+ assets/spa/screen3.jpg                        | Bin 0 -> 55678 bytes
+ assets/spa/screen4.png                        | Bin 0 -> 180250 bytes
+ assets/spa/screen5.png                        | Bin 0 -> 383630 bytes
+ assets/spa/screen6.png                        | Bin 0 -> 180669 bytes
+ assets/spa/screen7.png                        | Bin 0 -> 162197 bytes
+ assets/spa/screen8.jpg                        | Bin 0 -> 84104 bytes
+ assets/spa/screen9.png                        | Bin 0 -> 308066 bytes
+ assets/spa/spa-icon-192x192.png               | Bin 0 -> 67499 bytes
+ assets/spa/spa-icon-512x512.png               | Bin 0 -> 338215 bytes
+ assets/tw/campaign/OCR_COIN_LIMIT.png         | Bin 0 -> 6816 bytes
+ assets/tw/campaign/OCR_OIL_LIMIT.png          | Bin 0 -> 6748 bytes
+ assets/tw/equipment/EMPTY_SHIP_R.png          | Bin 0 -> 10599 bytes
+ assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png  | Bin 0 -> 5829 bytes
+ .../tw/equipment/EQUIPMENT_CODE_CONFIRM.png   | Bin 0 -> 6480 bytes
+ assets/tw/equipment/EQUIPMENT_CODE_ENTER.png  | Bin 0 -> 6762 bytes
+ .../tw/equipment/EQUIPMENT_CODE_ENTRANCE.png  | Bin 0 -> 5437 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_0.png   | Bin 0 -> 8692 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_1.png   | Bin 0 -> 8643 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_2.png   | Bin 0 -> 8628 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_3.png   | Bin 0 -> 9306 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_4.png   | Bin 0 -> 9194 bytes
+ .../tw/equipment/EQUIPMENT_CODE_EQUIP_5.png   | Bin 0 -> 14767 bytes
+ .../EQUIPMENT_CODE_EQUIP_5_LOCKED.png         | Bin 0 -> 20191 bytes
+ assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 6363 bytes
+ .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
+ .../tw/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 8224 bytes
+ campaign/campaign_main/campaign_7_2_3.py      |  87 ++
+ config/deploy.template-AidLux-cn.yaml         |   5 +
+ config/deploy.template-AidLux.yaml            |   5 +
+ config/deploy.template-cn.yaml                |   5 +
+ config/deploy.template-docker-cn.yaml         |   5 +
+ config/deploy.template-docker.yaml            |   5 +
+ config/deploy.template-linux-cn.yaml          |   5 +
+ config/deploy.template-linux.yaml             |   5 +
+ config/deploy.template.yaml                   |   5 +
+ config/template.json                          |  89 +-
+ deploy/Windows/config.py                      |   1 +
+ deploy/Windows/git.py                         |  31 +-
+ deploy/Windows/template.yaml                  |   5 +
+ deploy/config.py                              |   1 +
+ deploy/git.py                                 |  23 +-
+ deploy/git_over_cdn/client.py                 |  18 +-
+ deploy/template                               |   5 +
+ dev_tools/utils.py                            |  61 +-
+ module/campaign/assets.py                     |   3 +
+ module/campaign/campaign_event.py             |  24 +-
+ module/campaign/campaign_status.py            |  81 +-
+ module/campaign/gems_farming.py               |  92 +-
+ module/campaign/os_run.py                     |   2 +-
+ module/campaign/run.py                        |  17 +-
+ module/combat/auto_search_combat.py           |   2 +-
+ module/combat/combat.py                       |   2 -
+ module/combat_ui/assets.py                    |   1 -
+ module/config/argument/args.json              | 288 +++++-
+ module/config/argument/argument.yaml          |  98 +-
+ module/config/argument/dashboard.yaml         |  18 +
+ module/config/argument/gui.yaml               |  22 +
+ module/config/argument/menu.json              |   2 +-
+ module/config/argument/override.yaml          |   7 +
+ module/config/argument/task.yaml              |  15 +-
+ module/config/config_generated.py             |  76 +-
+ module/config/config_manual.py                |  19 +-
+ module/config/config_updater.py               |  17 +-
+ module/config/i18n/en-US.json                 | 297 +++++-
+ module/config/i18n/ja-JP.json                 | 297 +++++-
+ module/config/i18n/zh-CN.json                 | 310 +++++-
+ module/config/i18n/zh-TW.json                 | 297 +++++-
+ module/config/utils.py                        |  42 +
+ module/device/device.py                       |   7 +-
+ module/device/input.py                        |  19 +
+ module/device/method/nemu_ipc.py              |  10 +-
+ module/device/method/uiautomator_2.py         |  23 +
+ module/device/screenshot.py                   | 167 ++-
+ module/equipment/assets.py                    |  15 +
+ module/equipment/equipment_code.py            | 276 +++++
+ module/exercise/hp_daemon.py                  |   1 -
+ module/gacha/gacha_reward.py                  |  12 +-
+ module/handler/login.py                       |  47 +-
+ module/log_res/log_res.py                     |  69 ++
+ module/map/map_fleet_preparation.py           |   2 -
+ module/notify/notify.py                       |   4 +-
+ module/os/fleet.py                            |  41 +-
+ module/os/map.py                              | 301 +++++-
+ module/os/operation_siren.py                  | 135 ++-
+ module/os_handler/action_point.py             |   8 +-
+ module/os_handler/os_status.py                |   8 +-
+ module/os_shop/selector.py                    |  13 +-
+ module/os_shop/shop.py                        |  66 +-
+ module/raid/raid.py                           |   3 +
+ module/shop/shop_status.py                    |  13 +
+ module/statistics/opsi_month.py               | 191 ++++
+ module/webui/app.py                           | 958 +++++++++++++++++-
+ module/webui/pin.py                           |   2 +-
+ module/webui/process_manager.py               |  79 +-
+ module/webui/setting.py                       |  43 +
+ module/webui/utils.py                         |  28 +-
+ module/webui/widgets.py                       |  12 +
+ 164 files changed, 5433 insertions(+), 329 deletions(-)
+ create mode 100644 alas.bat
+ create mode 100644 assets/cn/campaign/OCR_COIN_LIMIT.png
+ create mode 100644 assets/cn/campaign/OCR_GEM.png
+ create mode 100644 assets/cn/campaign/OCR_OIL_LIMIT.png
+ create mode 100644 assets/cn/equipment/EMPTY_SHIP_R.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_CONFIRM.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_ENTER.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_ENTRANCE.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_0.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_1.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_2.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_3.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_4.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
+ create mode 100644 assets/cn/equipment/EQUIPMENT_CODE_TEXTBOX.png
+ create mode 100644 assets/en/campaign/OCR_COIN_LIMIT.png
+ create mode 100644 assets/en/campaign/OCR_OIL_LIMIT.png
+ create mode 100644 assets/en/equipment/EMPTY_SHIP_R.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_CLEAR.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_CONFIRM.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_ENTER.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_ENTRANCE.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_0.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_1.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_2.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_3.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_4.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_5.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_EXPORT.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
+ create mode 100644 assets/en/equipment/EQUIPMENT_CODE_TEXTBOX.png
+ create mode 100644 assets/gui/css/azurlane-alas.css
+ create mode 100644 assets/jp/campaign/OCR_COIN_LIMIT.png
+ create mode 100644 assets/jp/campaign/OCR_OIL_LIMIT.png
+ create mode 100644 assets/jp/equipment/EMPTY_SHIP_R.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_CONFIRM.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_ENTER.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_ENTRANCE.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_0.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_1.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_2.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_3.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_4.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
+ create mode 100644 assets/jp/equipment/EQUIPMENT_CODE_TEXTBOX.png
+ create mode 100644 assets/spa/manifest.json
+ create mode 100644 assets/spa/screen1.jpg
+ create mode 100644 assets/spa/screen2.jpg
+ create mode 100644 assets/spa/screen3.jpg
+ create mode 100644 assets/spa/screen4.png
+ create mode 100644 assets/spa/screen5.png
+ create mode 100644 assets/spa/screen6.png
+ create mode 100644 assets/spa/screen7.png
+ create mode 100644 assets/spa/screen8.jpg
+ create mode 100644 assets/spa/screen9.png
+ create mode 100644 assets/spa/spa-icon-192x192.png
+ create mode 100644 assets/spa/spa-icon-512x512.png
+ create mode 100644 assets/tw/campaign/OCR_COIN_LIMIT.png
+ create mode 100644 assets/tw/campaign/OCR_OIL_LIMIT.png
+ create mode 100644 assets/tw/equipment/EMPTY_SHIP_R.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_CONFIRM.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_ENTER.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_ENTRANCE.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_0.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_1.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_2.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_3.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_4.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
+ create mode 100644 assets/tw/equipment/EQUIPMENT_CODE_TEXTBOX.png
+ create mode 100644 campaign/campaign_main/campaign_7_2_3.py
+ create mode 100644 module/config/argument/dashboard.yaml
+ create mode 100644 module/device/input.py
+ create mode 100644 module/equipment/equipment_code.py
+ create mode 100644 module/log_res/log_res.py
+ create mode 100644 module/statistics/opsi_month.py
+
+diff --git a/README.md b/README.md
 index 976a3f8..3b20fc9 100644
---- ".\\AzurLaneAutoScript/README.md"
-+++ ".\\AzurLaneAutoScriptyukikaze21/README.md"
+--- a/README.md
++++ b/README.md
 @@ -1,3 +1,5 @@
 +以后不再更新了nanoda，有需要自行寻找大世界相关更改nanoda
 +
  **| [English](README_en.md) | 简体中文 | [日本語](README_jp.md) |**
  
  # AzurLaneAutoScript
-diff --git ".\\AzurLaneAutoScriptyukikaze21/alas.bat" ".\\AzurLaneAutoScriptyukikaze21/alas.bat"
+diff --git a/alas.bat b/alas.bat
 new file mode 100644
 index 0000000..e165418
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/alas.bat"
++++ b/alas.bat
 @@ -0,0 +1,17 @@
 +@echo off
 +chcp 65001 >nul  REM 使用 UTF-8 编码，确保中文路径和输出不乱码
@@ -31,10 +292,10 @@ index 0000000..e165418
 +
 +exit /b
 +
-diff --git ".\\AzurLaneAutoScript/alas.py" ".\\AzurLaneAutoScriptyukikaze21/alas.py"
+diff --git a/alas.py b/alas.py
 index 6268c63..b67306a 100644
---- ".\\AzurLaneAutoScript/alas.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/alas.py"
+--- a/alas.py
++++ b/alas.py
 @@ -1,3 +1,8 @@
 +# rev: auto_restart
 +# 基于原版 alas.py 增加了自动尝试重启调度器的功能
@@ -448,7 +709,7 @@ index 6268c63..b67306a 100644
  
  if __name__ == '__main__':
      alas = AzurLaneAutoScript()
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_COIN_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_COIN_LIMIT.png"
+diff --git a/assets/cn/campaign/OCR_COIN_LIMIT.png b/assets/cn/campaign/OCR_COIN_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7c9e29b7888733932743b49de3b62b848cacb8f0
 GIT binary patch
@@ -493,7 +754,7 @@ ai(NhK$3BgJ&KbxB;OyzRsJfF^3jYH#Q+_1?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_GEM.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_GEM.png"
+diff --git a/assets/cn/campaign/OCR_GEM.png b/assets/cn/campaign/OCR_GEM.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..592c1e20185d5edda8eeacb6e89ab7dab45c16e3
 GIT binary patch
@@ -559,76 +820,51 @@ ef1-fs!P1&Q`atkk71dqZkSTjToeMt;`Qo46R}1j~
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScript/assets/cn/combat_ui/PAUSE_ShadowPuppetry.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_OIL_LIMIT.png"
-similarity index 63%
-rename from ".\\AzurLaneAutoScript/assets/cn/combat_ui/PAUSE_ShadowPuppetry.png"
-rename to ".\\AzurLaneAutoScriptyukikaze21/assets/cn/campaign/OCR_OIL_LIMIT.png"
-index a4e4b9efbc88b8e9464964f678e8c018d643c439..9392769fbb36015b2ca00d111a2ab38d59344717 100644
+diff --git a/assets/cn/campaign/OCR_OIL_LIMIT.png b/assets/cn/campaign/OCR_OIL_LIMIT.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9392769fbb36015b2ca00d111a2ab38d59344717
 GIT binary patch
-delta 1671
-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
-R92fuq002ovPDHLkV1k%1mM{PS
+literal 6748
+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
+N@m?0b?N9kv{s%1+CpZ8A
 
-literal 6286
-zcmeH~`)^WL9Kdh2TCEdImd3@o(l}GhY>SrIr$U`N?Xs3-&UM7LIu|a{mC}j`tx(9S
-zQR7l)j7386E-{NSI-3;3!<N#h=sGUoBxP%PwPL}Imy{KD+skD@&HjZY%l+Zzdv3nx
-zoSg6H`#9%&@zcirYx6hc0|2nL{=nYP0ANLWxa`@gm1$uWyS_+^)g1?zJOCg(&U`u7
-zwi4b2fOqQZ_wN2&I1q9%F0~wQ9gBLZ6UDbTAF5Bu@7o@>ooc?YwP5$DA8T6{Djqi#
-zX=4T2=jJw-?%*@!mfmfzK5|}MBX9RH1VJ^qzF}h5Z~G42D&O*5)sBnE98$O2#j~9A
-zxO%!Qu@Wk8WBLR@(Q&bDd1e66cP%T*$g``Z8L_SySe6!b*MU`;->?4f%HOdDV#ZK_
-z-atwwNd`2f<;09OiZ4bQu#UT2qBvyrYg?R7$lGk0ne`8fLu`LAc&g7)LBgJpM(sN8
-zr7WsCH-Z?^KPs_qY~C|U_506Hs=cV4i#<oDC=zkME?;`tEs<a|T*D5@ydYIBb992>
-zjgi<<Y&s#~($GK8a8IJpg{94=hJrqa2NPm*Tr53J&5_IHToe)bn<TUAK|>e>L5;@@
-zC5;;23q%!&n9;@k48OvI`Vp50nXjaxrR#v4v{?sgB|Y0AQAAY@&%*FslUcvWPWXh{
-znqu#Zxnl&%4fBIC6?_O7sJ5uhBLB^ZA^xvLQxeg_WQhq5*Px{)vrbD+gw00eG+zwb
-z12w_|fcx=`nlt!~^DsFZGvA-aUKrt#4T;v(QnJ9;(aD!M`YP|Fd?!{+50%h|j=kn=
-z&Q5%$w!r1QYjM!7z$(eaLQ9O@bOw8m;J9n*E<i_{ORK1+J4b|TmLl?gh~3!804s-?
-zb~&qhbcBC09^Odrs-aQ?J>cX|DtIEv>Sy-L_eb<pK?EAP@+-IZ4a8oXjoDaeZP({_
-zo5DV&o3Bw^%_I7Z^B;_{Ks!rL(WDN`<TjP6E7ePMkG<6F0dmvKibDFqo+^kYt{4uy
-z){G3@_Ou(IJoaTDio}?9emL0A^i>7sPHc8sC%sPx#bL+XX~WoC*(iFFJb#NqjD0E7
-zRloci1p9ake@BB6mx9&8Zjnuv2JV_p&Zi#08!xLI27TaFZe3>8^FEoQ#8DCG<^w<X
-z=#bj>^EyEyESep^$qWbC2KQNmYY2W&!gH4SJG3Gj-J1%A8f2N3uMHhL+o`7V;ebsf
-zYif<S)OVKC3u)cuM|KWh=eK~mQFU`<g|MqrnB3#pl(R0qM0%g{zGs2HaxAnkRYPQW
-zlq?@OI2K?N^Rj9HOVt$mg-%dUL%kEbqWv6&m!G>+EKHq<7-lE(K!VB~6^g_$clpwG
-zYVT~DY(0-HxQ5w7#lBD(f!BpRl0lK6fYLh+!<};ZRXJ%?7@c~e=MZu-L0QB#ILzbY
-zE|M<(N~uc4olQ4JYE46MyGD`hsU#K-z*hxs#U)J@P)3c#?;XiFMN0Axr~V@Is@h`F
-zryeNgr}&WdkQIg>*%o8-P|C<;Fj{Gg;|ZG53el9DT1!+oz>*`=Y`4<HreB8^L-g*0
-z^cnJ|HwCUqnmx)VS(i(<EgAoC$sw!W&L&S0u1q@%hk!%C(*eM1Lb?j$5O4_i6$t?N
-zJ0YD1I0PI5{%i*D-XWa^I0PI5-YDXYBHk$eH$BoKW%~~c=W^<De@WLNpnhND-g_S&
-G{q`TRh8ULs
+literal 0
+HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EMPTY_SHIP_R.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EMPTY_SHIP_R.png"
+diff --git a/assets/cn/equipment/EMPTY_SHIP_R.png b/assets/cn/equipment/EMPTY_SHIP_R.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2944f8933cd084b46ed6fa25bdf025b22123e790
 GIT binary patch
@@ -746,7 +982,7 @@ f1OGb%3oR0h=bu%1iJs?RQcF8)N2`+kK0p2&{s0w?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png b/assets/cn/equipment/EQUIPMENT_CODE_CLEAR.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..bfb5be42bc10b015e116865a80616b9509bd9a3d
 GIT binary patch
@@ -880,7 +1116,7 @@ pxn%ld8Q{O;KLY<t2q+{RGu}$xJ?xUkFa7;wO*LKBibu9D{|_5eCkFrk
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_CONFIRM.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_CONFIRM.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_CONFIRM.png b/assets/cn/equipment/EQUIPMENT_CODE_CONFIRM.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..a24705ccf83bfb46d56964a91ae311b010dc9dad
 GIT binary patch
@@ -1019,7 +1255,7 @@ O{IQx2xcH&%>;D7FL{h5&
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_ENTER.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_ENTER.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_ENTER.png b/assets/cn/equipment/EQUIPMENT_CODE_ENTER.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d6602f8ea30a3a420b564f56fa2a1794a2d6fca3
 GIT binary patch
@@ -1163,7 +1399,7 @@ keb$Sk!2eTQ5FttgJ#tzYPze3|4;1iBNnNqxsrkGA0|O2HOaK4?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_ENTRANCE.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_ENTRANCE.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_ENTRANCE.png b/assets/cn/equipment/EQUIPMENT_CODE_ENTRANCE.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..e298db9a2c90dec0cb23c02b4d6e88b1cc9f22f3
 GIT binary patch
@@ -1279,7 +1515,7 @@ j{3Y=Jg+O!*(+LCDrI(IZUfBO9sR@8}jqj9cKYI3mg9!?S
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_0.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_0.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_0.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_0.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..22c9dad1d976a22084f825376bc4abf55f403e5d
 GIT binary patch
@@ -1361,7 +1597,7 @@ IvY_Ap1qe*LX8-^I
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_1.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_1.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_1.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_1.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d60a5815a0efd72eeb78d10286123fcb9b94c3eb
 GIT binary patch
@@ -1442,124 +1678,88 @@ raD3LCzq=OC^v@8OA@ILP;JY_Qt@Q(@(qp1jdGJp5Zgz!hg17%0szt1<
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScript/assets/jp/ui_white/POPUP_CONFIRM_WHITE_BATTLEPASS.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_2.png"
-similarity index 60%
-rename from ".\\AzurLaneAutoScript/assets/jp/ui_white/POPUP_CONFIRM_WHITE_BATTLEPASS.png"
-rename to ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_2.png"
-index 2e770d6afbab3baa124cc900ac2d2a54e7ea4b44..ba0be6598095bc7e2f08d28b3cabfde1e9f2ac06 100644
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_2.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_2.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba0be6598095bc7e2f08d28b3cabfde1e9f2ac06
 GIT binary patch
-delta 3085
-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
+literal 8628
+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
+b;)WSS_Opr9>fl|j@^RW)cc;7`g7*F|sF9q4
 
-delta 2540
-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
-b<1Anfp1kittex<8006T21+xkhuj~H+d*+-R
+literal 0
+HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_3.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_3.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_3.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_3.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..f96091c6c5dd6ed974a83407f7e3f2aa4a982d62
 GIT binary patch
@@ -1653,7 +1853,7 @@ e-x6s5aZVxXO-+v0T`EV~Zb#j1ow?2X#Qy?})g&YU
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_4.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_4.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_4.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_4.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..a9e852ab12776c30d87bf706a690686e72db3fb6
 GIT binary patch
@@ -1745,7 +1945,7 @@ NVQFVk^pnrQe*rPE!@d9j
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..68decb80b01a2d688699660fc8c2f2b4e16df636
 GIT binary patch
@@ -1943,7 +2143,7 @@ F{x2%ZAq@Zk
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png b/assets/cn/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7eb287b244ca4bd18a1ebe39a8b01a30333b222d
 GIT binary patch
@@ -2244,7 +2444,7 @@ n*Ix+yg}`43{1btrmObd%=Bb~8+nh^|?>*Gey<evG^!NV-PcxER
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png b/assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..efd4a36a4066388790c2d7a8e01b1cd1f92c8751
 GIT binary patch
@@ -2377,7 +2577,7 @@ F{|67rjZ**s
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_PAGE_CHECK.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_PAGE_CHECK.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_PAGE_CHECK.png b/assets/cn/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..35c0e0d8455827a2b78491602cf401d385bcc83b
 GIT binary patch
@@ -2460,7 +2660,7 @@ q)!c4FM<mTnzUB{)|ENEArtNeYRVTFkP7{<@1g?(m4%fE_#Q!hjz~T)6
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_TEXTBOX.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/equipment/EQUIPMENT_CODE_TEXTBOX.png"
+diff --git a/assets/cn/equipment/EQUIPMENT_CODE_TEXTBOX.png b/assets/cn/equipment/EQUIPMENT_CODE_TEXTBOX.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..79fb5466d1ef352c4173db9d57b5b086e6e28714
 GIT binary patch
@@ -2630,7 +2830,7 @@ B@U;K{
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScript/assets/cn/template/TEMPLATE_COMBAT_LOADING.png" ".\\AzurLaneAutoScriptyukikaze21/assets/cn/template/TEMPLATE_COMBAT_LOADING.png"
+diff --git a/assets/cn/template/TEMPLATE_COMBAT_LOADING.png b/assets/cn/template/TEMPLATE_COMBAT_LOADING.png
 index 2bf0123f5bd05ceebbd81243e1a5e5c419a24549..594a7309464abf13520248d0de3bc48bd0e8965b 100644
 GIT binary patch
 literal 3268
@@ -2717,7 +2917,7 @@ z%#RR3#vlY27TCbQKsUO&j&}?eMH{8$KgJrx(P-4=bhbnylyHJzK%_H42o)@dE?rlr
 zrlw|QW_&(hAW)LmI1218Dj~!o7T7j7H+p+}$HqQ}!*v|{YZm$!l#4S)`6ad600000
 LNkvXXu0mjf{j6xH
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/campaign/OCR_COIN_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/campaign/OCR_COIN_LIMIT.png"
+diff --git a/assets/en/campaign/OCR_COIN_LIMIT.png b/assets/en/campaign/OCR_COIN_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7c9e29b7888733932743b49de3b62b848cacb8f0
 GIT binary patch
@@ -2762,7 +2962,7 @@ ai(NhK$3BgJ&KbxB;OyzRsJfF^3jYH#Q+_1?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/campaign/OCR_OIL_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/campaign/OCR_OIL_LIMIT.png"
+diff --git a/assets/en/campaign/OCR_OIL_LIMIT.png b/assets/en/campaign/OCR_OIL_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..9392769fbb36015b2ca00d111a2ab38d59344717
 GIT binary patch
@@ -2806,7 +3006,7 @@ N@m?0b?N9kv{s%1+CpZ8A
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EMPTY_SHIP_R.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EMPTY_SHIP_R.png"
+diff --git a/assets/en/equipment/EMPTY_SHIP_R.png b/assets/en/equipment/EMPTY_SHIP_R.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2944f8933cd084b46ed6fa25bdf025b22123e790
 GIT binary patch
@@ -2924,7 +3124,7 @@ f1OGb%3oR0h=bu%1iJs?RQcF8)N2`+kK0p2&{s0w?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_CLEAR.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_CLEAR.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_CLEAR.png b/assets/en/equipment/EQUIPMENT_CODE_CLEAR.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..e404cd47908643cbccc6f42bee61cfd5e3303194
 GIT binary patch
@@ -3000,7 +3200,7 @@ StvP;+hLwe#dG(ds|M?#lPzlZe
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_CONFIRM.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_CONFIRM.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_CONFIRM.png b/assets/en/equipment/EQUIPMENT_CODE_CONFIRM.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..20b33abf0f8590344784884a1984d006d5c25f21
 GIT binary patch
@@ -3112,7 +3312,7 @@ he~Q3h&Ytooz_Gu*x{OMynBPD!xo3X2^3L;D{{`!%9aR7T
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_ENTER.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_ENTER.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_ENTER.png b/assets/en/equipment/EQUIPMENT_CODE_ENTER.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2210ffb94ad3a0995d4ef9210fcc003185492d12
 GIT binary patch
@@ -3202,7 +3402,7 @@ J+2y-W{tM&ldjbFe
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_ENTRANCE.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_ENTRANCE.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_ENTRANCE.png b/assets/en/equipment/EQUIPMENT_CODE_ENTRANCE.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..fc02ec86bfa5b858678358e2160a53c16e63bc95
 GIT binary patch
@@ -3264,7 +3464,7 @@ E1vK1m(*OVf
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_0.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_0.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_0.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_0.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..22c9dad1d976a22084f825376bc4abf55f403e5d
 GIT binary patch
@@ -3346,7 +3546,7 @@ IvY_Ap1qe*LX8-^I
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_1.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_1.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_1.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_1.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d60a5815a0efd72eeb78d10286123fcb9b94c3eb
 GIT binary patch
@@ -3427,7 +3627,7 @@ raD3LCzq=OC^v@8OA@ILP;JY_Qt@Q(@(qp1jdGJp5Zgz!hg17%0szt1<
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_2.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_2.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_2.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_2.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..ba0be6598095bc7e2f08d28b3cabfde1e9f2ac06
 GIT binary patch
@@ -3508,7 +3708,7 @@ b;)WSS_Opr9>fl|j@^RW)cc;7`g7*F|sF9q4
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_3.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_3.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_3.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_3.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..f96091c6c5dd6ed974a83407f7e3f2aa4a982d62
 GIT binary patch
@@ -3602,7 +3802,7 @@ e-x6s5aZVxXO-+v0T`EV~Zb#j1ow?2X#Qy?})g&YU
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_4.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_4.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_4.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_4.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..a9e852ab12776c30d87bf706a690686e72db3fb6
 GIT binary patch
@@ -3694,7 +3894,7 @@ NVQFVk^pnrQe*rPE!@d9j
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..68decb80b01a2d688699660fc8c2f2b4e16df636
 GIT binary patch
@@ -3892,7 +4092,7 @@ F{x2%ZAq@Zk
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png b/assets/en/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7eb287b244ca4bd18a1ebe39a8b01a30333b222d
 GIT binary patch
@@ -4193,7 +4393,7 @@ n*Ix+yg}`43{1btrmObd%=Bb~8+nh^|?>*Gey<evG^!NV-PcxER
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EXPORT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_EXPORT.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_EXPORT.png b/assets/en/equipment/EQUIPMENT_CODE_EXPORT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..58fdac3313d3b0c33f99db12cffd60772fea4f19
 GIT binary patch
@@ -4303,7 +4503,7 @@ C@w`O<
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_PAGE_CHECK.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_PAGE_CHECK.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_PAGE_CHECK.png b/assets/en/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..35c0e0d8455827a2b78491602cf401d385bcc83b
 GIT binary patch
@@ -4386,7 +4586,7 @@ q)!c4FM<mTnzUB{)|ENEArtNeYRVTFkP7{<@1g?(m4%fE_#Q!hjz~T)6
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_TEXTBOX.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/equipment/EQUIPMENT_CODE_TEXTBOX.png"
+diff --git a/assets/en/equipment/EQUIPMENT_CODE_TEXTBOX.png b/assets/en/equipment/EQUIPMENT_CODE_TEXTBOX.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..dd033a9d1f1267cfde44e221e0f993db6af4582b
 GIT binary patch
@@ -4484,7 +4684,7 @@ g|HqLr&-vpFP%M%wYVK&3_-nJVq1o*!{bw)!1NHr9VE_OC
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScript/assets/en/template/TEMPLATE_COMBAT_LOADING.png" ".\\AzurLaneAutoScriptyukikaze21/assets/en/template/TEMPLATE_COMBAT_LOADING.png"
+diff --git a/assets/en/template/TEMPLATE_COMBAT_LOADING.png b/assets/en/template/TEMPLATE_COMBAT_LOADING.png
 index 2bf0123f5bd05ceebbd81243e1a5e5c419a24549..594a7309464abf13520248d0de3bc48bd0e8965b 100644
 GIT binary patch
 literal 3268
@@ -4571,10 +4771,10 @@ z%#RR3#vlY27TCbQKsUO&j&}?eMH{8$KgJrx(P-4=bhbnylyHJzK%_H42o)@dE?rlr
 zrlw|QW_&(hAW)LmI1218Dj~!o7T7j7H+p+}$HqQ}!*v|{YZm$!l#4S)`6ad600000
 LNkvXXu0mjf{j6xH
 
-diff --git ".\\AzurLaneAutoScript/assets/gui/css/alas-mobile.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas-mobile.css"
+diff --git a/assets/gui/css/alas-mobile.css b/assets/gui/css/alas-mobile.css
 index 9acad6e..eb94121 100644
---- ".\\AzurLaneAutoScript/assets/gui/css/alas-mobile.css"
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas-mobile.css"
+--- a/assets/gui/css/alas-mobile.css
++++ b/assets/gui/css/alas-mobile.css
 @@ -35,6 +35,14 @@
      grid-template-columns: 1fr auto;
      grid-template-rows: 1fr auto;
@@ -4590,10 +4790,11 @@ index 9acad6e..eb94121 100644
  
  #pywebio-scope-_groups {
      grid-template-columns: 0fr 1fr;
-@@ -60,3 +68,25 @@
+@@ -59,4 +67,26 @@
+ #pywebio-scope-waiting,
  #pywebio-scope-log {
      overflow-y: auto;
- }
++}
 +
 +#output-container .status-point {
 +    margin: 45% 50% 55% 50%;
@@ -4615,12 +4816,12 @@ index 9acad6e..eb94121 100644
 +}
 +*[style*="--dashboard-help--"] {
 +    font-size: .6rem;
-+}
+ }
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/assets/gui/css/alas-pc.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas-pc.css"
+diff --git a/assets/gui/css/alas-pc.css b/assets/gui/css/alas-pc.css
 index 9240171..f5a52e7 100644
---- ".\\AzurLaneAutoScript/assets/gui/css/alas-pc.css"
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas-pc.css"
+--- a/assets/gui/css/alas-pc.css
++++ b/assets/gui/css/alas-pc.css
 @@ -21,7 +21,7 @@
  
  #pywebio-scope-schedulers {
@@ -4630,10 +4831,10 @@ index 9240171..f5a52e7 100644
      height: 100%;
      overflow-y: auto;
  }
-diff --git ".\\AzurLaneAutoScript/assets/gui/css/alas.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas.css"
+diff --git a/assets/gui/css/alas.css b/assets/gui/css/alas.css
 index 94e6964..0c20cd0 100644
---- ".\\AzurLaneAutoScript/assets/gui/css/alas.css"
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/alas.css"
+--- a/assets/gui/css/alas.css
++++ b/assets/gui/css/alas.css
 @@ -133,6 +133,13 @@ footer {
      font-size: 0.875rem;
  }
@@ -4695,10 +4896,13 @@ index 94e6964..0c20cd0 100644
  #pywebio-scope-log {
      line-height: 1.2;
      font-size: 0.85rem;
-@@ -524,3 +553,65 @@ pre.rich-traceback-code {
+@@ -523,4 +552,66 @@ pre.rich-traceback-code {
+     width: 1.5rem;
      height: 1.5rem;
      border: .2em solid currentColor;
- }
+-}
+\ No newline at end of file
++}
 +
 +*[style*="--dashboard-value--"] {
 +    font-size: 1.2rem;
@@ -4761,11 +4965,11 @@ index 94e6964..0c20cd0 100644
 +    background: var(--alas-content-bg) !important;
 +    color: var(--alas-content-text) !important;
 +}
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/azurlane-alas.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/azurlane-alas.css"
+diff --git a/assets/gui/css/azurlane-alas.css b/assets/gui/css/azurlane-alas.css
 new file mode 100644
 index 0000000..23c9363
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/azurlane-alas.css"
++++ b/assets/gui/css/azurlane-alas.css
 @@ -0,0 +1,289 @@
 +/* ALAS - 碧蓝航线 (Azur Lane) inspired theme for ALAS GUI
 +   Primary goal: bring Azur Lane UI aesthetic to the ALAS application.
@@ -5057,10 +5261,10 @@ index 0000000..23c9363
 +    border: 1px solid rgba(180,140,40,0.9) !important;
 +}
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/assets/gui/css/dark-alas.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/dark-alas.css"
+diff --git a/assets/gui/css/dark-alas.css b/assets/gui/css/dark-alas.css
 index c36fa31..2942018 100644
---- ".\\AzurLaneAutoScript/assets/gui/css/dark-alas.css"
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/dark-alas.css"
+--- a/assets/gui/css/dark-alas.css
++++ b/assets/gui/css/dark-alas.css
 @@ -139,6 +139,7 @@ pre.rich-traceback-code {
  #pywebio-scope-running,
  #pywebio-scope-pending,
@@ -5080,7 +5284,9 @@ index c36fa31..2942018 100644
  *[style*="--arg-help--"],
  [id^="pywebio-scope-group_"] > p + p {
      color: #adb5bd;
- }
+-}
+\ No newline at end of file
++}
 +
 +*[style*="--dashboard-help--"]{
 +    color: #adb5bd;
@@ -5089,33 +5295,15 @@ index c36fa31..2942018 100644
 +*[style*="--dashboard-limit--"]{
 +    color: #adb5bd;
 +}
-diff --git ".\\AzurLaneAutoScript/assets/gui/css/light-alas.css" ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/light-alas.css"
-index b65067f..e1347c2 100644
---- ".\\AzurLaneAutoScript/assets/gui/css/light-alas.css"
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/gui/css/light-alas.css"
-@@ -60,6 +60,10 @@ input[type="checkbox"] {
-     accent-color: #7a77bb;
- }
- 
-+#pywebio-scope-dashboard input {
-+    background-color: white !important;
-+}
-+
- select {
-     background-image: url("data:image/png;base64,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");
- }
-@@ -139,6 +143,7 @@ pre.rich-traceback-code {
- #pywebio-scope-running,
- #pywebio-scope-pending,
- #pywebio-scope-waiting,
-+#pywebio-scope-image-container,
- #pywebio-scope-daemon-overview #pywebio-scope-groups {
-     background-color: white;
-     border: 1px solid lightgrey;
-@@ -152,3 +157,11 @@ pre.rich-traceback-code {
+diff --git a/assets/gui/css/light-alas.css b/assets/gui/css/light-alas.css
+index b65067f..9855730 100644
+--- a/assets/gui/css/light-alas.css
++++ b/assets/gui/css/light-alas.css
+@@ -151,4 +151,12 @@ pre.rich-traceback-code {
+ *[style*="--arg-help--"],
  [id^="pywebio-scope-group_"] > p + p {
      color: #777777;
- }
++}
 +
 +*[style*="--dashboard-help--"]{
 +    color: #777777;
@@ -5123,9 +5311,9 @@ index b65067f..e1347c2 100644
 +
 +*[style*="--dashboard-limit--"]{
 +    color: #777777;
-+}
+ }
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/campaign/OCR_COIN_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/campaign/OCR_COIN_LIMIT.png"
+diff --git a/assets/jp/campaign/OCR_COIN_LIMIT.png b/assets/jp/campaign/OCR_COIN_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7c9e29b7888733932743b49de3b62b848cacb8f0
 GIT binary patch
@@ -5170,7 +5358,7 @@ ai(NhK$3BgJ&KbxB;OyzRsJfF^3jYH#Q+_1?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/campaign/OCR_OIL_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/campaign/OCR_OIL_LIMIT.png"
+diff --git a/assets/jp/campaign/OCR_OIL_LIMIT.png b/assets/jp/campaign/OCR_OIL_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..9392769fbb36015b2ca00d111a2ab38d59344717
 GIT binary patch
@@ -5214,7 +5402,7 @@ N@m?0b?N9kv{s%1+CpZ8A
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EMPTY_SHIP_R.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EMPTY_SHIP_R.png"
+diff --git a/assets/jp/equipment/EMPTY_SHIP_R.png b/assets/jp/equipment/EMPTY_SHIP_R.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2944f8933cd084b46ed6fa25bdf025b22123e790
 GIT binary patch
@@ -5332,7 +5520,7 @@ f1OGb%3oR0h=bu%1iJs?RQcF8)N2`+kK0p2&{s0w?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png b/assets/jp/equipment/EQUIPMENT_CODE_CLEAR.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d5b54d0b193f0cba47a750b3a2bad3f0884fab27
 GIT binary patch
@@ -5452,7 +5640,7 @@ wy8e(d(cX4enLzg_&om&vld2&3|EZ#T#Pq|rQNu{(#T>}~sH1JcVZZbL0>hm!CjbBd
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_CONFIRM.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_CONFIRM.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_CONFIRM.png b/assets/jp/equipment/EQUIPMENT_CODE_CONFIRM.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..5f59609cdf42564bc8474a79000a68d6baec30a4
 GIT binary patch
@@ -5594,7 +5782,7 @@ pg`aM#7d!6Ku(C+be<gFi@ZN2$d-hAbhGLNWUavj*Kb$!CzW})sgbDxv
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_ENTER.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_ENTER.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_ENTER.png b/assets/jp/equipment/EQUIPMENT_CODE_ENTER.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2574c579e1ae13194a3a2115841d1acf8eaa9732
 GIT binary patch
@@ -5723,7 +5911,7 @@ u>`4AHI0*E>c-byl4RGV<#j5|Hpiooo<jjuVbCrumJ2|-67wtK5=Dz@Yy(dlp
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_ENTRANCE.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_ENTRANCE.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_ENTRANCE.png b/assets/jp/equipment/EQUIPMENT_CODE_ENTRANCE.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..c01694047b3b4afb9f3ee9145375b52e0dbeb740
 GIT binary patch
@@ -5829,7 +6017,7 @@ wsMpE`dt<I9JqtPw*ILP&5Z0{R)c<D`ZQ|a<=p$)%J{mJT-F@83z79R}->==c>;M1&
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_0.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_0.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_0.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_0.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..22c9dad1d976a22084f825376bc4abf55f403e5d
 GIT binary patch
@@ -5911,7 +6099,7 @@ IvY_Ap1qe*LX8-^I
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_1.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_1.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_1.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_1.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d60a5815a0efd72eeb78d10286123fcb9b94c3eb
 GIT binary patch
@@ -5992,7 +6180,7 @@ raD3LCzq=OC^v@8OA@ILP;JY_Qt@Q(@(qp1jdGJp5Zgz!hg17%0szt1<
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_2.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_2.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_2.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_2.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..ba0be6598095bc7e2f08d28b3cabfde1e9f2ac06
 GIT binary patch
@@ -6073,7 +6261,7 @@ b;)WSS_Opr9>fl|j@^RW)cc;7`g7*F|sF9q4
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_3.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_3.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_3.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_3.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..f96091c6c5dd6ed974a83407f7e3f2aa4a982d62
 GIT binary patch
@@ -6167,7 +6355,7 @@ e-x6s5aZVxXO-+v0T`EV~Zb#j1ow?2X#Qy?})g&YU
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_4.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_4.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_4.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_4.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..a9e852ab12776c30d87bf706a690686e72db3fb6
 GIT binary patch
@@ -6259,7 +6447,7 @@ NVQFVk^pnrQe*rPE!@d9j
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..68decb80b01a2d688699660fc8c2f2b4e16df636
 GIT binary patch
@@ -6457,7 +6645,7 @@ F{x2%ZAq@Zk
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png b/assets/jp/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7eb287b244ca4bd18a1ebe39a8b01a30333b222d
 GIT binary patch
@@ -6758,7 +6946,7 @@ n*Ix+yg}`43{1btrmObd%=Bb~8+nh^|?>*Gey<evG^!NV-PcxER
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png b/assets/jp/equipment/EQUIPMENT_CODE_EXPORT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..daf0894047f1b12eeb5f4a9fd78549923a45e576
 GIT binary patch
@@ -6900,7 +7088,7 @@ lRF`GNWpY$y+@GFvX1Gx1?c~mhQaOi<gZq((-<<pYzW}&=-?#t(
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_PAGE_CHECK.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_PAGE_CHECK.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_PAGE_CHECK.png b/assets/jp/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..35c0e0d8455827a2b78491602cf401d385bcc83b
 GIT binary patch
@@ -6983,7 +7171,7 @@ q)!c4FM<mTnzUB{)|ENEArtNeYRVTFkP7{<@1g?(m4%fE_#Q!hjz~T)6
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_TEXTBOX.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/equipment/EQUIPMENT_CODE_TEXTBOX.png"
+diff --git a/assets/jp/equipment/EQUIPMENT_CODE_TEXTBOX.png b/assets/jp/equipment/EQUIPMENT_CODE_TEXTBOX.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..6383d87b8870c61fb369204eff193fbccc73c6a2
 GIT binary patch
@@ -7184,7 +7372,7 @@ OWO(ViUg<^0sQ&{;Cd1?a
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScript/assets/jp/template/TEMPLATE_COMBAT_LOADING.png" ".\\AzurLaneAutoScriptyukikaze21/assets/jp/template/TEMPLATE_COMBAT_LOADING.png"
+diff --git a/assets/jp/template/TEMPLATE_COMBAT_LOADING.png b/assets/jp/template/TEMPLATE_COMBAT_LOADING.png
 index 2bf0123f5bd05ceebbd81243e1a5e5c419a24549..594a7309464abf13520248d0de3bc48bd0e8965b 100644
 GIT binary patch
 literal 3268
@@ -7271,11 +7459,11 @@ z%#RR3#vlY27TCbQKsUO&j&}?eMH{8$KgJrx(P-4=bhbnylyHJzK%_H42o)@dE?rlr
 zrlw|QW_&(hAW)LmI1218Dj~!o7T7j7H+p+}$HqQ}!*v|{YZm$!l#4S)`6ad600000
 LNkvXXu0mjf{j6xH
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/manifest.json" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/manifest.json"
+diff --git a/assets/spa/manifest.json b/assets/spa/manifest.json
 new file mode 100644
 index 0000000..17d6993
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/assets/spa/manifest.json"
++++ b/assets/spa/manifest.json
 @@ -0,0 +1,20 @@
 +{
 +  "name": "Alas Web UI",
@@ -7298,7 +7486,7 @@ index 0000000..17d6993
 +  ]
 +}
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen1.jpg" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen1.jpg"
+diff --git a/assets/spa/screen1.jpg b/assets/spa/screen1.jpg
 new file mode 100644
 index 0000000000000000000000000000000000000000..000e0f435545669fd9b4f46d70ec494af798ea5a
 GIT binary patch
@@ -8769,7 +8957,7 @@ gYdfnlSAL{-?qA*=vu)qRI<@}k2Y20!i2ug^A7DvTJOBUy
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen2.jpg" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen2.jpg"
+diff --git a/assets/spa/screen2.jpg b/assets/spa/screen2.jpg
 new file mode 100644
 index 0000000000000000000000000000000000000000..8e42c133098df1e7f2178e55a9e8b345a318dea6
 GIT binary patch
@@ -10337,7 +10525,7 @@ RZ0nzr)d2X4obLbT{tt`|1=j!o
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen3.jpg" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen3.jpg"
+diff --git a/assets/spa/screen3.jpg b/assets/spa/screen3.jpg
 new file mode 100644
 index 0000000000000000000000000000000000000000..d8bde4fb985db2e76ba46f988a4b5362e77c51b1
 GIT binary patch
@@ -11407,7 +11595,7 @@ wc58q0j{g875QSX7G+Q6(zvSc5d-WgriGTGRltLC4*}ZfKLKH>_LJ$Z4*~1=BmjD0&
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen4.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen4.png"
+diff --git a/assets/spa/screen4.png b/assets/spa/screen4.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..3aac0b8bf7147ac53aed498aac875fba096078a1
 GIT binary patch
@@ -14884,7 +15072,7 @@ Cwwg`=
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen5.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen5.png"
+diff --git a/assets/spa/screen5.png b/assets/spa/screen5.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..5aeb58f278e36f5f0cabcbb08ce86701db5293db
 GIT binary patch
@@ -22273,7 +22461,7 @@ TeE<LeJ!4^QWpZI`Vs&jH;sC9X
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen6.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen6.png"
+diff --git a/assets/spa/screen6.png b/assets/spa/screen6.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..afe938a5e37aebbdb8391c79084b8f4d56c3569a
 GIT binary patch
@@ -25757,7 +25945,7 @@ rX>?O>b#h~6B03`Fo4)6Xhv&SO=)RF6eE<LeJ!4^QWpZI`Vs&jH`dI__
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen7.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen7.png"
+diff --git a/assets/spa/screen7.png b/assets/spa/screen7.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..bb54b239bf9c4bb9ab3816bbd9bae9309b0781f0
 GIT binary patch
@@ -28867,7 +29055,7 @@ s;p4Ssf4unrfBL_h|NmkN(B8d@-7m!UU(G0y{r7gs%cw|KNE!$H4<Z$<oB#j-
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen8.jpg" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen8.jpg"
+diff --git a/assets/spa/screen8.jpg b/assets/spa/screen8.jpg
 new file mode 100644
 index 0000000000000000000000000000000000000000..ec559d872ed0521706d5001f64782ae7936853d1
 GIT binary patch
@@ -30404,7 +30592,7 @@ X4W)l>0}6}bUpv&{|ArUn-^u?0Hxv)m
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen9.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/screen9.png"
+diff --git a/assets/spa/screen9.png b/assets/spa/screen9.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..8b1edc1194df39fc5bd2cd5a7e4c985fddb5ad08
 GIT binary patch
@@ -36339,7 +36527,7 @@ nb#h~6B03`Fo4)6Xhv&SO=)RF6eE<LeJ!4^QWpZI`Vs&jHI^18!
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/spa-icon-192x192.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/spa-icon-192x192.png"
+diff --git a/assets/spa/spa-icon-192x192.png b/assets/spa/spa-icon-192x192.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..fd5b5372fff9394d8d0106f9c91e532dc0530551
 GIT binary patch
@@ -37641,7 +37829,7 @@ E0WopE^#A|>
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/spa/spa-icon-512x512.png" ".\\AzurLaneAutoScriptyukikaze21/assets/spa/spa-icon-512x512.png"
+diff --git a/assets/spa/spa-icon-512x512.png b/assets/spa/spa-icon-512x512.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..6236a4059204af654efea09b0f371bb17ff37afd
 GIT binary patch
@@ -44121,7 +44309,7 @@ SHu!&nfRDbm5vp9vKKg%#f}}wJ
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/campaign/OCR_COIN_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/campaign/OCR_COIN_LIMIT.png"
+diff --git a/assets/tw/campaign/OCR_COIN_LIMIT.png b/assets/tw/campaign/OCR_COIN_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7c9e29b7888733932743b49de3b62b848cacb8f0
 GIT binary patch
@@ -44166,7 +44354,7 @@ ai(NhK$3BgJ&KbxB;OyzRsJfF^3jYH#Q+_1?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/campaign/OCR_OIL_LIMIT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/campaign/OCR_OIL_LIMIT.png"
+diff --git a/assets/tw/campaign/OCR_OIL_LIMIT.png b/assets/tw/campaign/OCR_OIL_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..9392769fbb36015b2ca00d111a2ab38d59344717
 GIT binary patch
@@ -44210,7 +44398,7 @@ N@m?0b?N9kv{s%1+CpZ8A
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EMPTY_SHIP_R.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EMPTY_SHIP_R.png"
+diff --git a/assets/tw/equipment/EMPTY_SHIP_R.png b/assets/tw/equipment/EMPTY_SHIP_R.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..2944f8933cd084b46ed6fa25bdf025b22123e790
 GIT binary patch
@@ -44328,7 +44516,7 @@ f1OGb%3oR0h=bu%1iJs?RQcF8)N2`+kK0p2&{s0w?
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png b/assets/tw/equipment/EQUIPMENT_CODE_CLEAR.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..cac3a2c73ac6717ae292701ec894c119fb3e4055
 GIT binary patch
@@ -44402,7 +44590,7 @@ DS^A@G
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_CONFIRM.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_CONFIRM.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_CONFIRM.png b/assets/tw/equipment/EQUIPMENT_CODE_CONFIRM.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..70859f1046464c75ef70086720d9bcb76790f2df
 GIT binary patch
@@ -44488,7 +44676,7 @@ qJz-1#|9-E3MfSf57@7$l?I-s|?>CQt`iztx8!gR2X0<om|Mg#qWGNs3
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_ENTER.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_ENTER.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_ENTER.png b/assets/tw/equipment/EQUIPMENT_CODE_ENTER.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..df697ef307369197644e377e49bdfb5fbf734aa8
 GIT binary patch
@@ -44579,7 +44767,7 @@ w-WYJh2R@IENMo4xIOquA{~%#UcTIj3-P3`W6Zo_XFZV4N>BFxV>e~JLKU#Eh1^@s6
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_ENTRANCE.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_ENTRANCE.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_ENTRANCE.png b/assets/tw/equipment/EQUIPMENT_CODE_ENTRANCE.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..b97c66d249be60f3d021f722487327ae582b8502
 GIT binary patch
@@ -44644,7 +44832,7 @@ i{%;7(txqKH&;qQwl_yNsWl6rj%h?fpuHuaUAO8hi;o+PB
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_0.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_0.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_0.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_0.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..22c9dad1d976a22084f825376bc4abf55f403e5d
 GIT binary patch
@@ -44726,7 +44914,7 @@ IvY_Ap1qe*LX8-^I
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_1.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_1.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_1.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_1.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..d60a5815a0efd72eeb78d10286123fcb9b94c3eb
 GIT binary patch
@@ -44807,7 +44995,7 @@ raD3LCzq=OC^v@8OA@ILP;JY_Qt@Q(@(qp1jdGJp5Zgz!hg17%0szt1<
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_2.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_2.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_2.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_2.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..ba0be6598095bc7e2f08d28b3cabfde1e9f2ac06
 GIT binary patch
@@ -44888,7 +45076,7 @@ b;)WSS_Opr9>fl|j@^RW)cc;7`g7*F|sF9q4
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_3.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_3.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_3.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_3.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..f96091c6c5dd6ed974a83407f7e3f2aa4a982d62
 GIT binary patch
@@ -44982,7 +45170,7 @@ e-x6s5aZVxXO-+v0T`EV~Zb#j1ow?2X#Qy?})g&YU
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_4.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_4.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_4.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_4.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..a9e852ab12776c30d87bf706a690686e72db3fb6
 GIT binary patch
@@ -45074,7 +45262,7 @@ NVQFVk^pnrQe*rPE!@d9j
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..68decb80b01a2d688699660fc8c2f2b4e16df636
 GIT binary patch
@@ -45272,7 +45460,7 @@ F{x2%ZAq@Zk
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png b/assets/tw/equipment/EQUIPMENT_CODE_EQUIP_5_LOCKED.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7eb287b244ca4bd18a1ebe39a8b01a30333b222d
 GIT binary patch
@@ -45573,7 +45761,7 @@ n*Ix+yg}`43{1btrmObd%=Bb~8+nh^|?>*Gey<evG^!NV-PcxER
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png b/assets/tw/equipment/EQUIPMENT_CODE_EXPORT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..8aa666b127784f2cdd36ab715ff4cf13264caa27
 GIT binary patch
@@ -45657,7 +45845,7 @@ I=lJ;l0O9Pjh5!Hn
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_PAGE_CHECK.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_PAGE_CHECK.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_PAGE_CHECK.png b/assets/tw/equipment/EQUIPMENT_CODE_PAGE_CHECK.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..35c0e0d8455827a2b78491602cf401d385bcc83b
 GIT binary patch
@@ -45740,7 +45928,7 @@ q)!c4FM<mTnzUB{)|ENEArtNeYRVTFkP7{<@1g?(m4%fE_#Q!hjz~T)6
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_TEXTBOX.png" ".\\AzurLaneAutoScriptyukikaze21/assets/tw/equipment/EQUIPMENT_CODE_TEXTBOX.png"
+diff --git a/assets/tw/equipment/EQUIPMENT_CODE_TEXTBOX.png b/assets/tw/equipment/EQUIPMENT_CODE_TEXTBOX.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..8a4d7eb1298fca22f7a797fa1173a898c0d692b9
 GIT binary patch
@@ -45859,11 +46047,11 @@ nYgOJ(8q)s%sU*?-C9cxRyxA8H<}`T!&&f__TuztSUA^;PV8hR}
 literal 0
 HcmV?d00001
 
-diff --git ".\\AzurLaneAutoScriptyukikaze21/campaign/campaign_main/campaign_7_2_3.py" ".\\AzurLaneAutoScriptyukikaze21/campaign/campaign_main/campaign_7_2_3.py"
+diff --git a/campaign/campaign_main/campaign_7_2_3.py b/campaign/campaign_main/campaign_7_2_3.py
 new file mode 100644
 index 0000000..2afd7a1
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/campaign/campaign_main/campaign_7_2_3.py"
++++ b/campaign/campaign_main/campaign_7_2_3.py
 @@ -0,0 +1,87 @@
 +from module.campaign.campaign_base import CampaignBase
 +from module.map.map_base import CampaignMap
@@ -45953,10 +46141,10 @@ index 0000000..2afd7a1
 +    def _map_battle(self):
 +        return 3
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-AidLux-cn.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-AidLux-cn.yaml"
+diff --git a/config/deploy.template-AidLux-cn.yaml b/config/deploy.template-AidLux-cn.yaml
 index 05d52c8..50e6bd7 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-AidLux-cn.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-AidLux-cn.yaml"
+--- a/config/deploy.template-AidLux-cn.yaml
++++ b/config/deploy.template-AidLux-cn.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -45969,10 +46157,10 @@ index 05d52c8..50e6bd7 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-AidLux.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-AidLux.yaml"
+diff --git a/config/deploy.template-AidLux.yaml b/config/deploy.template-AidLux.yaml
 index 6add529..cb2c1bd 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-AidLux.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-AidLux.yaml"
+--- a/config/deploy.template-AidLux.yaml
++++ b/config/deploy.template-AidLux.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -45985,10 +46173,10 @@ index 6add529..cb2c1bd 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-cn.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-cn.yaml"
+diff --git a/config/deploy.template-cn.yaml b/config/deploy.template-cn.yaml
 index ba14ca3..4e75328 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-cn.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-cn.yaml"
+--- a/config/deploy.template-cn.yaml
++++ b/config/deploy.template-cn.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46001,10 +46189,10 @@ index ba14ca3..4e75328 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-docker-cn.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-docker-cn.yaml"
+diff --git a/config/deploy.template-docker-cn.yaml b/config/deploy.template-docker-cn.yaml
 index 54f0464..dde3fb1 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-docker-cn.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-docker-cn.yaml"
+--- a/config/deploy.template-docker-cn.yaml
++++ b/config/deploy.template-docker-cn.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46017,10 +46205,10 @@ index 54f0464..dde3fb1 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-docker.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-docker.yaml"
+diff --git a/config/deploy.template-docker.yaml b/config/deploy.template-docker.yaml
 index 0c1ef63..8b5990d 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-docker.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-docker.yaml"
+--- a/config/deploy.template-docker.yaml
++++ b/config/deploy.template-docker.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46033,10 +46221,10 @@ index 0c1ef63..8b5990d 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-linux-cn.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-linux-cn.yaml"
+diff --git a/config/deploy.template-linux-cn.yaml b/config/deploy.template-linux-cn.yaml
 index 66285c6..285a00d 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-linux-cn.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-linux-cn.yaml"
+--- a/config/deploy.template-linux-cn.yaml
++++ b/config/deploy.template-linux-cn.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46049,10 +46237,10 @@ index 66285c6..285a00d 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template-linux.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-linux.yaml"
+diff --git a/config/deploy.template-linux.yaml b/config/deploy.template-linux.yaml
 index 1a4db41..ed07291 100644
---- ".\\AzurLaneAutoScript/config/deploy.template-linux.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template-linux.yaml"
+--- a/config/deploy.template-linux.yaml
++++ b/config/deploy.template-linux.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46065,10 +46253,10 @@ index 1a4db41..ed07291 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/deploy.template.yaml" ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template.yaml"
+diff --git a/config/deploy.template.yaml b/config/deploy.template.yaml
 index a3b8dbc..8b725e9 100644
---- ".\\AzurLaneAutoScript/config/deploy.template.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/deploy.template.yaml"
+--- a/config/deploy.template.yaml
++++ b/config/deploy.template.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46081,10 +46269,10 @@ index a3b8dbc..8b725e9 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/config/template.json" ".\\AzurLaneAutoScriptyukikaze21/config/template.json"
+diff --git a/config/template.json b/config/template.json
 index 801cd23..a1799f5 100644
---- ".\\AzurLaneAutoScript/config/template.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/config/template.json"
+--- a/config/template.json
++++ b/config/template.json
 @@ -1,4 +1,72 @@
  {
 +  "Dashboard": {
@@ -46217,10 +46405,10 @@ index 801cd23..a1799f5 100644
      },
      "OpsiFleet": {
        "Fleet": 1,
-diff --git ".\\AzurLaneAutoScript/deploy/Windows/config.py" ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/config.py"
+diff --git a/deploy/Windows/config.py b/deploy/Windows/config.py
 index c7b5e59..6083350 100644
---- ".\\AzurLaneAutoScript/deploy/Windows/config.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/config.py"
+--- a/deploy/Windows/config.py
++++ b/deploy/Windows/config.py
 @@ -20,6 +20,7 @@ class ConfigModel:
      GitProxy: Optional[str] = None
      SSLVerify: bool = False
@@ -46229,10 +46417,10 @@ index c7b5e59..6083350 100644
  
      # Python
      PythonExecutable: str = "./toolkit/python.exe"
-diff --git ".\\AzurLaneAutoScript/deploy/Windows/git.py" ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/git.py"
+diff --git a/deploy/Windows/git.py b/deploy/Windows/git.py
 index acc4db4..c873f6b 100644
---- ".\\AzurLaneAutoScript/deploy/Windows/git.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/git.py"
+--- a/deploy/Windows/git.py
++++ b/deploy/Windows/git.py
 @@ -52,7 +52,8 @@ class GitManager(DeployConfig):
          return conf
  
@@ -46290,10 +46478,10 @@ index acc4db4..c873f6b 100644
              ssl_verify=self.SSLVerify,
 +            keep_changes=self.KeepLocalChanges,
          )
-diff --git ".\\AzurLaneAutoScript/deploy/Windows/template.yaml" ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/template.yaml"
+diff --git a/deploy/Windows/template.yaml b/deploy/Windows/template.yaml
 index 1dc91ea..40e5fd1 100644
---- ".\\AzurLaneAutoScript/deploy/Windows/template.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/Windows/template.yaml"
+--- a/deploy/Windows/template.yaml
++++ b/deploy/Windows/template.yaml
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46306,10 +46494,10 @@ index 1dc91ea..40e5fd1 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/deploy/config.py" ".\\AzurLaneAutoScriptyukikaze21/deploy/config.py"
+diff --git a/deploy/config.py b/deploy/config.py
 index ea56c22..e631281 100644
---- ".\\AzurLaneAutoScript/deploy/config.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/config.py"
+--- a/deploy/config.py
++++ b/deploy/config.py
 @@ -17,6 +17,7 @@ class ConfigModel:
      GitProxy: Optional[str] = None
      SSLVerify: bool = False
@@ -46318,10 +46506,10 @@ index ea56c22..e631281 100644
  
      # Python
      PythonExecutable: str = "./toolkit/python.exe"
-diff --git ".\\AzurLaneAutoScript/deploy/git.py" ".\\AzurLaneAutoScriptyukikaze21/deploy/git.py"
+diff --git a/deploy/git.py b/deploy/git.py
 index 669870a..0ec4ba8 100644
---- ".\\AzurLaneAutoScript/deploy/git.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/git.py"
+--- a/deploy/git.py
++++ b/deploy/git.py
 @@ -23,7 +23,8 @@ class GitManager(DeployConfig):
              logger.info(f'File not found: {file}')
  
@@ -46373,10 +46561,10 @@ index 669870a..0ec4ba8 100644
          )
  
  
-diff --git ".\\AzurLaneAutoScript/deploy/git_over_cdn/client.py" ".\\AzurLaneAutoScriptyukikaze21/deploy/git_over_cdn/client.py"
+diff --git a/deploy/git_over_cdn/client.py b/deploy/git_over_cdn/client.py
 index a8fb5b5..cbb6349 100644
---- ".\\AzurLaneAutoScript/deploy/git_over_cdn/client.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/git_over_cdn/client.py"
+--- a/deploy/git_over_cdn/client.py
++++ b/deploy/git_over_cdn/client.py
 @@ -204,7 +204,7 @@ class GitOverCdnClient:
              self.logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
          return stdout.decode()
@@ -46429,10 +46617,10 @@ index a8fb5b5..cbb6349 100644
 +        self.git_reset(keep_changes=keep_changes)
          self.logger.info('Update success')
          return True
-diff --git ".\\AzurLaneAutoScript/deploy/template" ".\\AzurLaneAutoScriptyukikaze21/deploy/template"
+diff --git a/deploy/template b/deploy/template
 index a724703..e13b046 100644
---- ".\\AzurLaneAutoScript/deploy/template"
-+++ ".\\AzurLaneAutoScriptyukikaze21/deploy/template"
+--- a/deploy/template
++++ b/deploy/template
 @@ -23,6 +23,11 @@ Deploy:
      # Update Alas at startup
      # [In most cases] Use true
@@ -46445,10 +46633,10 @@ index a724703..e13b046 100644
  
    Python:
      # Filepath of python executable `python.exe`
-diff --git ".\\AzurLaneAutoScript/dev_tools/utils.py" ".\\AzurLaneAutoScriptyukikaze21/dev_tools/utils.py"
+diff --git a/dev_tools/utils.py b/dev_tools/utils.py
 index e85e968..ce6e8f6 100644
---- ".\\AzurLaneAutoScript/dev_tools/utils.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/dev_tools/utils.py"
+--- a/dev_tools/utils.py
++++ b/dev_tools/utils.py
 @@ -45,7 +45,7 @@ class LuaLoader:
      def filepath(self, path):
          return os.path.join(self.folder, self.server, path)
@@ -46535,10 +46723,10 @@ index e85e968..ce6e8f6 100644
  
          print(f'{len(result.keys())} items loaded')
          return result
-diff --git ".\\AzurLaneAutoScript/module/campaign/assets.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/assets.py"
+diff --git a/module/campaign/assets.py b/module/campaign/assets.py
 index 8eb11c4..064c0ef 100644
---- ".\\AzurLaneAutoScript/module/campaign/assets.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/assets.py"
+--- a/module/campaign/assets.py
++++ b/module/campaign/assets.py
 @@ -16,8 +16,11 @@ EVENT_20221124_PT_ICON = Button(area={'cn': (1106, 109, 1135, 130), 'en': (1071,
  EVENT_20230817_STORY = Button(area={'cn': (610, 320, 670, 380), 'en': (610, 320, 670, 380), 'jp': (610, 320, 670, 380), 'tw': (610, 320, 670, 380)}, color={'cn': (183, 180, 190), 'en': (183, 180, 190), 'jp': (183, 180, 190), 'tw': (183, 180, 190)}, button={'cn': (610, 320, 670, 380), 'en': (610, 320, 670, 380), 'jp': (610, 320, 670, 380), 'tw': (610, 320, 670, 380)}, file={'cn': './assets/cn/campaign/EVENT_20230817_STORY.png', 'en': './assets/en/campaign/EVENT_20230817_STORY.png', 'jp': './assets/jp/campaign/EVENT_20230817_STORY.png', 'tw': './assets/tw/campaign/EVENT_20230817_STORY.png'})
  EVENT_20250724_PT_ICON = Button(area={'cn': (1102, 106, 1139, 121), 'en': (1067, 108, 1104, 123), 'jp': (1102, 106, 1139, 121), 'tw': (1102, 106, 1139, 121)}, color={'cn': (95, 103, 93), 'en': (97, 101, 94), 'jp': (95, 103, 93), 'tw': (95, 103, 93)}, button={'cn': (1102, 106, 1139, 121), 'en': (1067, 108, 1104, 123), 'jp': (1102, 106, 1139, 121), 'tw': (1102, 106, 1139, 121)}, file={'cn': './assets/cn/campaign/EVENT_20250724_PT_ICON.png', 'en': './assets/en/campaign/EVENT_20250724_PT_ICON.png', 'jp': './assets/cn/campaign/EVENT_20250724_PT_ICON.png', 'tw': './assets/cn/campaign/EVENT_20250724_PT_ICON.png'})
@@ -46551,10 +46739,10 @@ index 8eb11c4..064c0ef 100644
  OCR_OIL_CHECK = Button(area={'cn': (573, 30, 592, 49), 'en': (573, 30, 592, 49), 'jp': (573, 30, 592, 49), 'tw': (573, 30, 592, 49)}, color={'cn': (82, 82, 82), 'en': (82, 82, 82), 'jp': (82, 82, 82), 'tw': (82, 82, 82)}, button={'cn': (573, 30, 592, 49), 'en': (573, 30, 592, 49), 'jp': (573, 30, 592, 49), 'tw': (573, 30, 592, 49)}, file={'cn': './assets/cn/campaign/OCR_OIL_CHECK.png', 'en': './assets/en/campaign/OCR_OIL_CHECK.png', 'jp': './assets/jp/campaign/OCR_OIL_CHECK.png', 'tw': './assets/tw/campaign/OCR_OIL_CHECK.png'})
  SWITCH_1_HARD = Button(area={'cn': (82, 641, 148, 675), 'en': (87, 642, 148, 676), 'jp': (24, 645, 150, 697), 'tw': (82, 641, 148, 675)}, color={'cn': (233, 141, 128), 'en': (234, 139, 124), 'jp': (219, 116, 106), 'tw': (236, 159, 148)}, button={'cn': (82, 641, 148, 675), 'en': (87, 642, 148, 676), 'jp': (24, 645, 150, 697), 'tw': (82, 641, 148, 675)}, file={'cn': './assets/cn/campaign/SWITCH_1_HARD.png', 'en': './assets/en/campaign/SWITCH_1_HARD.png', 'jp': './assets/jp/campaign/SWITCH_1_HARD.png', 'tw': './assets/tw/campaign/SWITCH_1_HARD.png'})
  SWITCH_1_NORMAL = Button(area={'cn': (80, 641, 148, 675), 'en': (79, 638, 147, 675), 'jp': (24, 644, 150, 697), 'tw': (79, 641, 148, 675)}, color={'cn': (157, 180, 227), 'en': (157, 180, 227), 'jp': (143, 169, 222), 'tw': (156, 179, 227)}, button={'cn': (80, 641, 148, 675), 'en': (79, 638, 147, 675), 'jp': (24, 644, 150, 697), 'tw': (79, 641, 148, 675)}, file={'cn': './assets/cn/campaign/SWITCH_1_NORMAL.png', 'en': './assets/en/campaign/SWITCH_1_NORMAL.png', 'jp': './assets/jp/campaign/SWITCH_1_NORMAL.png', 'tw': './assets/tw/campaign/SWITCH_1_NORMAL.png'})
-diff --git ".\\AzurLaneAutoScript/module/campaign/campaign_event.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/campaign_event.py"
+diff --git a/module/campaign/campaign_event.py b/module/campaign/campaign_event.py
 index d8815ac..fb75551 100644
---- ".\\AzurLaneAutoScript/module/campaign/campaign_event.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/campaign_event.py"
+--- a/module/campaign/campaign_event.py
++++ b/module/campaign/campaign_event.py
 @@ -53,8 +53,10 @@ class CampaignEvent(CampaignStatus):
          tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
          command = self.config.Scheduler_Command
@@ -46603,10 +46791,10 @@ index d8815ac..fb75551 100644
  
      def is_event_entrance_available(self):
          """
-diff --git ".\\AzurLaneAutoScript/module/campaign/campaign_status.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/campaign_status.py"
+diff --git a/module/campaign/campaign_status.py b/module/campaign/campaign_status.py
 index 45e8179..ac4a494 100644
---- ".\\AzurLaneAutoScript/module/campaign/campaign_status.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/campaign_status.py"
+--- a/module/campaign/campaign_status.py
++++ b/module/campaign/campaign_status.py
 @@ -1,3 +1,4 @@
 +import datetime
  import re
@@ -46758,10 +46946,10 @@ index 45e8179..ac4a494 100644
  
      def is_balancer_task(self):
          """
-diff --git ".\\AzurLaneAutoScript/module/campaign/gems_farming.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/gems_farming.py"
+diff --git a/module/campaign/gems_farming.py b/module/campaign/gems_farming.py
 index a3a11dc..7fa87b1 100644
---- ".\\AzurLaneAutoScript/module/campaign/gems_farming.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/gems_farming.py"
+--- a/module/campaign/gems_farming.py
++++ b/module/campaign/gems_farming.py
 @@ -2,6 +2,7 @@ from module.campaign.campaign_base import CampaignBase
  from module.campaign.run import CampaignRun
  from module.combat.assets import BATTLE_PREPARATION
@@ -46932,10 +47120,10 @@ index a3a11dc..7fa87b1 100644
                  if self.change_vanguard:
                      success = success and self.vanguard_change()
  
-diff --git ".\\AzurLaneAutoScript/module/campaign/os_run.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/os_run.py"
+diff --git a/module/campaign/os_run.py b/module/campaign/os_run.py
 index 2ef8351..3c4bee4 100644
---- ".\\AzurLaneAutoScript/module/campaign/os_run.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/os_run.py"
+--- a/module/campaign/os_run.py
++++ b/module/campaign/os_run.py
 @@ -58,7 +58,7 @@ class OSCampaignRun(OSMapOperation):
                  self.config.task_delay(server_update=True)
                  self.config.task_call('Reward')
@@ -46945,10 +47133,10 @@ index 2ef8351..3c4bee4 100644
                      self.config.task_call('OpsiHazard1Leveling')
              else:
                  logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
-diff --git ".\\AzurLaneAutoScript/module/campaign/run.py" ".\\AzurLaneAutoScriptyukikaze21/module/campaign/run.py"
+diff --git a/module/campaign/run.py b/module/campaign/run.py
 index ad3251c..01a2f1b 100644
---- ".\\AzurLaneAutoScript/module/campaign/run.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/campaign/run.py"
+--- a/module/campaign/run.py
++++ b/module/campaign/run.py
 @@ -5,6 +5,7 @@ import random
  
  from module.campaign.campaign_base import CampaignBase
@@ -47001,10 +47189,10 @@ index ad3251c..01a2f1b 100644
              # After run
              self.run_count += 1
              if self.config.StopCondition_RunCount:
-diff --git ".\\AzurLaneAutoScript/module/combat/auto_search_combat.py" ".\\AzurLaneAutoScriptyukikaze21/module/combat/auto_search_combat.py"
+diff --git a/module/combat/auto_search_combat.py b/module/combat/auto_search_combat.py
 index 5dbf433..9937fb8 100644
---- ".\\AzurLaneAutoScript/module/combat/auto_search_combat.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/combat/auto_search_combat.py"
+--- a/module/combat/auto_search_combat.py
++++ b/module/combat/auto_search_combat.py
 @@ -94,7 +94,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
          This will set auto_search_oil_limit_triggered.
          """
@@ -47014,10 +47202,10 @@ index 5dbf433..9937fb8 100644
              if oil == 0:
                  logger.warning('Oil not found')
              else:
-diff --git ".\\AzurLaneAutoScript/module/combat/combat.py" ".\\AzurLaneAutoScriptyukikaze21/module/combat/combat.py"
+diff --git a/module/combat/combat.py b/module/combat/combat.py
 index 4277395..54ba739 100644
---- ".\\AzurLaneAutoScript/module/combat/combat.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/combat/combat.py"
+--- a/module/combat/combat.py
++++ b/module/combat/combat.py
 @@ -119,8 +119,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
              return PAUSE_Seaside
          if PAUSE_Ninja.match_template_color(self.device.image, offset=(10, 10)):
@@ -47027,10 +47215,10 @@ index 4277395..54ba739 100644
          return False
  
      def handle_combat_quit(self, offset=(20, 20), interval=3):
-diff --git ".\\AzurLaneAutoScript/module/combat_ui/assets.py" ".\\AzurLaneAutoScriptyukikaze21/module/combat_ui/assets.py"
+diff --git a/module/combat_ui/assets.py b/module/combat_ui/assets.py
 index 109bc45..0f33b2e 100644
---- ".\\AzurLaneAutoScript/module/combat_ui/assets.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/combat_ui/assets.py"
+--- a/module/combat_ui/assets.py
++++ b/module/combat_ui/assets.py
 @@ -17,7 +17,6 @@ PAUSE_Ninja = Button(area={'cn': (1230, 37, 1246, 53), 'en': (1230, 37, 1246, 53
  PAUSE_Nurse = Button(area={'cn': (1236, 33, 1251, 50), 'en': (1236, 33, 1251, 50), 'jp': (1236, 33, 1251, 50), 'tw': (1236, 33, 1251, 50)}, color={'cn': (200, 206, 209), 'en': (200, 206, 209), 'jp': (200, 206, 209), 'tw': (200, 206, 209)}, button={'cn': (1236, 33, 1251, 50), 'en': (1236, 33, 1251, 50), 'jp': (1236, 33, 1251, 50), 'tw': (1236, 33, 1251, 50)}, file={'cn': './assets/cn/combat_ui/PAUSE_Nurse.png', 'en': './assets/cn/combat_ui/PAUSE_Nurse.png', 'jp': './assets/cn/combat_ui/PAUSE_Nurse.png', 'tw': './assets/cn/combat_ui/PAUSE_Nurse.png'})
  PAUSE_Pharaoh = Button(area={'cn': (1229, 55, 1259, 62), 'en': (1229, 55, 1259, 62), 'jp': (1229, 55, 1259, 62), 'tw': (1229, 55, 1259, 62)}, color={'cn': (164, 119, 78), 'en': (164, 119, 78), 'jp': (164, 119, 78), 'tw': (164, 119, 78)}, button={'cn': (1229, 55, 1259, 62), 'en': (1229, 55, 1259, 62), 'jp': (1229, 55, 1259, 62), 'tw': (1229, 55, 1259, 62)}, file={'cn': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'en': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'jp': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'tw': './assets/cn/combat_ui/PAUSE_Pharaoh.png'})
@@ -47039,10 +47227,10 @@ index 109bc45..0f33b2e 100644
  PAUSE_Star = Button(area={'cn': (1234, 36, 1250, 57), 'en': (1234, 36, 1250, 57), 'jp': (1234, 36, 1250, 57), 'tw': (1234, 36, 1250, 57)}, color={'cn': (169, 179, 179), 'en': (169, 179, 179), 'jp': (169, 179, 179), 'tw': (169, 179, 179)}, button={'cn': (1234, 36, 1250, 57), 'en': (1234, 36, 1250, 57), 'jp': (1234, 36, 1250, 57), 'tw': (1234, 36, 1250, 57)}, file={'cn': './assets/cn/combat_ui/PAUSE_Star.png', 'en': './assets/cn/combat_ui/PAUSE_Star.png', 'jp': './assets/cn/combat_ui/PAUSE_Star.png', 'tw': './assets/cn/combat_ui/PAUSE_Star.png'})
  QUIT = Button(area={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, color={'cn': (199, 122, 114), 'en': (216, 168, 164), 'jp': (196, 120, 113), 'tw': (200, 126, 118)}, button={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, file={'cn': './assets/cn/combat_ui/QUIT.png', 'en': './assets/en/combat_ui/QUIT.png', 'jp': './assets/jp/combat_ui/QUIT.png', 'tw': './assets/tw/combat_ui/QUIT.png'})
  QUIT_Christmas = Button(area={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, color={'cn': (195, 139, 166), 'en': (207, 166, 185), 'jp': (195, 139, 166), 'tw': (195, 139, 166)}, button={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, file={'cn': './assets/cn/combat_ui/QUIT_Christmas.png', 'en': './assets/en/combat_ui/QUIT_Christmas.png', 'jp': './assets/cn/combat_ui/QUIT_Christmas.png', 'tw': './assets/cn/combat_ui/QUIT_Christmas.png'})
-diff --git ".\\AzurLaneAutoScript/module/config/argument/args.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/args.json"
+diff --git a/module/config/argument/args.json b/module/config/argument/args.json
 index d04dc74..2dff327 100644
---- ".\\AzurLaneAutoScript/module/config/argument/args.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/args.json"
+--- a/module/config/argument/args.json
++++ b/module/config/argument/args.json
 @@ -1,4 +1,206 @@
  {
 +  "Dashboard": {
@@ -47385,10 +47573,10 @@ index d04dc74..2dff327 100644
        }
      },
      "OpsiFleet": {
-diff --git ".\\AzurLaneAutoScript/module/config/argument/argument.yaml" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/argument.yaml"
+diff --git a/module/config/argument/argument.yaml b/module/config/argument/argument.yaml
 index 7e17ccd..67445aa 100644
---- ".\\AzurLaneAutoScript/module/config/argument/argument.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/argument.yaml"
+--- a/module/config/argument/argument.yaml
++++ b/module/config/argument/argument.yaml
 @@ -2,6 +2,59 @@
  # Define arguments.
  # --------------------
@@ -47527,11 +47715,11 @@ index 7e17ccd..67445aa 100644
  
  # ==================== Tools ====================
  
-diff --git ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/dashboard.yaml" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/dashboard.yaml"
+diff --git a/module/config/argument/dashboard.yaml b/module/config/argument/dashboard.yaml
 new file mode 100644
 index 0000000..93dc59e
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/dashboard.yaml"
++++ b/module/config/argument/dashboard.yaml
 @@ -0,0 +1,18 @@
 +# --------------------
 +# Define argument group of dashboard-only arguments.
@@ -47552,10 +47740,10 @@ index 0000000..93dc59e
 +  - Merit
 +  - GuildCoin
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/module/config/argument/gui.yaml" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/gui.yaml"
+diff --git a/module/config/argument/gui.yaml b/module/config/argument/gui.yaml
 index 82302d3..d6c3679 100644
---- ".\\AzurLaneAutoScript/module/config/argument/gui.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/gui.yaml"
+--- a/module/config/argument/gui.yaml
++++ b/module/config/argument/gui.yaml
 @@ -14,6 +14,8 @@ Button:
    Stop:
    ScrollON:
@@ -47592,10 +47780,10 @@ index 82302d3..d6c3679 100644
    Log:
    Running:
    Pending:
-diff --git ".\\AzurLaneAutoScript/module/config/argument/menu.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/menu.json"
+diff --git a/module/config/argument/menu.json b/module/config/argument/menu.json
 index abdfe9c..4b5823b 100644
---- ".\\AzurLaneAutoScript/module/config/argument/menu.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/menu.json"
+--- a/module/config/argument/menu.json
++++ b/module/config/argument/menu.json
 @@ -23,11 +23,11 @@
      "page": "setting",
      "tasks": [
@@ -47609,10 +47797,10 @@ index abdfe9c..4b5823b 100644
        "MaritimeEscort",
        "WarArchives"
      ]
-diff --git ".\\AzurLaneAutoScript/module/config/argument/override.yaml" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/override.yaml"
+diff --git a/module/config/argument/override.yaml b/module/config/argument/override.yaml
 index 70c88ac..2bd564a 100644
---- ".\\AzurLaneAutoScript/module/config/argument/override.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/override.yaml"
+--- a/module/config/argument/override.yaml
++++ b/module/config/argument/override.yaml
 @@ -46,6 +46,13 @@ GemsFarming:
        display: display
        value: fleet1_all_fleet2_standby
@@ -47627,10 +47815,10 @@ index 70c88ac..2bd564a 100644
  
  # ==================== Event ====================
  
-diff --git ".\\AzurLaneAutoScript/module/config/argument/task.yaml" ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/task.yaml"
+diff --git a/module/config/argument/task.yaml b/module/config/argument/task.yaml
 index c6f20bb..3598769 100644
---- ".\\AzurLaneAutoScript/module/config/argument/task.yaml"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/argument/task.yaml"
+--- a/module/config/argument/task.yaml
++++ b/module/config/argument/task.yaml
 @@ -19,6 +19,7 @@ Alas:
        - OneClickRetire
        - Enhance
@@ -47674,10 +47862,10 @@ index c6f20bb..3598769 100644
      MaritimeEscort:
        - Scheduler
        - MaritimeEscort
-diff --git ".\\AzurLaneAutoScript/module/config/config_generated.py" ".\\AzurLaneAutoScriptyukikaze21/module/config/config_generated.py"
+diff --git a/module/config/config_generated.py b/module/config/config_generated.py
 index fecd84a..b28cfec 100644
---- ".\\AzurLaneAutoScript/module/config/config_generated.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/config_generated.py"
+--- a/module/config/config_generated.py
++++ b/module/config/config_generated.py
 @@ -9,6 +9,69 @@ class GeneratedConfig:
      Auto generated configuration
      """
@@ -47787,10 +47975,10 @@ index fecd84a..b28cfec 100644
  
      # Group `Daemon`
      Daemon_EnterMap = True
-diff --git ".\\AzurLaneAutoScript/module/config/config_manual.py" ".\\AzurLaneAutoScriptyukikaze21/module/config/config_manual.py"
+diff --git a/module/config/config_manual.py b/module/config/config_manual.py
 index f928f67..92f528f 100644
---- ".\\AzurLaneAutoScript/module/config/config_manual.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/config_manual.py"
+--- a/module/config/config_manual.py
++++ b/module/config/config_manual.py
 @@ -8,7 +8,7 @@ class ManualConfig:
      def SERVER(self):
          return server.server
@@ -47831,10 +48019,10 @@ index f928f67..92f528f 100644
      OS_NORMAL_PURPLE_COINS_PRESERVE = 100
  
      """
-diff --git ".\\AzurLaneAutoScript/module/config/config_updater.py" ".\\AzurLaneAutoScriptyukikaze21/module/config/config_updater.py"
+diff --git a/module/config/config_updater.py b/module/config/config_updater.py
 index 761363d..2e1d3b7 100644
---- ".\\AzurLaneAutoScript/module/config/config_updater.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/config_updater.py"
+--- a/module/config/config_updater.py
++++ b/module/config/config_updater.py
 @@ -149,6 +149,15 @@ class ConfigGenerator:
          """
          return read_file(filepath_argument('gui'))
@@ -47867,10 +48055,10 @@ index 761363d..2e1d3b7 100644
              # Add storage to all task
              groups.append('Storage')
              for group in groups:
-diff --git ".\\AzurLaneAutoScript/module/config/i18n/en-US.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/en-US.json"
+diff --git a/module/config/i18n/en-US.json b/module/config/i18n/en-US.json
 index 847c50e..3a65b4a 100644
---- ".\\AzurLaneAutoScript/module/config/i18n/en-US.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/en-US.json"
+--- a/module/config/i18n/en-US.json
++++ b/module/config/i18n/en-US.json
 @@ -279,6 +279,234 @@
        "help": ""
      }
@@ -48231,10 +48419,10 @@ index 847c50e..3a65b4a 100644
        "Log": "Log",
        "Running": "Running",
        "Pending": "Pending",
-diff --git ".\\AzurLaneAutoScript/module/config/i18n/ja-JP.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/ja-JP.json"
+diff --git a/module/config/i18n/ja-JP.json b/module/config/i18n/ja-JP.json
 index 604b906..5e1a058 100644
---- ".\\AzurLaneAutoScript/module/config/i18n/ja-JP.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/ja-JP.json"
+--- a/module/config/i18n/ja-JP.json
++++ b/module/config/i18n/ja-JP.json
 @@ -279,6 +279,234 @@
        "help": ""
      }
@@ -48595,10 +48783,10 @@ index 604b906..5e1a058 100644
        "Log": "ログ",
        "Running": "実行中",
        "Pending": "隊列中",
-diff --git ".\\AzurLaneAutoScript/module/config/i18n/zh-CN.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/zh-CN.json"
+diff --git a/module/config/i18n/zh-CN.json b/module/config/i18n/zh-CN.json
 index 3990210..721437a 100644
---- ".\\AzurLaneAutoScript/module/config/i18n/zh-CN.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/zh-CN.json"
+--- a/module/config/i18n/zh-CN.json
++++ b/module/config/i18n/zh-CN.json
 @@ -43,7 +43,7 @@
        "help": ""
      },
@@ -48999,10 +49187,10 @@ index 3990210..721437a 100644
      },
      "AddAlas": {
        "PopupTitle": "添加新配置",
-diff --git ".\\AzurLaneAutoScript/module/config/i18n/zh-TW.json" ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/zh-TW.json"
+diff --git a/module/config/i18n/zh-TW.json b/module/config/i18n/zh-TW.json
 index a057b8e..9e901be 100644
---- ".\\AzurLaneAutoScript/module/config/i18n/zh-TW.json"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/i18n/zh-TW.json"
+--- a/module/config/i18n/zh-TW.json
++++ b/module/config/i18n/zh-TW.json
 @@ -279,6 +279,234 @@
        "help": ""
      }
@@ -49363,10 +49551,10 @@ index a057b8e..9e901be 100644
        "Log": "日誌",
        "Running": "執行中",
        "Pending": "佇列中",
-diff --git ".\\AzurLaneAutoScript/module/config/utils.py" ".\\AzurLaneAutoScriptyukikaze21/module/config/utils.py"
+diff --git a/module/config/utils.py b/module/config/utils.py
 index f26443f..23f2085 100644
---- ".\\AzurLaneAutoScript/module/config/utils.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/config/utils.py"
+--- a/module/config/utils.py
++++ b/module/config/utils.py
 @@ -542,5 +542,47 @@ def type_to_str(typ):
      return str(typ)
  
@@ -49415,10 +49603,10 @@ index f26443f..23f2085 100644
 +
  if __name__ == '__main__':
      get_os_reset_remain()
-diff --git ".\\AzurLaneAutoScript/module/device/device.py" ".\\AzurLaneAutoScriptyukikaze21/module/device/device.py"
+diff --git a/module/device/device.py b/module/device/device.py
 index a1519df..33a54d3 100644
---- ".\\AzurLaneAutoScript/module/device/device.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/device/device.py"
+--- a/module/device/device.py
++++ b/module/device/device.py
 @@ -14,6 +14,7 @@ from module.base.timer import Timer
  from module.config.utils import get_server_next_update
  from module.device.app_control import AppControl
@@ -49449,11 +49637,11 @@ index a1519df..33a54d3 100644
                  break
              except EmulatorNotRunningError:
                  if trial >= 3:
-diff --git ".\\AzurLaneAutoScriptyukikaze21/module/device/input.py" ".\\AzurLaneAutoScriptyukikaze21/module/device/input.py"
+diff --git a/module/device/input.py b/module/device/input.py
 new file mode 100644
 index 0000000..57bc2ad
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/device/input.py"
++++ b/module/device/input.py
 @@ -0,0 +1,19 @@
 +from module.device.method.uiautomator_2 import Uiautomator2
 +from module.logger import logger
@@ -49474,10 +49662,10 @@ index 0000000..57bc2ad
 +                if fail_count >= 2:
 +                    raise e
 +                logger.exception(str(e) + f'Retrying {fail_count + 1}/3')
-diff --git ".\\AzurLaneAutoScript/module/device/method/nemu_ipc.py" ".\\AzurLaneAutoScriptyukikaze21/module/device/method/nemu_ipc.py"
+diff --git a/module/device/method/nemu_ipc.py b/module/device/method/nemu_ipc.py
 index 556255f..bd0ffc8 100644
---- ".\\AzurLaneAutoScript/module/device/method/nemu_ipc.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/device/method/nemu_ipc.py"
+--- a/module/device/method/nemu_ipc.py
++++ b/module/device/method/nemu_ipc.py
 @@ -273,10 +273,6 @@ class NemuIpcImpl:
          self.connect_id = connect_id
          # logger.info(f'NemuIpc connected: {self.connect_id}')
@@ -49505,10 +49693,10 @@ index 556255f..bd0ffc8 100644
          except (NemuIpcIncompatible, NemuIpcError, JobTimeout) as e:
              logger.error(e)
              logger.error('Unable to initialize NemuIpc')
-diff --git ".\\AzurLaneAutoScript/module/device/method/uiautomator_2.py" ".\\AzurLaneAutoScriptyukikaze21/module/device/method/uiautomator_2.py"
+diff --git a/module/device/method/uiautomator_2.py b/module/device/method/uiautomator_2.py
 index fb52743..3d8fb5f 100644
---- ".\\AzurLaneAutoScript/module/device/method/uiautomator_2.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/device/method/uiautomator_2.py"
+--- a/module/device/method/uiautomator_2.py
++++ b/module/device/method/uiautomator_2.py
 @@ -474,3 +474,26 @@ class Uiautomator2(Connection):
              description=resp.get('description', '')
          )
@@ -49537,10 +49725,10 @@ index fb52743..3d8fb5f 100644
 +    def set_clipboard(self, text, label=None):
 +        return self.u2.set_clipboard(text=text, label=label)
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/module/device/screenshot.py" ".\\AzurLaneAutoScriptyukikaze21/module/device/screenshot.py"
+diff --git a/module/device/screenshot.py b/module/device/screenshot.py
 index 9940ee0..a1026dc 100644
---- ".\\AzurLaneAutoScript/module/device/screenshot.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/device/screenshot.py"
+--- a/module/device/screenshot.py
++++ b/module/device/screenshot.py
 @@ -2,10 +2,13 @@ import os
  import time
  from collections import deque
@@ -49744,10 +49932,10 @@ index 9940ee0..a1026dc 100644
 +                self.screenshot_queue.get_nowait()
 +        except Exception:
 +            pass
-diff --git ".\\AzurLaneAutoScript/module/equipment/assets.py" ".\\AzurLaneAutoScriptyukikaze21/module/equipment/assets.py"
+diff --git a/module/equipment/assets.py b/module/equipment/assets.py
 index 64f619f..2f72c7a 100644
---- ".\\AzurLaneAutoScript/module/equipment/assets.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/equipment/assets.py"
+--- a/module/equipment/assets.py
++++ b/module/equipment/assets.py
 @@ -4,7 +4,22 @@ from module.base.template import Template
  # This file was automatically generated by dev_tools/button_extract.py.
  # Don't modify it manually.
@@ -49771,11 +49959,11 @@ index 64f619f..2f72c7a 100644
  EQUIPMENT_OPEN = Button(area={'cn': (1166, 91, 1203, 110), 'en': (1162, 92, 1211, 107), 'jp': (1167, 91, 1202, 110), 'tw': (1165, 91, 1203, 110)}, color={'cn': (128, 178, 223), 'en': (102, 157, 212), 'jp': (133, 181, 225), 'tw': (132, 180, 222)}, button={'cn': (1166, 91, 1203, 110), 'en': (1162, 92, 1211, 107), 'jp': (1167, 91, 1202, 110), 'tw': (1165, 91, 1203, 110)}, file={'cn': './assets/cn/equipment/EQUIPMENT_OPEN.png', 'en': './assets/en/equipment/EQUIPMENT_OPEN.png', 'jp': './assets/jp/equipment/EQUIPMENT_OPEN.png', 'tw': './assets/tw/equipment/EQUIPMENT_OPEN.png'})
  EQUIPMENT_SCROLL_BOTTOM = Button(area={'cn': (1256, 575, 1264, 583), 'en': (1256, 575, 1264, 583), 'jp': (1256, 575, 1264, 583), 'tw': (1256, 575, 1264, 583)}, color={'cn': (244, 209, 66), 'en': (244, 209, 66), 'jp': (244, 209, 66), 'tw': (244, 209, 66)}, button={'cn': (1256, 575, 1264, 583), 'en': (1256, 575, 1264, 583), 'jp': (1256, 575, 1264, 583), 'tw': (1256, 575, 1264, 583)}, file={'cn': './assets/cn/equipment/EQUIPMENT_SCROLL_BOTTOM.png', 'en': './assets/en/equipment/EQUIPMENT_SCROLL_BOTTOM.png', 'jp': './assets/jp/equipment/EQUIPMENT_SCROLL_BOTTOM.png', 'tw': './assets/tw/equipment/EQUIPMENT_SCROLL_BOTTOM.png'})
  EQUIPPING_OFF = Button(area={'cn': (25, 565, 60, 589), 'en': (30, 585, 59, 605), 'jp': (25, 565, 60, 589), 'tw': (25, 565, 60, 589)}, color={'cn': (94, 101, 104), 'en': (65, 70, 96), 'jp': (94, 101, 104), 'tw': (94, 101, 104)}, button={'cn': (25, 565, 60, 589), 'en': (30, 585, 59, 605), 'jp': (25, 565, 60, 589), 'tw': (25, 565, 60, 589)}, file={'cn': './assets/cn/equipment/EQUIPPING_OFF.png', 'en': './assets/en/equipment/EQUIPPING_OFF.png', 'jp': './assets/jp/equipment/EQUIPPING_OFF.png', 'tw': './assets/tw/equipment/EQUIPPING_OFF.png'})
-diff --git ".\\AzurLaneAutoScriptyukikaze21/module/equipment/equipment_code.py" ".\\AzurLaneAutoScriptyukikaze21/module/equipment/equipment_code.py"
+diff --git a/module/equipment/equipment_code.py b/module/equipment/equipment_code.py
 new file mode 100644
 index 0000000..d480b49
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/equipment/equipment_code.py"
++++ b/module/equipment/equipment_code.py
 @@ -0,0 +1,276 @@
 +import re
 +import yaml
@@ -50053,10 +50241,10 @@ index 0000000..d480b49
 +        raise RequestHumanTakeover(
 +            f'Failed to apply equipment for {ship}, please check manually.'
 +        )
-diff --git ".\\AzurLaneAutoScript/module/exercise/hp_daemon.py" ".\\AzurLaneAutoScriptyukikaze21/module/exercise/hp_daemon.py"
+diff --git a/module/exercise/hp_daemon.py b/module/exercise/hp_daemon.py
 index 7dbe30b..eff6288 100644
---- ".\\AzurLaneAutoScript/module/exercise/hp_daemon.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/exercise/hp_daemon.py"
+--- a/module/exercise/hp_daemon.py
++++ b/module/exercise/hp_daemon.py
 @@ -74,7 +74,6 @@ class HpDaemon(ModuleBase):
              PAUSE_Seaside,
              PAUSE_Star,
@@ -50065,10 +50253,10 @@ index 7dbe30b..eff6288 100644
          ]:
              self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
              self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
-diff --git ".\\AzurLaneAutoScript/module/gacha/gacha_reward.py" ".\\AzurLaneAutoScriptyukikaze21/module/gacha/gacha_reward.py"
+diff --git a/module/gacha/gacha_reward.py b/module/gacha/gacha_reward.py
 index 41c1af1..7bedcc5 100644
---- ".\\AzurLaneAutoScript/module/gacha/gacha_reward.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/gacha/gacha_reward.py"
+--- a/module/gacha/gacha_reward.py
++++ b/module/gacha/gacha_reward.py
 @@ -1,5 +1,5 @@
  from module.base.timer import Timer
 -from module.campaign.campaign_status import OCR_COIN
@@ -50121,10 +50309,10 @@ index 41c1af1..7bedcc5 100644
  
          # Submit 'buy_count' and execute if capable
          # Cannot use handle_popup_confirm, this window
-diff --git ".\\AzurLaneAutoScript/module/handler/login.py" ".\\AzurLaneAutoScriptyukikaze21/module/handler/login.py"
+diff --git a/module/handler/login.py b/module/handler/login.py
 index f5139ac..469d327 100644
---- ".\\AzurLaneAutoScript/module/handler/login.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/handler/login.py"
+--- a/module/handler/login.py
++++ b/module/handler/login.py
 @@ -1,3 +1,7 @@
 +# 基于原版 login.py 增加了智能的游戏重启逻辑
 +# 用于解决 启动游戏时闪退、发送终止命令后立即发送启动命令导致未生效 的问题
@@ -50185,11 +50373,11 @@ index f5139ac..469d327 100644
          self.handle_app_login()
          # self.ensure_no_unfinished_campaign()
          self.config.task_delay(server_update=True)
-diff --git ".\\AzurLaneAutoScriptyukikaze21/module/log_res/log_res.py" ".\\AzurLaneAutoScriptyukikaze21/module/log_res/log_res.py"
+diff --git a/module/log_res/log_res.py b/module/log_res/log_res.py
 new file mode 100644
 index 0000000..7f09fe1
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/log_res/log_res.py"
++++ b/module/log_res/log_res.py
 @@ -0,0 +1,69 @@
 +from cached_property import cached_property
 +from module.logger import logger
@@ -50260,10 +50448,10 @@ index 0000000..7f09fe1
 +            logger.warning('No such resource!')
 +        return True
 +        """
-diff --git ".\\AzurLaneAutoScript/module/map/map_fleet_preparation.py" ".\\AzurLaneAutoScriptyukikaze21/module/map/map_fleet_preparation.py"
+diff --git a/module/map/map_fleet_preparation.py b/module/map/map_fleet_preparation.py
 index f10ec81..1dd7efa 100644
---- ".\\AzurLaneAutoScript/module/map/map_fleet_preparation.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/map/map_fleet_preparation.py"
+--- a/module/map/map_fleet_preparation.py
++++ b/module/map/map_fleet_preparation.py
 @@ -354,8 +354,6 @@ class FleetPreparation(InfoHandler):
                      pass
                  else:
@@ -50273,10 +50461,10 @@ index f10ec81..1dd7efa 100644
              return False
  
          # Submarine.
-diff --git ".\\AzurLaneAutoScript/module/notify/notify.py" ".\\AzurLaneAutoScriptyukikaze21/module/notify/notify.py"
+diff --git a/module/notify/notify.py b/module/notify/notify.py
 index bb93837..4a6cdfe 100644
---- ".\\AzurLaneAutoScript/module/notify/notify.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/notify/notify.py"
+--- a/module/notify/notify.py
++++ b/module/notify/notify.py
 @@ -44,7 +44,9 @@ def handle_notify(_config: str, **kwargs) -> bool:
                  config["data"]["title"] = kwargs["title"]
              if "content" in kwargs:
@@ -50288,10 +50476,10 @@ index bb93837..4a6cdfe 100644
          if provider_name.lower() == "gocqhttp":
              access_token = config.get("access_token")
              if access_token:
-diff --git ".\\AzurLaneAutoScript/module/os/fleet.py" ".\\AzurLaneAutoScriptyukikaze21/module/os/fleet.py"
+diff --git a/module/os/fleet.py b/module/os/fleet.py
 index 03e61a8..a71f953 100644
---- ".\\AzurLaneAutoScript/module/os/fleet.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os/fleet.py"
+--- a/module/os/fleet.py
++++ b/module/os/fleet.py
 @@ -287,7 +287,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
          result = set()
          # Record story history to clear click record
@@ -50446,10 +50634,10 @@ index 03e61a8..a71f953 100644
              # Calculate destination
              grids = self.radar.select(is_question=True)
              if grids:
-diff --git ".\\AzurLaneAutoScript/module/os/map.py" ".\\AzurLaneAutoScriptyukikaze21/module/os/map.py"
+diff --git a/module/os/map.py b/module/os/map.py
 index 078ef35..0fe07fb 100644
---- ".\\AzurLaneAutoScript/module/os/map.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os/map.py"
+--- a/module/os/map.py
++++ b/module/os/map.py
 @@ -63,7 +63,24 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
  
          # Init
@@ -50799,10 +50987,10 @@ index 078ef35..0fe07fb 100644
 +        except Exception as e:
 +            logger.warning(f'自律寻敌过程出现异常: {e}')            
 \ No newline at end of file
-diff --git ".\\AzurLaneAutoScript/module/os/operation_siren.py" ".\\AzurLaneAutoScriptyukikaze21/module/os/operation_siren.py"
+diff --git a/module/os/operation_siren.py b/module/os/operation_siren.py
 index b8dbdd1..7d58dd8 100644
---- ".\\AzurLaneAutoScript/module/os/operation_siren.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os/operation_siren.py"
+--- a/module/os/operation_siren.py
++++ b/module/os/operation_siren.py
 @@ -20,6 +20,13 @@ from module.shop.shop_voucher import VoucherShop
  
  
@@ -51015,10 +51203,10 @@ index b8dbdd1..7d58dd8 100644
              self.config.check_task_switch()
  
      def _os_explore_task_delay(self):
-diff --git ".\\AzurLaneAutoScript/module/os_handler/action_point.py" ".\\AzurLaneAutoScriptyukikaze21/module/os_handler/action_point.py"
+diff --git a/module/os_handler/action_point.py b/module/os_handler/action_point.py
 index d21b967..1b79611 100644
---- ".\\AzurLaneAutoScript/module/os_handler/action_point.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os_handler/action_point.py"
+--- a/module/os_handler/action_point.py
++++ b/module/os_handler/action_point.py
 @@ -12,6 +12,8 @@ from module.os_handler.map_event import MapEventHandler
  from module.statistics.item import Item, ItemGrid
  from module.ui.assets import OS_CHECK
@@ -51049,10 +51237,10 @@ index d21b967..1b79611 100644
                  if self._action_point_box[index] > 0:
                      if self._action_point_current + ACTION_POINT_BOX[index] >= 200:
                          box.append(index)
-diff --git ".\\AzurLaneAutoScript/module/os_handler/os_status.py" ".\\AzurLaneAutoScriptyukikaze21/module/os_handler/os_status.py"
+diff --git a/module/os_handler/os_status.py b/module/os_handler/os_status.py
 index d0ad00f..b944136 100644
---- ".\\AzurLaneAutoScript/module/os_handler/os_status.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os_handler/os_status.py"
+--- a/module/os_handler/os_status.py
++++ b/module/os_handler/os_status.py
 @@ -12,6 +12,7 @@ from module.ocr.ocr import Digit
  from module.os_handler.assets import *
  from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_PURPLE_COINS, SHOP_PURPLE_COINS, SHOP_YELLOW_COINS
@@ -51081,10 +51269,10 @@ index d0ad00f..b944136 100644
  
      def os_shop_get_coins(self):
          self._shop_yellow_coins = self.get_yellow_coins()
-diff --git ".\\AzurLaneAutoScript/module/os_shop/selector.py" ".\\AzurLaneAutoScriptyukikaze21/module/os_shop/selector.py"
+diff --git a/module/os_shop/selector.py b/module/os_shop/selector.py
 index f3821a3..6bedb58 100644
---- ".\\AzurLaneAutoScript/module/os_shop/selector.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os_shop/selector.py"
+--- a/module/os_shop/selector.py
++++ b/module/os_shop/selector.py
 @@ -98,11 +98,16 @@ class Selector():
              list[Item]:
          """
@@ -51106,10 +51294,10 @@ index f3821a3..6bedb58 100644
  
      def items_filter_in_os_shop(self, items) -> List[Item]:
          """
-diff --git ".\\AzurLaneAutoScript/module/os_shop/shop.py" ".\\AzurLaneAutoScriptyukikaze21/module/os_shop/shop.py"
+diff --git a/module/os_shop/shop.py b/module/os_shop/shop.py
 index b97f0c0..02c2145 100644
---- ".\\AzurLaneAutoScript/module/os_shop/shop.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/os_shop/shop.py"
+--- a/module/os_shop/shop.py
++++ b/module/os_shop/shop.py
 @@ -93,6 +93,67 @@ class OSShop(PortShop, AkashiShop):
                  return count
              else:
@@ -51190,10 +51378,10 @@ index b97f0c0..02c2145 100644
  
      def get_currency_coins(self, item):
          if item.cost == 'YellowCoins':
-diff --git ".\\AzurLaneAutoScript/module/raid/raid.py" ".\\AzurLaneAutoScriptyukikaze21/module/raid/raid.py"
+diff --git a/module/raid/raid.py b/module/raid/raid.py
 index 47f9e71..49eb2e2 100644
---- ".\\AzurLaneAutoScript/module/raid/raid.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/raid/raid.py"
+--- a/module/raid/raid.py
++++ b/module/raid/raid.py
 @@ -341,6 +341,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
          Pages:
              in: page_raid
@@ -51215,10 +51403,10 @@ index 47f9e71..49eb2e2 100644
                      return pt
          else:
              logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
-diff --git ".\\AzurLaneAutoScript/module/shop/shop_status.py" ".\\AzurLaneAutoScriptyukikaze21/module/shop/shop_status.py"
+diff --git a/module/shop/shop_status.py b/module/shop/shop_status.py
 index af0644d..472e676 100644
---- ".\\AzurLaneAutoScript/module/shop/shop_status.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/shop/shop_status.py"
+--- a/module/shop/shop_status.py
++++ b/module/shop/shop_status.py
 @@ -2,6 +2,7 @@ import module.config.server as server
  from module.ocr.ocr import Digit
  from module.shop.assets import *
@@ -51281,11 +51469,11 @@ index af0644d..472e676 100644
          return amount
  
      def status_get_voucher(self):
-diff --git ".\\AzurLaneAutoScriptyukikaze21/module/statistics/opsi_month.py" ".\\AzurLaneAutoScriptyukikaze21/module/statistics/opsi_month.py"
+diff --git a/module/statistics/opsi_month.py b/module/statistics/opsi_month.py
 new file mode 100644
 index 0000000..541413a
 --- /dev/null
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/statistics/opsi_month.py"
++++ b/module/statistics/opsi_month.py
 @@ -0,0 +1,191 @@
 +from __future__ import annotations
 +
@@ -51478,10 +51666,10 @@ index 0000000..541413a
 +
 +
 +__all__.append("compute_monthly_cl1_akashi_ap")
-diff --git ".\\AzurLaneAutoScript/module/webui/app.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/app.py"
+diff --git a/module/webui/app.py b/module/webui/app.py
 index fb34646..f8d5e89 100644
---- ".\\AzurLaneAutoScript/module/webui/app.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/app.py"
+--- a/module/webui/app.py
++++ b/module/webui/app.py
 @@ -1,9 +1,13 @@
 +import os
 +import re
@@ -52632,10 +52820,10 @@ index fb34646..f8d5e89 100644
          debug=True,
          on_startup=[
              startup,
-diff --git ".\\AzurLaneAutoScript/module/webui/pin.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/pin.py"
+diff --git a/module/webui/pin.py b/module/webui/pin.py
 index 4d70243..80ef586 100644
---- ".\\AzurLaneAutoScript/module/webui/pin.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/pin.py"
+--- a/module/webui/pin.py
++++ b/module/webui/pin.py
 @@ -5,7 +5,7 @@ Add **other_html_attrs to put_xxx()
  
  from pywebio.io_ctrl import Output
@@ -52645,10 +52833,10 @@ index 4d70243..80ef586 100644
  
  
  def put_input(name, type='text', *, label='', value=None, placeholder=None, readonly=None, datalist=None,
-diff --git ".\\AzurLaneAutoScript/module/webui/process_manager.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/process_manager.py"
+diff --git a/module/webui/process_manager.py b/module/webui/process_manager.py
 index 589267b..450cfed 100644
---- ".\\AzurLaneAutoScript/module/webui/process_manager.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/process_manager.py"
+--- a/module/webui/process_manager.py
++++ b/module/webui/process_manager.py
 @@ -28,6 +28,7 @@ class ProcessManager:
      def __init__(self, config_name: str = "alas") -> None:
          self.config_name = config_name
@@ -52768,10 +52956,10 @@ index 589267b..450cfed 100644
              elif func in get_available_mod():
                  mod = load_mod(func)
  
-diff --git ".\\AzurLaneAutoScript/module/webui/setting.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/setting.py"
+diff --git a/module/webui/setting.py b/module/webui/setting.py
 index 1a814d5..8eb626c 100644
---- ".\\AzurLaneAutoScript/module/webui/setting.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/setting.py"
+--- a/module/webui/setting.py
++++ b/module/webui/setting.py
 @@ -59,7 +59,50 @@ class State:
      manager: SyncManager = None
      electron: bool = False
@@ -52823,10 +53011,10 @@ index 1a814d5..8eb626c 100644
      @classmethod
      def init(cls):
          cls.manager = multiprocessing.Manager()
-diff --git ".\\AzurLaneAutoScript/module/webui/utils.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/utils.py"
+diff --git a/module/webui/utils.py b/module/webui/utils.py
 index 6426e76..d353198 100644
---- ".\\AzurLaneAutoScript/module/webui/utils.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/utils.py"
+--- a/module/webui/utils.py
++++ b/module/webui/utils.py
 @@ -2,6 +2,8 @@ import datetime
  import operator
  import re
@@ -52869,10 +53057,10 @@ index 6426e76..d353198 100644
  
  
  def _read(path):
-diff --git ".\\AzurLaneAutoScript/module/webui/widgets.py" ".\\AzurLaneAutoScriptyukikaze21/module/webui/widgets.py"
+diff --git a/module/webui/widgets.py b/module/webui/widgets.py
 index ad879d9..a62ef3a 100644
---- ".\\AzurLaneAutoScript/module/webui/widgets.py"
-+++ ".\\AzurLaneAutoScriptyukikaze21/module/webui/widgets.py"
+--- a/module/webui/widgets.py
++++ b/module/webui/widgets.py
 @@ -1,5 +1,6 @@
  import copy
  import json
@@ -52912,3 +53100,6 @@ index ad879d9..a62ef3a 100644
      def get_width(self):
          js = """
          let canvas = document.createElement('canvas');
+-- 
+2.52.0.windows.1
+
