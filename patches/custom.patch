@@ -1,6 +1,6 @@
-From f2c74dcb8c84fdda093107811a41fa4039593668 Mon Sep 17 00:00:00 2001
+From 759f4e7def377639120b3bdd7662d9e70470a654 Mon Sep 17 00:00:00 2001
 From: longer-sausage <longer-sausage@outlook.com>
-Date: Sat, 20 Dec 2025 16:43:25 +0800
+Date: Sat, 20 Dec 2025 22:53:18 +0800
 Subject: [PATCH] custom changes
 
 ---
@@ -25,7 +25,6 @@ Subject: [PATCH] custom changes
  assets/cn/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 8900 bytes
  .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
  .../cn/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 10872 bytes
- .../cn/template/TEMPLATE_COMBAT_LOADING.png   | Bin 781 -> 3268 bytes
  assets/en/campaign/OCR_COIN_LIMIT.png         | Bin 0 -> 6816 bytes
  assets/en/campaign/OCR_OIL_LIMIT.png          | Bin 0 -> 6748 bytes
  assets/en/equipment/EMPTY_SHIP_R.png          | Bin 0 -> 10599 bytes
@@ -43,7 +42,6 @@ Subject: [PATCH] custom changes
  assets/en/equipment/EQUIPMENT_CODE_EXPORT.png | Bin 0 -> 7709 bytes
  .../equipment/EQUIPMENT_CODE_PAGE_CHECK.png   | Bin 0 -> 11436 bytes
  .../en/equipment/EQUIPMENT_CODE_TEXTBOX.png   | Bin 0 -> 7091 bytes
- .../en/template/TEMPLATE_COMBAT_LOADING.png   | Bin 781 -> 3268 bytes
  assets/gui/css/alas-mobile.css                |  30 +
  assets/gui/css/alas-pc.css                    |   2 +-
  assets/gui/css/alas.css                       |  93 +-
@@ -168,7 +166,7 @@ Subject: [PATCH] custom changes
  module/webui/setting.py                       |  43 +
  module/webui/utils.py                         |  28 +-
  module/webui/widgets.py                       |  12 +
- 164 files changed, 5433 insertions(+), 329 deletions(-)
+ 162 files changed, 5433 insertions(+), 329 deletions(-)
  create mode 100644 alas.bat
  create mode 100644 assets/cn/campaign/OCR_COIN_LIMIT.png
  create mode 100644 assets/cn/campaign/OCR_GEM.png
@@ -2830,93 +2828,6 @@ B@U;K{
 literal 0
 HcmV?d00001
 
-diff --git a/assets/cn/template/TEMPLATE_COMBAT_LOADING.png b/assets/cn/template/TEMPLATE_COMBAT_LOADING.png
-index 2bf0123f5bd05ceebbd81243e1a5e5c419a24549..594a7309464abf13520248d0de3bc48bd0e8965b 100644
-GIT binary patch
-literal 3268
-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
-C5==Az
-
-literal 781
-zcmV+o1M>WdP)<h;3K|Lk000e1NJLTq000R90012b0ssI2_q5T<0008iNkl<ZD9=4o
-zTT4_?6yDb}XXYH8i_Yjc$&8LPii(5QgV6{U5j_Yc^b4X#-^Bhy57kozK~bbZ7lhG>
-zj12FkNv5Xdm}q&|j?Vp@Gw0GCr4|eJ-s{`n$G7&{aIpLSeC%h(wRQl&{z3fJ`!5e3
-z_oUJpr^^MWqfZ;_LV#-TMkeb*mCmx7nYnLO6#<R#sN7#VG(J8X+iH!pddq^6yc-=H
-zUih_C=*q#NC$~?XZKee2hMrE#&6hh6!kU&71QDH%oY8b$Q58z)^XLGC&@>H><AcEv
-zLIxlPFin_M)a1q{0H&s?gwlgV0x^4tVENz>LgWbsF~%Hc;Ve90XOIt=+27L?#csFf
-zucG53$S)9p;_8~LBn8UL6-8zhEvFvoA;6M{FfJwBSa-V}h9M&;BQuNQf23oDfX}<L
-zv3>nwB%94rN;yiAw7sJ$3d1-`STi1{gH=<hlnG3<zrOY2*1g=qGT7QH)D2GonEg5s
-z4p*<PERpTC-`L8(9G(!Yd{b3LLe4Oa?(Vz0>nWn;a?B@hu`I5wZ|+Mf)@rZn47TzX
-z!aDGIiu`^*d(yqbL@K9)j0`YQlL^uk@|ys@{xt1&6snq9A8y=PT$U*9ADJYK{yDZ<
-zS?2K-yD&m;mRB%FcOLbmRf9}?UpaZARJ6Nx4&oVE=^q?<*7ueXyk0LcRnuyBsKgxm
-z5$hYBmh#R(Lqo%*3$0{vait+#^I==BI(H>GIwuHRXJ=<yTN~7}aQ@*<lk$3f3!5rq
-z*lae3!y$?yn=slvOc&HPnI^N1SsI36wGxDMLUdAezCC_4CI&+U?RLS!VE_#FAy6`z
-z%#RR3#vlY27TCbQKsUO&j&}?eMH{8$KgJrx(P-4=bhbnylyHJzK%_H42o)@dE?rlr
-zrlw|QW_&(hAW)LmI1218Dj~!o7T7j7H+p+}$HqQ}!*v|{YZm$!l#4S)`6ad600000
-LNkvXXu0mjf{j6xH
-
 diff --git a/assets/en/campaign/OCR_COIN_LIMIT.png b/assets/en/campaign/OCR_COIN_LIMIT.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..7c9e29b7888733932743b49de3b62b848cacb8f0
@@ -4683,93 +4594,6 @@ g|HqLr&-vpFP%M%wYVK&3_-nJVq1o*!{bw)!1NHr9VE_OC
 
 literal 0
 HcmV?d00001
-
-diff --git a/assets/en/template/TEMPLATE_COMBAT_LOADING.png b/assets/en/template/TEMPLATE_COMBAT_LOADING.png
-index 2bf0123f5bd05ceebbd81243e1a5e5c419a24549..594a7309464abf13520248d0de3bc48bd0e8965b 100644
-GIT binary patch
-literal 3268
-zcmV;#3_J6QP)<h;3K|Lk000e1NJLTq000UA0012b0ssI29D{1f00009a7bBm000XU
-z000XU0RWnu7ytkYO=&|zP*7-ZbZ>KLZ*U+<Lqi~Na&Km7Y-Iodc-oy)cUY767Czti
-zWe-+D*zmEJY=HnGBdiF>5Lu!Sk^o_Z5E4Meg@_7P6crJiNL9pw)e1<Rh~l6qxMx9%
-zh+2zPTsZC@+^4mDdhhM+``7!t=bY#K&Uw!dfDsZVk>;Xm069{HJUZAPk55R%$-RIA
-z6-eL&AQ0xu!e<4=008g<d3b(wus{3(uWtYX0C3eVBofEr|AV?vCRYF;kpSQ#66Xs6
-zkWv81E>y@A0LT~suv4>S3ILP<0Bm`DLLvaF4FK%)Nj?Pt*r}7;7Xa9z9H|HZjR63e
-zC`Tj$K)V27Re@400>HumpsYY5E(E}?0f1SyGDiY{y#)Yvj#!WnKwtoXnL;eg03bL5
-z07D)V%>y7z1E4U{zu>7~aD})?0RX_umCct+(lZpemCzb@^6=o|A>zVpu|i=NDG+7}
-z<RYAxn<EoQ=L1a63;+Nc`O(4tI6si*=H%h#X6J10^u?n7Yw&L(J|Xen{=AF=1OO0D
-z&+pn_<>l4`aK{0#b-!z=TL9Wt0BGO&T{GJWpjryhdijfaIQ&2!o}p04JRKYg3k&Tf
-zVxhe-<BLB3GvROGi+=X}Kpy_vdhh^onn0PYz@vlxaba$Du2PQY%LGC(ZujRS{>O!X
-z{f;To;xw^bEES6JSc$k$B2CA6xl)ltA<32E66t?3@gJ7`36pmX0IY^jz)rRYwaaY4
-ze(nJRiw;=Qb^t(r^DT@T3y}a2XEZW-_W%Hszxj_qD**t_m!#tW0KDiJT&R>6OvVTR
-z07RgHDzHHZ48atvzz&?j9lXF70$~P3Knx_nJP<+#<bWIsp%|7y8C1YJ*aWq(0~(+a
-zn&A+%!7(@u=im}tf$MM=24EPT!Wg`U2?RmN2oqr;I*1Wsj@Tm32p5@-1R`NbG?IX%
-zAnAw{Q6k02a-;&OLTZs+NF(wsauhj@TtNDe+sGg?iu{VaM=_LvvQY!n0(C&Ss2>`N
-z#-MZ2bTkiLfR>_b(HgWKJ%F~Nr_oF3b#wrIijHG|(J>BYjM-sajE6;FiC7vY#};Gd
-zST$CUHDeuEH+B^pz@B062qXfFfD`NpUW5?BY=V%GM_5c)L#QR}BeW8_2v-S%gfYS=
-zB9o|3v?Y2H`NVi)I<b&gMyw|8As!)~C0-{E6JL`^Bo4`v<W349C6F>n3rTB8+ej^>
-zQ=~r95NVuDChL%G$=>7$vVg20myx%S50Foi`^m%Pw-h?Xh~i8Mq9jtJloCocWk2Nv
-zrJpiFnV_ms&8eQ$2&#xWpIS+6pmtC%Q-`S&G<BLK&6^fO%cL!%)zF%0XKD9nFX?o;
-z3EhJpMVHW*(rf4k>F4Q#^mhymh7E(qNMa}%YZ-ePrx>>xFPTiH1=E+A$W$=bG8>s^
-zm=Bn5Rah$aDtr}@$`X}2l~$F0mFKEdRdZE8)p@E5RI61Ft6o-prbbn>P~)iy)E2AN
-zsU20jsWz_8Qg>31P|s0cqrPALg8E|(vWA65poU1JRAaZs8I2(p#xiB`SVGovRs-uS
-zYnV-9TeA7=Om+qP8+I>yOjAR1s%ETak!GFdam@h^#<Ae=IoX^_&LPeX&U-BbEk7->
-z)@rS0t$wXH+Irf)+G6c;?H29p+V6F6oj{!|o%K3xI`?%6x;DB|x`n#ib<gTP(_`y-
-z=?V49^$zLX(MR=d^rQ6`>hIR?(H}Q3Gzd138Ei2)WAMz7W9Vy`X}HnwgyE<W%V@fh
-z#Au_@NuwvYChmu4<285}K4z?M9Ad0A-euftJYiyKGTWrYq{ZaEDb18?nr6Duw9|CV
-z%*ZU<tk|r{?2b9roNJz8zS+Fn{EdaBMV!S-i#ChLmfDtl%LSHAmiMffRz6mFR`pib
-ztVz~f>n!VS)>mv$8&{hQn>w4zwy3R}t;BYlZQm5)6pty=DfLrs+A-|>><a9f>;~;Q
-z_F?uV_HFjh9n2gO9o9Q^JA86<b<B2baJ=iJ;WWdk#HqvSS7#e%p>v({H5aB!kjoO6
-zc9$1ZZKsN-Zl8L~mE{`ly3)1N^`o1+o7}D0ZPeY&J;i;i`%NyJ8_8Y6J?}yE@b_5a
-zam?eLr<<q3^N{B+UUpttUi-ZsPqUmRp4KpJ$lJtQ;JwRxU^+fMW%|zP13tz+0-t)H
-zhrXu1BHul}BYxI?nSKZSp8Grc%l(h|zu|fE7V%C6U;)7a<pI5c8iBI|YXctynFOT=
-zH3f|Yy9O@|J{3X?2@P2va+7bs7xEkVV>8@mESk|3$_SkmS{wQ>%qC18))9_|&j{ZT
-zes8AvOzF(F2#DZEY>2oYX&IRp`F#{ADl)1r>QS^)ba8a|EY_^#S^H<bj`5GFjJZ48
-zYPNEAXRK;$Qfy=Fo4A0us<?r8hxkSDmlAXnBnj<_<iyy-J&EIU0_SX+Go0j_RF-sO
-zuI1dKxfkZ?&dZ*6JXtkakbF3Wm=c$=KjniULQpRlPvxg>O&t^Rgqwv=MZThqqEWH8
-zxJo>d=ABlR_Bh=;eM9<ahEGOy#xn^|QY(3p8Irjp^G#Mn*50ho*>Tw|Ih34~oTE|=
-zX_mAr*D$vzw@+p(E0Yc6dFE}(8<U61_v9n_bMxC3Y=unGqqI`4P!1MMFQ_YcTNqn-
-zxJbQ7TGTV&X8!8=BMX8Se7%scP`I$O*tmFE@!%rAMY|Rwi&GbOE-_tFx@351@X~$D
-zXv?ye{ZQgqQdRP5dED}jQiIZ^r9&%%S2UHWl*!9(uJl^DV-;bQWL58Km(^QVe<~N1
-zU#xJfsIK_1M!4qUS59BmeD!&4+S=Yqx61A7Nb98QZmjoNzpqNYYC+Y|hVTuo8}W_h
-z8((co-gKdQYW0rIw9U%R12tha?OV*YtlRRTHly}>oqt`+R{gE3x4zjX+Sb3_cYE^=
-zgB=w+-tUy`ytONMS8KgRef4hA?t<Nq8e$u|zvh13xJP$S#h#CQrF#eVMeplsbZ>0j
-zufM;t32jm~jUGrkaOInTZ`zyfns>EuS}G30LFK_G-==(f<51|K&cocp&EJ`SxAh3?
-zNO>#LI=^+SEu(FqJ)ynt=!~PC9bO$rzPJB=?=j<Jb;mW2SDv7qC_VA{<bspqr(~y|
-zolZYJ)S29Q_e}hmYh6)Yy=Ozuo<A3K?o78|_sR3#=Z{_Rym0g)_hQ>6w@a-(u02P7
-zaQ)#(uUl{HW%tYNS3ItC^iAtK(eKlL`f9+{bJzISE?u8_z3;~C8@FyI-5j_jy7l;W
-z_U#vU3hqqYU3!mrul&B+{ptt$59)uk{;_4iZQ%G|z+lhASr6|H35TBkl>gI*;nGLU
-zN7W-nBaM%pA0HbH8olyl&XeJ%vZoWz%6?Y=dFykl=imL}`%BMQ{Mhgd`HRoLu6e2R
-za__6DuR6yg#~-}Tc|Gx_{H@O0eebyMy5GmWADJlpK>kqk(fVV@r_fLLKIeS?{4e)}
-z^ZO;zpECde03c&XQcVB=dL;k=fP(-4`Tqa_faw4Lbua(`>R<o>I+y?e7jKeZ#YO-C
-z0r5#hK~#9!bdoV^6hRcne_2O(3mcq;3+%!LG7!ZrBHmdgod+pY5KL+7NAQ#QNvvXF
-zkyxckVdn)DR!CqMJeYx7*oTZ_u@|veUp4TX|NFoHo7rlveGeh%a{0yW=GDHl)?xru
-zb?f4D!%&fa?e*#`p9m)Rs=?S~K)v>Wg0pg1=7%M$nqs#~0D<5GhUR-Mm1EDbUo}SR
-z%d=z<`Bg)ty{XHhB(oslx_(g%Geklg8tZL_hybAr)lOdAcgbMv*S&9>qsMNz?>lwV
-zf~iY@;I(Z7QD+B^xXDq@<_HPkSBh$$DOo<SJQHgzk)-eX(E1)E<FAy+;F7f0!LKzn
-z;#^7W2kJYINda^E{)2Wv?TY8OT2ys7B-&Y3stLkKC5>M;)CjB^Oo}0d5WH@@+1A|J
-zW!r1ha#Pdk+4;rkxz<-TaOc631;6n>@5Z=(G}-?6>GIv_*Dm~sNx5_H*Vf|I+s&gz
-z%>}QdMyyaxv<)^PZsO*dMQk}K#Y$e3i)Sa+ERAF$lKwllkQO_#I9?E!Mr=9~$Owj`
-zr*D$6w4^2lB$F{5sUEt`TE;pvJNO@t%q!=n#W)tj$?>fIwj9Uv1Lvk?Y8b<j#o;Wp
-zbuk_D&aG7Yu30tQt||HF3-qsFF2ZW*_U7C+|1$va?9;96(K=@U0000<MNUMnLSTZM
-C5==Az
-
-literal 781
-zcmV+o1M>WdP)<h;3K|Lk000e1NJLTq000R90012b0ssI2_q5T<0008iNkl<ZD9=4o
-zTT4_?6yDb}XXYH8i_Yjc$&8LPii(5QgV6{U5j_Yc^b4X#-^Bhy57kozK~bbZ7lhG>
-zj12FkNv5Xdm}q&|j?Vp@Gw0GCr4|eJ-s{`n$G7&{aIpLSeC%h(wRQl&{z3fJ`!5e3
-z_oUJpr^^MWqfZ;_LV#-TMkeb*mCmx7nYnLO6#<R#sN7#VG(J8X+iH!pddq^6yc-=H
-zUih_C=*q#NC$~?XZKee2hMrE#&6hh6!kU&71QDH%oY8b$Q58z)^XLGC&@>H><AcEv
-zLIxlPFin_M)a1q{0H&s?gwlgV0x^4tVENz>LgWbsF~%Hc;Ve90XOIt=+27L?#csFf
-zucG53$S)9p;_8~LBn8UL6-8zhEvFvoA;6M{FfJwBSa-V}h9M&;BQuNQf23oDfX}<L
-zv3>nwB%94rN;yiAw7sJ$3d1-`STi1{gH=<hlnG3<zrOY2*1g=qGT7QH)D2GonEg5s
-z4p*<PERpTC-`L8(9G(!Yd{b3LLe4Oa?(Vz0>nWn;a?B@hu`I5wZ|+Mf)@rZn47TzX
-z!aDGIiu`^*d(yqbL@K9)j0`YQlL^uk@|ys@{xt1&6snq9A8y=PT$U*9ADJYK{yDZ<
-zS?2K-yD&m;mRB%FcOLbmRf9}?UpaZARJ6Nx4&oVE=^q?<*7ueXyk0LcRnuyBsKgxm
-z5$hYBmh#R(Lqo%*3$0{vait+#^I==BI(H>GIwuHRXJ=<yTN~7}aQ@*<lk$3f3!5rq
-z*lae3!y$?yn=slvOc&HPnI^N1SsI36wGxDMLUdAezCC_4CI&+U?RLS!VE_#FAy6`z
-z%#RR3#vlY27TCbQKsUO&j&}?eMH{8$KgJrx(P-4=bhbnylyHJzK%_H42o)@dE?rlr
-zrlw|QW_&(hAW)LmI1218Dj~!o7T7j7H+p+}$HqQ}!*v|{YZm$!l#4S)`6ad600000
-LNkvXXu0mjf{j6xH
 
 diff --git a/assets/gui/css/alas-mobile.css b/assets/gui/css/alas-mobile.css
 index 9acad6e..eb94121 100644
@@ -47203,7 +47027,7 @@ index 5dbf433..9937fb8 100644
                  logger.warning('Oil not found')
              else:
 diff --git a/module/combat/combat.py b/module/combat/combat.py
-index 4277395..54ba739 100644
+index ffeb42c..12f1cde 100644
 --- a/module/combat/combat.py
 +++ b/module/combat/combat.py
 @@ -119,8 +119,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
@@ -47228,7 +47052,7 @@ index 109bc45..0f33b2e 100644
  QUIT = Button(area={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, color={'cn': (199, 122, 114), 'en': (216, 168, 164), 'jp': (196, 120, 113), 'tw': (200, 126, 118)}, button={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, file={'cn': './assets/cn/combat_ui/QUIT.png', 'en': './assets/en/combat_ui/QUIT.png', 'jp': './assets/jp/combat_ui/QUIT.png', 'tw': './assets/tw/combat_ui/QUIT.png'})
  QUIT_Christmas = Button(area={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, color={'cn': (195, 139, 166), 'en': (207, 166, 185), 'jp': (195, 139, 166), 'tw': (195, 139, 166)}, button={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, file={'cn': './assets/cn/combat_ui/QUIT_Christmas.png', 'en': './assets/en/combat_ui/QUIT_Christmas.png', 'jp': './assets/cn/combat_ui/QUIT_Christmas.png', 'tw': './assets/cn/combat_ui/QUIT_Christmas.png'})
 diff --git a/module/config/argument/args.json b/module/config/argument/args.json
-index d04dc74..2dff327 100644
+index dc37419..c9aca58 100644
 --- a/module/config/argument/args.json
 +++ b/module/config/argument/args.json
 @@ -1,4 +1,206 @@
@@ -48056,7 +47880,7 @@ index 761363d..2e1d3b7 100644
              groups.append('Storage')
              for group in groups:
 diff --git a/module/config/i18n/en-US.json b/module/config/i18n/en-US.json
-index 847c50e..3a65b4a 100644
+index a44582f..1d85fa7 100644
 --- a/module/config/i18n/en-US.json
 +++ b/module/config/i18n/en-US.json
 @@ -279,6 +279,234 @@
@@ -48311,7 +48135,7 @@ index 847c50e..3a65b4a 100644
    "OneClickRetire": {
      "_info": {
        "name": "One-click Retire Settings",
-@@ -1180,6 +1418,12 @@
+@@ -1181,6 +1419,12 @@
        "name": "Commission Farming Settings",
        "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
      },
@@ -48324,7 +48148,7 @@ index 847c50e..3a65b4a 100644
      "CommonCV": {
        "name": "Flagship Common CV/CVL Preference",
        "help": "",
-@@ -1193,7 +1437,8 @@
+@@ -1194,7 +1438,8 @@
        "name": "Change Vanguard",
        "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
        "disabled": "Don't Change",
@@ -48334,7 +48158,7 @@ index 847c50e..3a65b4a 100644
      },
      "CommonDD": {
        "name": "Flagship Common DD Preference",
-@@ -1204,6 +1449,10 @@
+@@ -1205,6 +1450,10 @@
        "cassin_or_downes": "Cassin or Downes",
        "z20_or_z21": "Z20 or Z21"
      },
@@ -48345,7 +48169,7 @@ index 847c50e..3a65b4a 100644
      "CommissionLimit": {
        "name": "Prevent Too Many Urgent Commissions",
        "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
-@@ -2525,6 +2774,10 @@
+@@ -2526,6 +2775,10 @@
      "TargetZone": {
        "name": "Target Zone ID",
        "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
@@ -48356,7 +48180,7 @@ index 847c50e..3a65b4a 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2538,6 +2791,26 @@
+@@ -2539,6 +2792,26 @@
        "0": "No Specification",
        "44": "44 | West Continental Shelf D",
        "22": "22 | NA Ocean SW Sector B"
@@ -48383,7 +48207,7 @@ index 847c50e..3a65b4a 100644
      }
    },
    "Daemon": {
-@@ -2642,6 +2915,8 @@
+@@ -2643,6 +2916,8 @@
        "Stop": "Stop",
        "ScrollON": "Auto Scroll ON",
        "ScrollOFF": "Auto Scroll OFF",
@@ -48392,7 +48216,7 @@ index 847c50e..3a65b4a 100644
        "ClearLog": "Clear Log",
        "Setting": "Setting",
        "CheckUpdate": "Check update",
-@@ -2674,6 +2949,26 @@
+@@ -2675,6 +2950,26 @@
      },
      "Overview": {
        "Scheduler": "Scheduler",
@@ -48420,7 +48244,7 @@ index 847c50e..3a65b4a 100644
        "Running": "Running",
        "Pending": "Pending",
 diff --git a/module/config/i18n/ja-JP.json b/module/config/i18n/ja-JP.json
-index 604b906..5e1a058 100644
+index 1818350..d28ec2e 100644
 --- a/module/config/i18n/ja-JP.json
 +++ b/module/config/i18n/ja-JP.json
 @@ -279,6 +279,234 @@
@@ -48675,7 +48499,7 @@ index 604b906..5e1a058 100644
    "OneClickRetire": {
      "_info": {
        "name": "OneClickRetire._info.name",
-@@ -1180,6 +1418,12 @@
+@@ -1181,6 +1419,12 @@
        "name": "GemsFarming._info.name",
        "help": "GemsFarming._info.help"
      },
@@ -48688,7 +48512,7 @@ index 604b906..5e1a058 100644
      "CommonCV": {
        "name": "GemsFarming.CommonCV.name",
        "help": "GemsFarming.CommonCV.help",
-@@ -1193,7 +1437,8 @@
+@@ -1194,7 +1438,8 @@
        "name": "GemsFarming.ChangeVanguard.name",
        "help": "GemsFarming.ChangeVanguard.help",
        "disabled": "disabled",
@@ -48698,7 +48522,7 @@ index 604b906..5e1a058 100644
      },
      "CommonDD": {
        "name": "GemsFarming.CommonDD.name",
-@@ -1204,6 +1449,10 @@
+@@ -1205,6 +1450,10 @@
        "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
        "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
      },
@@ -48709,7 +48533,7 @@ index 604b906..5e1a058 100644
      "CommissionLimit": {
        "name": "GemsFarming.CommissionLimit.name",
        "help": "GemsFarming.CommissionLimit.help"
-@@ -2525,6 +2774,10 @@
+@@ -2526,6 +2775,10 @@
      "TargetZone": {
        "name": "OpsiMeowfficerFarming.TargetZone.name",
        "help": "OpsiMeowfficerFarming.TargetZone.help"
@@ -48720,7 +48544,7 @@ index 604b906..5e1a058 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2538,6 +2791,26 @@
+@@ -2539,6 +2792,26 @@
        "0": "0",
        "44": "44",
        "22": "22"
@@ -48747,7 +48571,7 @@ index 604b906..5e1a058 100644
      }
    },
    "Daemon": {
-@@ -2642,6 +2915,8 @@
+@@ -2643,6 +2916,8 @@
        "Stop": "中止",
        "ScrollON": "自動スクロール ON",
        "ScrollOFF": "自動スクロール OFF",
@@ -48756,7 +48580,7 @@ index 604b906..5e1a058 100644
        "ClearLog": "ログクリーニング",
        "Setting": "設定",
        "CheckUpdate": "アップデータチェック",
-@@ -2674,6 +2949,26 @@
+@@ -2675,6 +2950,26 @@
      },
      "Overview": {
        "Scheduler": "スケジューラー",
@@ -48784,7 +48608,7 @@ index 604b906..5e1a058 100644
        "Running": "実行中",
        "Pending": "隊列中",
 diff --git a/module/config/i18n/zh-CN.json b/module/config/i18n/zh-CN.json
-index 3990210..721437a 100644
+index 8237150..ea0a7ed 100644
 --- a/module/config/i18n/zh-CN.json
 +++ b/module/config/i18n/zh-CN.json
 @@ -43,7 +43,7 @@
@@ -49057,7 +48881,7 @@ index 3990210..721437a 100644
        "help": "例如 7-2, 12-4, D3, SP4，不区分大小写\n若关卡缺失，请等待更新"
      },
      "Event": {
-@@ -1180,6 +1418,12 @@
+@@ -1181,6 +1419,12 @@
        "name": "刷紧急委托",
        "help": "警告: 这个功能可以让玩家获取少量的钻石，但不是一个能高效获取钻石的方法\n玩碧蓝航线不久的玩家, 很容易迷信零破和低耗等, 而忽视了角色养成\n运行这个功能只会让你自己感觉很充实, 而你的帐号实际零提升\n这个功能的主要用途，是让阵容成型的玩家获取额外的魔方，请理性地把钻石当作副产物\n\n这个功能将在旗舰32级之后更换旗舰\n关于紧急委托刷新机制, 可阅读 https://bbs.nga.cn/read.php?tid=27134956\n委托油耗比: A3 > A1 > 2-4 > 2-1, 有活动图时建议选活动图, 2-1会拣问号有更多物资\n一队会完成所有的战斗, 前排应当为百级零破驱逐带输出装, 后排应该为33级及以下白皮零破航母\n二队应提供跨队支援（跨队弹幕、跨队辅助）"
      },
@@ -49070,7 +48894,7 @@ index 3990210..721437a 100644
      "CommonCV": {
        "name": "指定旗舰航母",
        "help": "",
-@@ -1193,7 +1437,8 @@
+@@ -1194,7 +1438,8 @@
        "name": "更换前排",
        "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于10、等级100的白鹰或铁血的白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。前排会更换全部5个装备。",
        "disabled": "不更换",
@@ -49080,7 +48904,7 @@ index 3990210..721437a 100644
      },
      "CommonDD": {
        "name": "指定前排",
-@@ -1204,6 +1449,10 @@
+@@ -1205,6 +1450,10 @@
        "cassin_or_downes": "卡辛或唐斯",
        "z20_or_z21": "Z20或Z21"
      },
@@ -49091,7 +48915,7 @@ index 3990210..721437a 100644
      "CommissionLimit": {
        "name": "防止紧急委托数量过多",
        "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
-@@ -2525,6 +2774,10 @@
+@@ -2526,6 +2775,10 @@
      "TargetZone": {
        "name": "指定海域",
        "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
@@ -49102,7 +48926,7 @@ index 3990210..721437a 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2538,6 +2791,26 @@
+@@ -2539,6 +2792,26 @@
        "0": "不指定",
        "44": "44 | 西大陆架D",
        "22": "22 | NA海域西南B"
@@ -49129,7 +48953,7 @@ index 3990210..721437a 100644
      }
    },
    "Daemon": {
-@@ -2642,6 +2915,8 @@
+@@ -2643,6 +2916,8 @@
        "Stop": "停止",
        "ScrollON": "自动滚动 开",
        "ScrollOFF": "自动滚动 关",
@@ -49138,7 +48962,7 @@ index 3990210..721437a 100644
        "ClearLog": "清空日志",
        "Setting": "设置",
        "CheckUpdate": "检查更新",
-@@ -2653,11 +2928,11 @@
+@@ -2654,11 +2929,11 @@
        "DisableTranslateMode": "点击这里关闭翻译模式",
        "ConfigSaved": "设置已保存",
        "AlasIsRunning": "调度器已在运行中",
@@ -49153,7 +48977,7 @@ index 3990210..721437a 100644
        "Warning": "发生错误",
        "Updating": "等待更新"
      },
-@@ -2674,11 +2949,32 @@
+@@ -2675,11 +2950,32 @@
      },
      "Overview": {
        "Scheduler": "调度器",
@@ -49188,7 +49012,7 @@ index 3990210..721437a 100644
      "AddAlas": {
        "PopupTitle": "添加新配置",
 diff --git a/module/config/i18n/zh-TW.json b/module/config/i18n/zh-TW.json
-index a057b8e..9e901be 100644
+index 15e3c7e..7114c05 100644
 --- a/module/config/i18n/zh-TW.json
 +++ b/module/config/i18n/zh-TW.json
 @@ -279,6 +279,234 @@
@@ -49443,7 +49267,7 @@ index a057b8e..9e901be 100644
    "OneClickRetire": {
      "_info": {
        "name": "一鍵退役設定",
-@@ -1180,6 +1418,12 @@
+@@ -1181,6 +1419,12 @@
        "name": "刷緊急委託",
        "help": "警告：這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家，很容易迷信零破和低耗等，而忽視了角色養成\n執行這個功能只會讓你自己感覺很充實，而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制，可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1，有活動圖時建議選活動圖，2-1會撿問號有更多物資\n一隊會完成所有的戰鬥，前排應當為百級零破驅逐帶輸出裝，後排應該為33級及以下白船零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）"
      },
@@ -49456,7 +49280,7 @@ index a057b8e..9e901be 100644
      "CommonCV": {
        "name": "指定旗艦航母",
        "help": "",
-@@ -1193,7 +1437,8 @@
+@@ -1194,7 +1438,8 @@
        "name": "更換前排",
        "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹或鐵血的白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。前排會更換全部5個裝備。",
        "disabled": "不更换",
@@ -49466,7 +49290,7 @@ index a057b8e..9e901be 100644
      },
      "CommonDD": {
        "name": "指定前排",
-@@ -1204,6 +1449,10 @@
+@@ -1205,6 +1450,10 @@
        "cassin_or_downes": "卡辛或唐斯",
        "z20_or_z21": "Z20或Z21"
      },
@@ -49477,7 +49301,7 @@ index a057b8e..9e901be 100644
      "CommissionLimit": {
        "name": "防止緊急委託數量過多",
        "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
-@@ -2525,6 +2774,10 @@
+@@ -2526,6 +2775,10 @@
      "TargetZone": {
        "name": "指定海域",
        "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
@@ -49488,7 +49312,7 @@ index a057b8e..9e901be 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2538,6 +2791,26 @@
+@@ -2539,6 +2792,26 @@
        "0": "不指定",
        "44": "44 | 西大陸棚D",
        "22": "22 | NA海域西南B"
@@ -49515,7 +49339,7 @@ index a057b8e..9e901be 100644
      }
    },
    "Daemon": {
-@@ -2642,6 +2915,8 @@
+@@ -2643,6 +2916,8 @@
        "Stop": "停止",
        "ScrollON": "自動滾動 開",
        "ScrollOFF": "自動滾動 關",
@@ -49524,7 +49348,7 @@ index a057b8e..9e901be 100644
        "ClearLog": "清空日誌",
        "Setting": "設定",
        "CheckUpdate": "檢查更新",
-@@ -2674,6 +2949,26 @@
+@@ -2675,6 +2950,26 @@
      },
      "Overview": {
        "Scheduler": "調度器",
@@ -50449,7 +50273,7 @@ index 0000000..7f09fe1
 +        return True
 +        """
 diff --git a/module/map/map_fleet_preparation.py b/module/map/map_fleet_preparation.py
-index f10ec81..1dd7efa 100644
+index 1edb787..8658892 100644
 --- a/module/map/map_fleet_preparation.py
 +++ b/module/map/map_fleet_preparation.py
 @@ -354,8 +354,6 @@ class FleetPreparation(InfoHandler):
