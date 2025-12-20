@@ -1,6 +1,6 @@
-From 8491812417fea150dd9c45175a173f4c87ea79b3 Mon Sep 17 00:00:00 2001
+From f2c74dcb8c84fdda093107811a41fa4039593668 Mon Sep 17 00:00:00 2001
 From: longer-sausage <longer-sausage@outlook.com>
-Date: Fri, 19 Dec 2025 17:24:56 +0800
+Date: Sat, 20 Dec 2025 16:43:25 +0800
 Subject: [PATCH] custom changes
 
 ---
@@ -46418,7 +46418,7 @@ index c7b5e59..6083350 100644
      # Python
      PythonExecutable: str = "./toolkit/python.exe"
 diff --git a/deploy/Windows/git.py b/deploy/Windows/git.py
-index acc4db4..c873f6b 100644
+index acc4db4..c78bac3 100644
 --- a/deploy/Windows/git.py
 +++ b/deploy/Windows/git.py
 @@ -52,7 +52,8 @@ class GitManager(DeployConfig):
@@ -46443,7 +46443,7 @@ index acc4db4..c873f6b 100644
 -        Progress.GitCheckout()
 +        if keep_changes:
 +            if self.execute(f'"{self.git}" stash', allow_failure=True):
-+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++                self.execute(f'"{self.git}" pull {source} {branch}')
 +                if self.execute(f'"{self.git}" stash pop', allow_failure=True):
 +                    pass
 +                else:
@@ -46452,13 +46452,13 @@ index acc4db4..c873f6b 100644
 +            else:
 +                logger.info('Stash failed, this may be the first installation, drop changes instead')
 +                self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++                self.execute(f'"{self.git}" pull {source} {branch}')
 +        else:
 +            self.execute(f'"{self.git}" reset --hard {source}/{branch}')
 +            Progress.GitReset()
 +            # Since `git fetch` is already called, checkout is faster
 +            if not self.execute(f'"{self.git}" checkout {branch}', allow_failure=True):
-+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++                self.execute(f'"{self.git}" pull {source} {branch}')
 +            Progress.GitCheckout()
  
          logger.hr('Show Version', 1)
@@ -46507,7 +46507,7 @@ index ea56c22..e631281 100644
      # Python
      PythonExecutable: str = "./toolkit/python.exe"
 diff --git a/deploy/git.py b/deploy/git.py
-index 669870a..0ec4ba8 100644
+index 669870a..def00ad 100644
 --- a/deploy/git.py
 +++ b/deploy/git.py
 @@ -23,7 +23,8 @@ class GitManager(DeployConfig):
@@ -46528,7 +46528,7 @@ index 669870a..0ec4ba8 100644
 -        self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 +        if keep_changes:
 +            if self.execute(f'"{self.git}" stash', allow_failure=True):
-+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++                self.execute(f'"{self.git}" pull {source} {branch}')
 +                if self.execute(f'"{self.git}" stash pop', allow_failure=True):
 +                    pass
 +                else:
@@ -46537,10 +46537,10 @@ index 669870a..0ec4ba8 100644
 +            else:
 +                logger.info('Stash failed, this may be the first installation, drop changes instead')
 +                self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++                self.execute(f'"{self.git}" pull {source} {branch}')
 +        else:
 +            self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-+            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
++            self.execute(f'"{self.git}" pull {source} {branch}')
  
          logger.hr('Show Version', 1)
          self.execute(f'"{self.git}" --no-pager log --no-merges -1')
