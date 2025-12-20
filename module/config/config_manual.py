@@ -8,7 +8,7 @@ class ManualConfig:
     def SERVER(self):
         return server.server
 
-    SCHEDULER_PRIORITY = """
+    _DEFAULT_SCHEDULER_PRIORITY = """
     Restart
     > OpsiCrossMonth
     > Commission > Tactical > Research
@@ -30,6 +30,21 @@ class ManualConfig:
     > GemsFarming
     > OpsiHazard1Leveling
     """
+
+    @property
+    def SCHEDULER_PRIORITY(self):
+        task_adj = None
+        try:
+            task_adj = self.cross_get(keys=["YukikazeTaskManager", "TaskPriorityAdjustment"], default=None)
+        except Exception:
+            task_adj = None
+
+        if not task_adj:
+            task_adj = getattr(self, "YukikazeTaskManager_TaskPriorityAdjustment", None)
+
+        if task_adj:
+            return str(task_adj) + "\n" + (self._DEFAULT_SCHEDULER_PRIORITY or "")
+        return self._DEFAULT_SCHEDULER_PRIORITY
 
     """
     module.assets
@@ -333,8 +348,6 @@ class ManualConfig:
     """
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0
-    OS_CL1_YELLOW_COINS_PRESERVE = 100000
-    OS_NORMAL_YELLOW_COINS_PRESERVE = 35000
     OS_NORMAL_PURPLE_COINS_PRESERVE = 100
 
     """

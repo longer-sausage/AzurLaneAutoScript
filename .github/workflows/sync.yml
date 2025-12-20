@@ -1,0 +1,103 @@
+name: Sync upstream and apply patch
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 */2 * * *"   # every 2 hours (UTC)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-master
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork (master)
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream and fetch
+        run: |
+          git remote add upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git || git remote set-url upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git
+          git fetch upstream --prune
+          git fetch origin master --prune
+          git fetch origin patches --prune
+
+      - name: Check if upstream changed (marker file)
+        id: check
+        shell: bash
+        run: |
+          UP="$(git rev-parse upstream/master)"
+          LAST=""
+          if [ -f ".upstream-sha" ]; then
+            LAST="$(cat .upstream-sha | tr -d '\r\n' || true)"
+          fi
+          echo "upstream=$UP"
+          echo "last=$LAST"
+          if [ -n "$LAST" ] && [ "$UP" = "$LAST" ]; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream update. Skip."
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "Upstream updated. Continue."
+          fi
+
+      - name: Load patch from patches branch
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git show origin/patches:patches/custom.patch > "$RUNNER_TEMP/custom.patch"
+          test -s "$RUNNER_TEMP/custom.patch"
+
+      - name: Backup .github from current master
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          if [ -d ".github" ]; then
+            rm -rf "$RUNNER_TEMP/.github"
+            cp -a ".github" "$RUNNER_TEMP/.github"
+          else
+            echo "Warning: .github not found on master."
+          fi
+
+      - name: Reset to upstream, restore .github, apply patch, update marker
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git checkout master
+          git pull --ff-only origin master
+          git reset --hard upstream/master
+          if [ -d "$RUNNER_TEMP/.github" ]; then
+            rm -rf ".github"
+            cp -a "$RUNNER_TEMP/.github" ".github"
+          fi
+          git apply --3way --whitespace=nowarn "$RUNNER_TEMP/custom.patch"
+          git rev-parse upstream/master > .upstream-sha
+
+      - name: Commit if changed
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Sync upstream + apply custom patch"
+          else
+            echo "No changes after applying patch."
+          fi
+
+      - name: Push to fork master
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git push --force-with-lease origin master

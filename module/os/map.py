@@ -63,7 +63,24 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
         # Init
         self.zone_init()
-
+        # CL1 hazard leveling pre-scan
+        #try:
+        #    if getattr(self, "is_in_task_cl1_leveling", False) or getattr(self, "is_cl1_enabled", False):
+        #        logger.info("Detected CL1 leveling on enter: run auto-search then full map rescan to clear events")
+        #        try:
+        #            self.run_auto_search(question=True, rescan='full', after_auto_search=True)
+        #        except CampaignEnd:
+        #        except RequestHumanTakeover:
+        #            logger.warning("Require human takeover during CL1 pre-scan, aborting auto-scan")
+        #        except Exception as e:
+        #            logger.exception(e)
+        #        try:
+        #            self.map_rescan(rescan_mode='full')
+        #        except Exception as e:
+        #            logger.exception(e)
+        #except Exception:
+        #    logger.debug("CL1 pre-scan check skipped due to unexpected condition")
+            
         # self.map_init()
         self.hp_reset()
         self.handle_after_auto_search()
@@ -435,7 +452,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         Keeping enough startup AP to run CL1.
         """
         if self.is_cl1_enabled and get_os_reset_remain() > 2 \
-                and self.get_yellow_coins() > self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                and self.get_yellow_coins() > self.config.OpsiHazard1Leveling_YellowCoinPreserve:
             logger.info('Keep 1000 AP when CL1 available')
             if not self.action_point_check(1000):
                 self.config.opsi_task_delay(cl1_preserve=True)
@@ -443,6 +460,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
     _auto_search_battle_count = 0
     _auto_search_round_timer = 0
+    _cl1_auto_search_battle_count = 0
 
     def on_auto_search_battle_count_reset(self):
         self._auto_search_battle_count = 0
@@ -451,14 +469,86 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def on_auto_search_battle_count_add(self):
         self._auto_search_battle_count += 1
         logger.attr('battle_count', self._auto_search_battle_count)
-        if self.is_in_task_cl1_leveling:
+        if getattr(self, 'is_in_task_cl1_leveling', False) and getattr(self, 'is_cl1_enabled', False):
+            try:
+                try:
+                    self._cl1_auto_search_battle_count += 1
+                except Exception:
+                    self._cl1_auto_search_battle_count = 1
+                logger.attr('cl1_battle_count', self._cl1_auto_search_battle_count)
+                try:
+                    self._cl1_increment_monthly(1)
+                except Exception:
+                    logger.debug('Failed to persist monthly CL1 battle increment', exc_info=True)
+            except Exception:
+                logger.debug('Failed to update cl1 battle counter', exc_info=True)
+
             if self._auto_search_battle_count % 2 == 1:
                 if self._auto_search_round_timer:
                     cost = round(time.time() - self._auto_search_round_timer, 2)
                     logger.attr('CL1 time cost', f'{cost}s/round')
                 self._auto_search_round_timer = time.time()
 
-    def os_auto_search_daemon(self, drop=None, strategic=False, skip_first_screenshot=True):
+    def get_current_cl1_battle_count(self):
+        return int(getattr(self, '_cl1_auto_search_battle_count', 0))
+
+    def _cl1_month_key(self, year: int = None, month: int = None) -> str:
+        from datetime import datetime
+        now = datetime.now()
+        if year is None:
+            year = now.year
+        if month is None:
+            month = now.month
+        return f"{year:04d}-{month:02d}"
+
+    def _cl1_monthly_file(self):
+        from pathlib import Path
+        project_root = Path(__file__).resolve().parents[2]
+        cl1_dir = project_root / 'log' / 'cl1'
+        try:
+            cl1_dir.mkdir(parents=True, exist_ok=True)
+            return cl1_dir / 'cl1_monthly.json'
+        except Exception:
+            log_dir = project_root / 'log'
+            log_dir.mkdir(parents=True, exist_ok=True)
+            return log_dir / 'cl1_monthly.json'
+
+    def _load_cl1_monthly(self):
+        import json
+        f = self._cl1_monthly_file()
+        if not f.exists():
+            return {}
+        try:
+            with f.open('r', encoding='utf-8') as fh:
+                return json.load(fh)
+        except Exception:
+            logger.exception('Failed to load CL1 monthly file, resetting data')
+            return {}
+
+    def _save_cl1_monthly(self, data):
+        import json
+        f = self._cl1_monthly_file()
+        try:
+            with f.open('w', encoding='utf-8') as fh:
+                json.dump(data, fh, ensure_ascii=False, indent=2)
+        except Exception:
+            logger.exception('Failed to save CL1 monthly file')
+
+    def _cl1_increment_monthly(self, delta: int = 1, year: int = None, month: int = None):
+        key = self._cl1_month_key(year=year, month=month)
+        data = self._load_cl1_monthly()
+        try:
+            data[key] = int(data.get(key, 0)) + int(delta)
+        except Exception:
+            data[key] = int(delta)
+        self._save_cl1_monthly(data)
+
+    def get_monthly_cl1_battle_count(self, year: int = None, month: int = None):
+        key = self._cl1_month_key(year=year, month=month)
+        data = self._load_cl1_monthly()
+        return int(data.get(key, 0))
+
+    def os_auto_search_daemon(self, drop=None, strategic=False, interrupt=None, skip_first_screenshot=True):
         """
         Args:
             drop (DropRecord):
@@ -831,11 +921,23 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if 'is_scanning_device' not in self._solved_map_event and grids and grids[0].is_scanning_device:
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
-            if self.is_in_task_cl1_leveling:
-                logger.info('In CL1 leveling, mark scanning device as solved')
+
+            # 检查是否开启研究装置交互
+            siren_research_enabled = False
+            try:
+                siren_research_enabled = bool(self.config.cross_get(
+                    keys='OpsiHazard1Leveling.OpsiHazard1Leveling.SirenResearch_Enable',
+                    default=False
+                ))
+            except Exception:
+                logger.warning('Failed to get SirenResearch config, disabled by default')
+                siren_research_enabled = False
+            
+            if not siren_research_enabled:
+                logger.info('SirenResearch disabled by config, skip scanning device')
                 self._solved_map_event.add('is_scanning_device')
                 return True
-
+                
             self.device.click(grid)
             with self.config.temporary(STORY_ALLOW_SKIP=False):
                 result = self.wait_until_walk_stable(
@@ -948,3 +1050,188 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.warning('Too many trial on map rescan, stop')
         self.fleet_set(self.config.OpsiFleet_Fleet)
         return False
+
+    def safe_swipe(self, start, end, duration=0.5, retries=2):
+        """
+        在多次滑动/重试场景下的安全滑动：
+         - 清理设备的卡住/点击历史记录
+         - 使用较长时长与间隔，减少被识别为无效滑动的概率
+        """
+        for attempt in range(1, retries + 1):
+            try:
+                try:
+                    self.device.stuck_record_clear()
+                except Exception:
+                    pass
+                self.device.swipe(start, end, duration=duration)
+                time.sleep(0.45)
+                return True
+            except Exception as e:
+                logger.warning(f'safe_swipe attempt {attempt} failed: {e}')
+                time.sleep(0.4)
+                continue
+        return False
+
+    # 基于ShaddockNH3极致侵蚀一的个人修改
+    def _execute_fixed_patrol_scan(self, ExecuteFixedPatrolScan: bool = False, **kwargs):
+        """
+        该函数在指挥每支舰队移动前，都会先执行一次强制的视角复位，
+        然后精确指挥1-4号舰队前往预设的网格坐标，并在所有舰队
+        移动到位后，执行一次清除了残留状态的全图扫描。
+        """
+        logger.hr('执行定点巡逻扫描')
+
+        if not ExecuteFixedPatrolScan:
+            logger.info('ExecuteFixedPatrolScan 未启用，跳过定点巡逻。')
+            return
+        logger.attr('ExecuteFixedPatrolScan', True)
+
+        self.map_init(map_=None)
+        if not hasattr(self, 'map') or not self.map.grids:
+            logger.warning('无法获取当前地图网格数据，已跳过定点巡逻。')
+            return
+
+        solved = getattr(self, '_solved_map_event', set())
+        if any(k in solved for k in ('is_akashi', 'is_scanning_device', 'is_logging_tower')):
+            logger.info('彩蛋：雪风大人保佑你，本次舰队移动已跳过')
+            return
+
+        patrol_locations = [(2, 0), (3, 0), (4, 0), (5, 0)]  # 对应 C1, D1, E1, F1
+
+        for i, target_loc in enumerate(patrol_locations):
+            fleet_index = i + 1
+
+            target_grid_group = self.map.select(location=target_loc)
+            if not target_grid_group:
+                logger.warning(f'在地图上找不到坐标为 {target_loc} 的格子，跳过舰队 {fleet_index} 的移动。')
+                continue
+            target_grid = target_grid_group[0]
+
+            logger.hr(f'定点巡逻: 指挥舰队 {fleet_index} 前往 {target_grid}', level=2)
+
+            self.fleet_set(fleet_index)
+
+            logger.info('执行视角复位，强制滑动到地图顶端...')
+
+            top_point = (640, 150)
+            bottom_point = (640, 600)
+            quick_ok = True
+            try:
+                for _ in range(2):
+                    self.device.swipe(top_point, bottom_point, duration=0.3)
+                    time.sleep(0.18)
+            except Exception:
+                quick_ok = False
+                logger.debug('快速滑动复位遇到异常，尝试安全滑动')
+
+            if not quick_ok:
+                if not self.safe_swipe(top_point, bottom_point, duration=0.55, retries=2):
+                    logger.warning('视角复位（安全滑动）失败，继续尝试下一步')
+                else:
+                    logger.info('视角复位（安全滑动）完成。')
+            else:
+                logger.info('快速滑动复位完成。')
+            time.sleep(0.45)
+
+            self.focus_to(target_grid.location)
+            self.update()
+            clickable_grid_group = self.view.select(location=target_loc)
+            if not clickable_grid_group:
+                logger.warning(f'已将视角移动到 {target_loc}，但在视野中找不到可点击的格子。')
+                continue
+
+            for try_idx in range(2):
+                try:
+                    try:
+                        self.device.stuck_record_clear()
+                    except Exception:
+                        pass
+                    time.sleep(0.1)
+                    self.device.click(clickable_grid_group[0])
+                    self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+                    logger.info(f'舰队 {fleet_index} 已到达 {target_grid}。')
+                    break
+                except (MapWalkError, GameTooManyClickError) as e:
+                    logger.warning(f'舰队移动异常: {e}，尝试强制恢复（{try_idx + 1}/2）')
+                    recovered = False
+                    try:
+                        recovered = self._force_move_recover(target_zone=self.zone if self.zone else None)
+                    except Exception:
+                        recovered = False
+                    if recovered:
+                        time.sleep(0.5)
+                        continue
+                    logger.warning('尝试软恢复（back / screenshot / rebuild view）')
+                    try:
+                        for _ in range(3):
+                            try:
+                                self.device.back()
+                            except Exception:
+                                pass
+                            time.sleep(0.25)
+                        self.device.screenshot()
+                        try:
+                            self.ui_ensure(page_os)
+                            self.map_init(map_=None)
+                            self.update()
+                        except Exception:
+                            logger.debug('重建视图失败（soft recovery）', exc_info=True)
+                        clickable_grid_group = self.view.select(location=target_loc)
+                        if clickable_grid_group:
+                            logger.info('软恢复后找到格子，重试点击')
+                            try:
+                                time.sleep(0.3)
+                                self.device.click(clickable_grid_group[0])
+                                self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+                                logger.info('软恢复成功，舰队已到达')
+                                break
+                            except Exception:
+                                logger.debug('软恢复重试点击失败', exc_info=True)
+                    except Exception as rec_e:
+                        logger.debug(f'软恢复过程出现异常: {rec_e}')
+                    if try_idx == 1:
+                        logger.warning('软恢复失败，尝试重启应用以恢复状态')
+                        try:
+                            self.device.app_stop()
+                            time.sleep(1.0)
+                            self.device.app_start()
+                            LoginHandler(self.config, self.device).handle_app_login()
+                            # 确保回到 OS 页并重建地图数据
+                            self.ui_ensure(page_os)
+                            time.sleep(0.8)
+                            try:
+                                self.map_init(map_=None)
+                                self.update()
+                            except Exception:
+                                logger.debug('重建地图数据失败（app restart）', exc_info=True)
+                            clickable_grid_group = self.view.select(location=target_loc)
+                            if clickable_grid_group:
+                                time.sleep(0.3)
+                                self.device.click(clickable_grid_group[0])
+                                self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+                                logger.info('重启应用后恢复成功，舰队已到达')
+                                break
+                        except Exception:
+                            logger.error('应用重启恢复失败，跳过该舰队并继续下一步', exc_info=True)
+                            # 不要求人工接管，继续后续流程（让外层循环接着处理下一个舰队或最终重扫）
+                            recovered = False
+                    time.sleep(0.5)
+
+        backup = self.config.temporary(OpsiGeneral_RepairThreshold=-1, Campaign_UseAutoSearch=False)
+        try:
+            logger.info('所有舰队已定点，执行最终全图重扫（双遍检查）')
+            self._solved_map_event = set()
+            for _ in range(2):
+                try:
+                    self.map_rescan(rescan_mode='full')
+                except Exception as e:
+                    logger.debug(f'最终全图重扫出现异常，继续重试: {e}', exc_info=True)
+                    time.sleep(0.6)
+        finally:
+            backup.recover()
+
+        logger.info('执行一次自律寻敌以清理可能的装置')
+        try:
+            self.run_auto_search(question=True, rescan=None, after_auto_search=True)
+        except Exception as e:
+            logger.warning(f'自律寻敌过程出现异常: {e}')            

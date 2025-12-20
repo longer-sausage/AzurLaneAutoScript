@@ -9,6 +9,69 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
+    # Group `Oil`
+    Oil_Value = 0
+    Oil_Limit = 0
+    Oil_Color = '^000000'
+    Oil_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Coin`
+    Coin_Value = 0
+    Coin_Limit = 0
+    Coin_Color = '^FFAA33'
+    Coin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Gem`
+    Gem_Value = 0
+    Gem_Color = '^FF3333'
+    Gem_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Pt`
+    Pt_Value = 0
+    Pt_Color = '^00BFFF'
+    Pt_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `YellowCoin`
+    YellowCoin_Value = 0
+    YellowCoin_Color = '^FF8800'
+    YellowCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `PurpleCoin`
+    PurpleCoin_Value = 0
+    PurpleCoin_Color = '^7700BB'
+    PurpleCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `ActionPoint`
+    ActionPoint_Value = 0
+    ActionPoint_Total = 0
+    ActionPoint_Color = '^0000FF'
+    ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Merit`
+    Merit_Value = 0
+    Merit_Color = '^FFFF00'
+    Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Cube`
+    Cube_Value = 0
+    Cube_Color = '^33FFFF'
+    Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Core`
+    Core_Value = 0
+    Core_Color = '^AAAAAA'
+    Core_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Medal`
+    Medal_Value = 0
+    Medal_Color = '^FFDD00'
+    Medal_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `GuildCoin`
+    GuildCoin_Value = 0
+    GuildCoin_Color = '^AAAAAA'
+    GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
     # Group `Scheduler`
     Scheduler_Enable = False  # True, False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
@@ -56,6 +119,9 @@ class GeneratedConfig:
 
     # Group `Retirement`
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire
+
+    # Group `TaskManager`
+    YukikazeTaskManager_TaskPriorityAdjustment = 'Restart\n> OpsiCrossMonth\n> Commission > Tactical > Research\n> Exercise\n> Dorm > Meowfficer > Guild > Gacha\n> Reward\n> ShopFrequent > ShopOnce > Shipyard > Freebies\n> PrivateQuarters\n> OpsiExplore\n> Minigame > Awaken\n> OpsiAshBeacon\n> OpsiDaily > OpsiShop > OpsiVoucher\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss\n> Sos > EventSp > EventA > EventB > EventC > EventD\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > Main > Main2 > Main3\n> OpsiMeowfficerFarming\n> GemsFarming\n> OpsiHazard1Leveling'
 
     # Group `OneClickRetire`
     OneClickRetire_KeepLimitBreak = 'keep_limit_break'  # keep_limit_break, do_not_keep
@@ -148,9 +214,11 @@ class GeneratedConfig:
     C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
+    GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
-    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship
+    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
     GemsFarming_CommonDD = 'any'  # any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21
+    GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_CommissionLimit = True
 
     # Group `EventGeneral`
@@ -431,9 +499,15 @@ class GeneratedConfig:
     OpsiMeowfficerFarming_ActionPointPreserve = 1000
     OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
     OpsiMeowfficerFarming_TargetZone = 0
+    OpsiMeowfficerFarming_StayInZone = False
 
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
+    OpsiHazard1Leveling_YellowCoinPreserve = 100000    
+    OpsiHazard1Leveling_SirenResearch_Enable = False
+    OpsiHazard1Leveling_MinimumActionPointReserve = 200   
+    OpsiHazard1Leveling_ExecuteFixedPatrolScan = False
+    OpsiHazard1Leveling_Cl1Filter = 'ActionPoint > PurpleCoins'
 
     # Group `Daemon`
     Daemon_EnterMap = True
