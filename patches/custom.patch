@@ -1,6 +1,6 @@
-From 759f4e7def377639120b3bdd7662d9e70470a654 Mon Sep 17 00:00:00 2001
+From 83fd20dc1e825b49280aa201a1126ed6957ef7f0 Mon Sep 17 00:00:00 2001
 From: longer-sausage <longer-sausage@outlook.com>
-Date: Sat, 20 Dec 2025 22:53:18 +0800
+Date: Tue, 6 Jan 2026 02:35:23 +0800
 Subject: [PATCH] custom changes
 
 ---
@@ -120,7 +120,6 @@ Subject: [PATCH] custom changes
  module/campaign/os_run.py                     |   2 +-
  module/campaign/run.py                        |  17 +-
  module/combat/auto_search_combat.py           |   2 +-
- module/combat/combat.py                       |   2 -
  module/combat_ui/assets.py                    |   1 -
  module/config/argument/args.json              | 288 +++++-
  module/config/argument/argument.yaml          |  98 +-
@@ -144,7 +143,6 @@ Subject: [PATCH] custom changes
  module/device/screenshot.py                   | 167 ++-
  module/equipment/assets.py                    |  15 +
  module/equipment/equipment_code.py            | 276 +++++
- module/exercise/hp_daemon.py                  |   1 -
  module/gacha/gacha_reward.py                  |  12 +-
  module/handler/login.py                       |  47 +-
  module/log_res/log_res.py                     |  69 ++
@@ -166,7 +164,7 @@ Subject: [PATCH] custom changes
  module/webui/setting.py                       |  43 +
  module/webui/utils.py                         |  28 +-
  module/webui/widgets.py                       |  12 +
- 162 files changed, 5433 insertions(+), 329 deletions(-)
+ 160 files changed, 5433 insertions(+), 326 deletions(-)
  create mode 100644 alas.bat
  create mode 100644 assets/cn/campaign/OCR_COIN_LIMIT.png
  create mode 100644 assets/cn/campaign/OCR_GEM.png
@@ -46094,7 +46092,7 @@ index a3b8dbc..8b725e9 100644
    Python:
      # Filepath of python executable `python.exe`
 diff --git a/config/template.json b/config/template.json
-index 801cd23..a1799f5 100644
+index a9b8a5b..bc667a8 100644
 --- a/config/template.json
 +++ b/config/template.json
 @@ -1,4 +1,72 @@
@@ -47026,24 +47024,11 @@ index 5dbf433..9937fb8 100644
              if oil == 0:
                  logger.warning('Oil not found')
              else:
-diff --git a/module/combat/combat.py b/module/combat/combat.py
-index ffeb42c..12f1cde 100644
---- a/module/combat/combat.py
-+++ b/module/combat/combat.py
-@@ -119,8 +119,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
-             return PAUSE_Seaside
-         if PAUSE_Ninja.match_template_color(self.device.image, offset=(10, 10)):
-             return PAUSE_Ninja
--        if PAUSE_ShadowPuppetry.match_luma(self.device.image, offset=(10, 10)):
--            return PAUSE_ShadowPuppetry
-         return False
- 
-     def handle_combat_quit(self, offset=(20, 20), interval=3):
 diff --git a/module/combat_ui/assets.py b/module/combat_ui/assets.py
-index 109bc45..0f33b2e 100644
+index f66c58f..664f0d6 100644
 --- a/module/combat_ui/assets.py
 +++ b/module/combat_ui/assets.py
-@@ -17,7 +17,6 @@ PAUSE_Ninja = Button(area={'cn': (1230, 37, 1246, 53), 'en': (1230, 37, 1246, 53
+@@ -18,7 +18,6 @@ PAUSE_Ninja = Button(area={'cn': (1230, 37, 1246, 53), 'en': (1230, 37, 1246, 53
  PAUSE_Nurse = Button(area={'cn': (1236, 33, 1251, 50), 'en': (1236, 33, 1251, 50), 'jp': (1236, 33, 1251, 50), 'tw': (1236, 33, 1251, 50)}, color={'cn': (200, 206, 209), 'en': (200, 206, 209), 'jp': (200, 206, 209), 'tw': (200, 206, 209)}, button={'cn': (1236, 33, 1251, 50), 'en': (1236, 33, 1251, 50), 'jp': (1236, 33, 1251, 50), 'tw': (1236, 33, 1251, 50)}, file={'cn': './assets/cn/combat_ui/PAUSE_Nurse.png', 'en': './assets/cn/combat_ui/PAUSE_Nurse.png', 'jp': './assets/cn/combat_ui/PAUSE_Nurse.png', 'tw': './assets/cn/combat_ui/PAUSE_Nurse.png'})
  PAUSE_Pharaoh = Button(area={'cn': (1229, 55, 1259, 62), 'en': (1229, 55, 1259, 62), 'jp': (1229, 55, 1259, 62), 'tw': (1229, 55, 1259, 62)}, color={'cn': (164, 119, 78), 'en': (164, 119, 78), 'jp': (164, 119, 78), 'tw': (164, 119, 78)}, button={'cn': (1229, 55, 1259, 62), 'en': (1229, 55, 1259, 62), 'jp': (1229, 55, 1259, 62), 'tw': (1229, 55, 1259, 62)}, file={'cn': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'en': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'jp': './assets/cn/combat_ui/PAUSE_Pharaoh.png', 'tw': './assets/cn/combat_ui/PAUSE_Pharaoh.png'})
  PAUSE_Seaside = Button(area={'cn': (1214, 31, 1239, 59), 'en': (1214, 31, 1239, 59), 'jp': (1214, 31, 1239, 59), 'tw': (1214, 31, 1239, 59)}, color={'cn': (172, 196, 212), 'en': (172, 196, 212), 'jp': (172, 196, 212), 'tw': (172, 196, 212)}, button={'cn': (1214, 31, 1239, 59), 'en': (1214, 31, 1239, 59), 'jp': (1214, 31, 1239, 59), 'tw': (1214, 31, 1239, 59)}, file={'cn': './assets/cn/combat_ui/PAUSE_Seaside.png', 'en': './assets/cn/combat_ui/PAUSE_Seaside.png', 'jp': './assets/cn/combat_ui/PAUSE_Seaside.png', 'tw': './assets/cn/combat_ui/PAUSE_Seaside.png'})
@@ -47052,7 +47037,7 @@ index 109bc45..0f33b2e 100644
  QUIT = Button(area={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, color={'cn': (199, 122, 114), 'en': (216, 168, 164), 'jp': (196, 120, 113), 'tw': (200, 126, 118)}, button={'cn': (420, 490, 593, 548), 'en': (473, 508, 567, 532), 'jp': (433, 490, 606, 547), 'tw': (433, 490, 606, 547)}, file={'cn': './assets/cn/combat_ui/QUIT.png', 'en': './assets/en/combat_ui/QUIT.png', 'jp': './assets/jp/combat_ui/QUIT.png', 'tw': './assets/tw/combat_ui/QUIT.png'})
  QUIT_Christmas = Button(area={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, color={'cn': (195, 139, 166), 'en': (207, 166, 185), 'jp': (195, 139, 166), 'tw': (195, 139, 166)}, button={'cn': (400, 506, 477, 525), 'en': (410, 507, 469, 524), 'jp': (400, 506, 477, 525), 'tw': (400, 506, 477, 525)}, file={'cn': './assets/cn/combat_ui/QUIT_Christmas.png', 'en': './assets/en/combat_ui/QUIT_Christmas.png', 'jp': './assets/cn/combat_ui/QUIT_Christmas.png', 'tw': './assets/cn/combat_ui/QUIT_Christmas.png'})
 diff --git a/module/config/argument/args.json b/module/config/argument/args.json
-index dc37419..c9aca58 100644
+index c20adc3..a726b17 100644
 --- a/module/config/argument/args.json
 +++ b/module/config/argument/args.json
 @@ -1,4 +1,206 @@
@@ -47312,7 +47297,7 @@ index dc37419..c9aca58 100644
        "CommissionLimit": {
          "type": "checkbox",
          "value": true
-@@ -1821,6 +2043,46 @@
+@@ -1819,6 +2041,46 @@
          "display": "display"
        }
      },
@@ -47359,7 +47344,7 @@ index dc37419..c9aca58 100644
      "Storage": {
        "Storage": {
          "type": "storage",
-@@ -9039,6 +9301,10 @@
+@@ -9028,6 +9290,10 @@
        "TargetZone": {
          "type": "input",
          "value": 0
@@ -47370,7 +47355,7 @@ index dc37419..c9aca58 100644
        }
      },
      "OpsiFleet": {
-@@ -9111,6 +9377,26 @@
+@@ -9100,6 +9366,26 @@
            44,
            22
          ]
@@ -47880,7 +47865,7 @@ index 761363d..2e1d3b7 100644
              groups.append('Storage')
              for group in groups:
 diff --git a/module/config/i18n/en-US.json b/module/config/i18n/en-US.json
-index a44582f..1d85fa7 100644
+index 4ea89bd..70040e3 100644
 --- a/module/config/i18n/en-US.json
 +++ b/module/config/i18n/en-US.json
 @@ -279,6 +279,234 @@
@@ -48135,7 +48120,7 @@ index a44582f..1d85fa7 100644
    "OneClickRetire": {
      "_info": {
        "name": "One-click Retire Settings",
-@@ -1181,6 +1419,12 @@
+@@ -1182,6 +1420,12 @@
        "name": "Commission Farming Settings",
        "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
      },
@@ -48148,7 +48133,7 @@ index a44582f..1d85fa7 100644
      "CommonCV": {
        "name": "Flagship Common CV/CVL Preference",
        "help": "",
-@@ -1194,7 +1438,8 @@
+@@ -1195,7 +1439,8 @@
        "name": "Change Vanguard",
        "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
        "disabled": "Don't Change",
@@ -48158,7 +48143,7 @@ index a44582f..1d85fa7 100644
      },
      "CommonDD": {
        "name": "Flagship Common DD Preference",
-@@ -1205,6 +1450,10 @@
+@@ -1206,6 +1451,10 @@
        "cassin_or_downes": "Cassin or Downes",
        "z20_or_z21": "Z20 or Z21"
      },
@@ -48169,7 +48154,7 @@ index a44582f..1d85fa7 100644
      "CommissionLimit": {
        "name": "Prevent Too Many Urgent Commissions",
        "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
-@@ -2526,6 +2775,10 @@
+@@ -2527,6 +2776,10 @@
      "TargetZone": {
        "name": "Target Zone ID",
        "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
@@ -48180,7 +48165,7 @@ index a44582f..1d85fa7 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2539,6 +2792,26 @@
+@@ -2540,6 +2793,26 @@
        "0": "No Specification",
        "44": "44 | West Continental Shelf D",
        "22": "22 | NA Ocean SW Sector B"
@@ -48207,7 +48192,7 @@ index a44582f..1d85fa7 100644
      }
    },
    "Daemon": {
-@@ -2643,6 +2916,8 @@
+@@ -2644,6 +2917,8 @@
        "Stop": "Stop",
        "ScrollON": "Auto Scroll ON",
        "ScrollOFF": "Auto Scroll OFF",
@@ -48216,7 +48201,7 @@ index a44582f..1d85fa7 100644
        "ClearLog": "Clear Log",
        "Setting": "Setting",
        "CheckUpdate": "Check update",
-@@ -2675,6 +2950,26 @@
+@@ -2676,6 +2951,26 @@
      },
      "Overview": {
        "Scheduler": "Scheduler",
@@ -48244,7 +48229,7 @@ index a44582f..1d85fa7 100644
        "Running": "Running",
        "Pending": "Pending",
 diff --git a/module/config/i18n/ja-JP.json b/module/config/i18n/ja-JP.json
-index 1818350..d28ec2e 100644
+index fc05ef5..f6934ea 100644
 --- a/module/config/i18n/ja-JP.json
 +++ b/module/config/i18n/ja-JP.json
 @@ -279,6 +279,234 @@
@@ -48499,7 +48484,7 @@ index 1818350..d28ec2e 100644
    "OneClickRetire": {
      "_info": {
        "name": "OneClickRetire._info.name",
-@@ -1181,6 +1419,12 @@
+@@ -1182,6 +1420,12 @@
        "name": "GemsFarming._info.name",
        "help": "GemsFarming._info.help"
      },
@@ -48512,7 +48497,7 @@ index 1818350..d28ec2e 100644
      "CommonCV": {
        "name": "GemsFarming.CommonCV.name",
        "help": "GemsFarming.CommonCV.help",
-@@ -1194,7 +1438,8 @@
+@@ -1195,7 +1439,8 @@
        "name": "GemsFarming.ChangeVanguard.name",
        "help": "GemsFarming.ChangeVanguard.help",
        "disabled": "disabled",
@@ -48522,7 +48507,7 @@ index 1818350..d28ec2e 100644
      },
      "CommonDD": {
        "name": "GemsFarming.CommonDD.name",
-@@ -1205,6 +1450,10 @@
+@@ -1206,6 +1451,10 @@
        "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
        "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
      },
@@ -48533,7 +48518,7 @@ index 1818350..d28ec2e 100644
      "CommissionLimit": {
        "name": "GemsFarming.CommissionLimit.name",
        "help": "GemsFarming.CommissionLimit.help"
-@@ -2526,6 +2775,10 @@
+@@ -2527,6 +2776,10 @@
      "TargetZone": {
        "name": "OpsiMeowfficerFarming.TargetZone.name",
        "help": "OpsiMeowfficerFarming.TargetZone.help"
@@ -48544,7 +48529,7 @@ index 1818350..d28ec2e 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2539,6 +2792,26 @@
+@@ -2540,6 +2793,26 @@
        "0": "0",
        "44": "44",
        "22": "22"
@@ -48571,7 +48556,7 @@ index 1818350..d28ec2e 100644
      }
    },
    "Daemon": {
-@@ -2643,6 +2916,8 @@
+@@ -2644,6 +2917,8 @@
        "Stop": "中止",
        "ScrollON": "自動スクロール ON",
        "ScrollOFF": "自動スクロール OFF",
@@ -48580,7 +48565,7 @@ index 1818350..d28ec2e 100644
        "ClearLog": "ログクリーニング",
        "Setting": "設定",
        "CheckUpdate": "アップデータチェック",
-@@ -2675,6 +2950,26 @@
+@@ -2676,6 +2951,26 @@
      },
      "Overview": {
        "Scheduler": "スケジューラー",
@@ -48608,7 +48593,7 @@ index 1818350..d28ec2e 100644
        "Running": "実行中",
        "Pending": "隊列中",
 diff --git a/module/config/i18n/zh-CN.json b/module/config/i18n/zh-CN.json
-index 8237150..ea0a7ed 100644
+index fda7716..df3b05c 100644
 --- a/module/config/i18n/zh-CN.json
 +++ b/module/config/i18n/zh-CN.json
 @@ -43,7 +43,7 @@
@@ -48881,7 +48866,7 @@ index 8237150..ea0a7ed 100644
        "help": "例如 7-2, 12-4, D3, SP4，不区分大小写\n若关卡缺失，请等待更新"
      },
      "Event": {
-@@ -1181,6 +1419,12 @@
+@@ -1182,6 +1420,12 @@
        "name": "刷紧急委托",
        "help": "警告: 这个功能可以让玩家获取少量的钻石，但不是一个能高效获取钻石的方法\n玩碧蓝航线不久的玩家, 很容易迷信零破和低耗等, 而忽视了角色养成\n运行这个功能只会让你自己感觉很充实, 而你的帐号实际零提升\n这个功能的主要用途，是让阵容成型的玩家获取额外的魔方，请理性地把钻石当作副产物\n\n这个功能将在旗舰32级之后更换旗舰\n关于紧急委托刷新机制, 可阅读 https://bbs.nga.cn/read.php?tid=27134956\n委托油耗比: A3 > A1 > 2-4 > 2-1, 有活动图时建议选活动图, 2-1会拣问号有更多物资\n一队会完成所有的战斗, 前排应当为百级零破驱逐带输出装, 后排应该为33级及以下白皮零破航母\n二队应提供跨队支援（跨队弹幕、跨队辅助）"
      },
@@ -48894,7 +48879,7 @@ index 8237150..ea0a7ed 100644
      "CommonCV": {
        "name": "指定旗舰航母",
        "help": "",
-@@ -1194,7 +1438,8 @@
+@@ -1195,7 +1439,8 @@
        "name": "更换前排",
        "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于10、等级100的白鹰或铁血的白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。前排会更换全部5个装备。",
        "disabled": "不更换",
@@ -48904,7 +48889,7 @@ index 8237150..ea0a7ed 100644
      },
      "CommonDD": {
        "name": "指定前排",
-@@ -1205,6 +1450,10 @@
+@@ -1206,6 +1451,10 @@
        "cassin_or_downes": "卡辛或唐斯",
        "z20_or_z21": "Z20或Z21"
      },
@@ -48915,7 +48900,7 @@ index 8237150..ea0a7ed 100644
      "CommissionLimit": {
        "name": "防止紧急委托数量过多",
        "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
-@@ -2526,6 +2775,10 @@
+@@ -2527,6 +2776,10 @@
      "TargetZone": {
        "name": "指定海域",
        "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
@@ -48926,7 +48911,7 @@ index 8237150..ea0a7ed 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2539,6 +2792,26 @@
+@@ -2540,6 +2793,26 @@
        "0": "不指定",
        "44": "44 | 西大陆架D",
        "22": "22 | NA海域西南B"
@@ -48953,7 +48938,7 @@ index 8237150..ea0a7ed 100644
      }
    },
    "Daemon": {
-@@ -2643,6 +2916,8 @@
+@@ -2644,6 +2917,8 @@
        "Stop": "停止",
        "ScrollON": "自动滚动 开",
        "ScrollOFF": "自动滚动 关",
@@ -48962,7 +48947,7 @@ index 8237150..ea0a7ed 100644
        "ClearLog": "清空日志",
        "Setting": "设置",
        "CheckUpdate": "检查更新",
-@@ -2654,11 +2929,11 @@
+@@ -2655,11 +2930,11 @@
        "DisableTranslateMode": "点击这里关闭翻译模式",
        "ConfigSaved": "设置已保存",
        "AlasIsRunning": "调度器已在运行中",
@@ -48977,7 +48962,7 @@ index 8237150..ea0a7ed 100644
        "Warning": "发生错误",
        "Updating": "等待更新"
      },
-@@ -2675,11 +2950,32 @@
+@@ -2676,11 +2951,32 @@
      },
      "Overview": {
        "Scheduler": "调度器",
@@ -49012,7 +48997,7 @@ index 8237150..ea0a7ed 100644
      "AddAlas": {
        "PopupTitle": "添加新配置",
 diff --git a/module/config/i18n/zh-TW.json b/module/config/i18n/zh-TW.json
-index 15e3c7e..7114c05 100644
+index 18cb5da..2b13006 100644
 --- a/module/config/i18n/zh-TW.json
 +++ b/module/config/i18n/zh-TW.json
 @@ -279,6 +279,234 @@
@@ -49267,7 +49252,7 @@ index 15e3c7e..7114c05 100644
    "OneClickRetire": {
      "_info": {
        "name": "一鍵退役設定",
-@@ -1181,6 +1419,12 @@
+@@ -1182,6 +1420,12 @@
        "name": "刷緊急委託",
        "help": "警告：這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家，很容易迷信零破和低耗等，而忽視了角色養成\n執行這個功能只會讓你自己感覺很充實，而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制，可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1，有活動圖時建議選活動圖，2-1會撿問號有更多物資\n一隊會完成所有的戰鬥，前排應當為百級零破驅逐帶輸出裝，後排應該為33級及以下白船零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）"
      },
@@ -49280,7 +49265,7 @@ index 15e3c7e..7114c05 100644
      "CommonCV": {
        "name": "指定旗艦航母",
        "help": "",
-@@ -1194,7 +1438,8 @@
+@@ -1195,7 +1439,8 @@
        "name": "更換前排",
        "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹或鐵血的白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。前排會更換全部5個裝備。",
        "disabled": "不更换",
@@ -49290,7 +49275,7 @@ index 15e3c7e..7114c05 100644
      },
      "CommonDD": {
        "name": "指定前排",
-@@ -1205,6 +1450,10 @@
+@@ -1206,6 +1451,10 @@
        "cassin_or_downes": "卡辛或唐斯",
        "z20_or_z21": "Z20或Z21"
      },
@@ -49301,7 +49286,7 @@ index 15e3c7e..7114c05 100644
      "CommissionLimit": {
        "name": "防止緊急委託數量過多",
        "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
-@@ -2526,6 +2775,10 @@
+@@ -2527,6 +2776,10 @@
      "TargetZone": {
        "name": "指定海域",
        "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
@@ -49312,7 +49297,7 @@ index 15e3c7e..7114c05 100644
      }
    },
    "OpsiHazard1Leveling": {
-@@ -2539,6 +2792,26 @@
+@@ -2540,6 +2793,26 @@
        "0": "不指定",
        "44": "44 | 西大陸棚D",
        "22": "22 | NA海域西南B"
@@ -49339,7 +49324,7 @@ index 15e3c7e..7114c05 100644
      }
    },
    "Daemon": {
-@@ -2643,6 +2916,8 @@
+@@ -2644,6 +2917,8 @@
        "Stop": "停止",
        "ScrollON": "自動滾動 開",
        "ScrollOFF": "自動滾動 關",
@@ -49348,7 +49333,7 @@ index 15e3c7e..7114c05 100644
        "ClearLog": "清空日誌",
        "Setting": "設定",
        "CheckUpdate": "檢查更新",
-@@ -2675,6 +2950,26 @@
+@@ -2676,6 +2951,26 @@
      },
      "Overview": {
        "Scheduler": "調度器",
@@ -50065,18 +50050,6 @@ index 0000000..d480b49
 +        raise RequestHumanTakeover(
 +            f'Failed to apply equipment for {ship}, please check manually.'
 +        )
-diff --git a/module/exercise/hp_daemon.py b/module/exercise/hp_daemon.py
-index 7dbe30b..eff6288 100644
---- a/module/exercise/hp_daemon.py
-+++ b/module/exercise/hp_daemon.py
-@@ -74,7 +74,6 @@ class HpDaemon(ModuleBase):
-             PAUSE_Seaside,
-             PAUSE_Star,
-             PAUSE_Ninja,
--            PAUSE_ShadowPuppetry
-         ]:
-             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
-             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
 diff --git a/module/gacha/gacha_reward.py b/module/gacha/gacha_reward.py
 index 41c1af1..7bedcc5 100644
 --- a/module/gacha/gacha_reward.py
