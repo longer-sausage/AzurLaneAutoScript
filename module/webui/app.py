@@ -1,9 +1,13 @@
+import os
+import re
 import argparse
 import json
 import queue
 import threading
 import time
-from datetime import datetime
+import re
+from datetime import datetime, timedelta
+from pathlib import Path
 from functools import partial
 from typing import Dict, List, Optional
 
@@ -51,6 +55,8 @@ from module.config.utils import (
     filepath_config,
     read_file,
 )
+from module.config.utils import time_delta
+from module.log_res.log_res import LogRes
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -73,6 +79,7 @@ from module.webui.utils import (
     filepath_css,
     get_alas_config_listen_path,
     get_localstorage,
+    set_localstorage,
     get_window_visibility_state,
     login,
     parse_pin_value,
@@ -95,10 +102,34 @@ patch_mimetype()
 task_handler = TaskHandler()
 
 
+def timedelta_to_text(delta=None):
+    time_delta_name_suffix_dict = {
+        'Y': 'YearsAgo',
+        'M': 'MonthsAgo',
+        'D': 'DaysAgo',
+        'h': 'HoursAgo',
+        'm': 'MinutesAgo',
+        's': 'SecondsAgo',
+    }
+    time_delta_name_prefix = 'Gui.Overview.'
+    time_delta_name_suffix = 'NoData'
+    time_delta_display = ''
+    if isinstance(delta, dict):
+        for _key in delta:
+            if delta[_key]:
+                time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                time_delta_display = delta[_key]
+                break
+    time_delta_display = str(time_delta_display)
+    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+    return time_delta_display + t(time_delta_name)
+
+
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
+    _log = RichLog
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
@@ -119,6 +150,7 @@ class AlasGUI(Frame):
         self.inst_cache = []
         self.load_home = False
         self.af_flag = False
+        self.last_displayed_screenshot_base64 = None
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -220,7 +252,8 @@ class AlasGUI(Frame):
         cls.theme = theme
         State.deploy_config.Theme = theme
         State.theme = theme
-        webconfig(theme=theme)
+        pywebio_theme = theme if theme in ("default", "dark", "light") else "dark"
+        webconfig(theme=pywebio_theme)
 
     @use_scope("menu", clear=True)
     def alas_set_menu(self) -> None:
@@ -290,6 +323,188 @@ class AlasGUI(Frame):
         self.init_menu(name=task)
         self.set_title(t(f"Task.{task}.name"))
 
+        if task in ("OpsiHazard1Leveling",):
+            def _render_opsi_stats():
+                try:
+                    from module.statistics.opsi_month import get_opsi_stats, compute_monthly_cl1_akashi_ap
+
+                    s = get_opsi_stats().summary()
+                except Exception as e:
+                    with use_scope("opsi_stats", clear=True):
+                        put_text(f"Failed to load OpSi stats: {e}")
+                    return
+
+                labels = ["月份", "战斗场次", "战斗轮次", "出击消耗", "遇见明石次数", "遇见明石概率", "平均体力", "净赚体力", "循环效率"]
+                month = s.get("month", "-")
+                total = s.get("total_battles", "-")
+                try:
+                    tb = int(total)
+                    rounds = (tb + 1) // 2
+                    sortie_cost = rounds * 5
+                except Exception:
+                    tb = total
+                    rounds = "-"
+                    sortie_cost = "-"
+
+                akashi = s.get("akashi_encounters", 0)
+                try:
+                    ak = int(akashi)
+                except Exception:
+                    ak = akashi
+
+                try:
+                    if isinstance(rounds, int) and rounds > 0:
+                        rate = float(ak) / float(rounds)
+                        akashi_rate = f"{rate * 100:.2f}%"
+                    else:
+                        akashi_rate = "-"
+                except Exception:
+                    akashi_rate = "-"
+
+                try:
+                    ap_bought = compute_monthly_cl1_akashi_ap()
+                except Exception:
+                    ap_bought = "-"
+
+                try:
+                    if isinstance(ap_bought, (int, float)) and isinstance(ak, int) and ak > 0:
+                        avg_ap = int(float(ap_bought) / ak + 0.5)
+                    else:
+                        try:
+                            ap_tmp = int(ap_bought)
+                            if isinstance(ak, int) and ak > 0:
+                                avg_ap = int(ap_tmp / ak + 0.5)
+                            else:
+                                avg_ap = "-"
+                        except Exception:
+                            avg_ap = "-"
+                except Exception:
+                    avg_ap = "-"
+
+                try:
+                    net_ap = int(ap_bought) - int(sortie_cost)
+                except Exception:
+                    net_ap = "-"
+
+                try:
+                    eff = int(net_ap) / int(sortie_cost) * 100
+                    loop_eff = f"{eff:.2f}%"
+                except Exception:
+                    loop_eff = "-"
+
+                values = [month, tb, rounds, sortie_cost, ak, akashi_rate, avg_ap, net_ap, loop_eff]
+
+                table = [labels, values]
+
+                with use_scope("opsi_stats", clear=True):
+                    put_html('<div style="margin-top:12px; margin-bottom:8px; font-weight:600">雪风大人的侵蚀一数据收集</div>')
+                    put_row([put_text(f"当月购买体力: {ap_bought}")])
+                    html = '<table style="width:100%; border-collapse:collapse;">'
+                    html += '<thead><tr>' + ''.join([f'<th style="text-align:left;padding:6px">{l}</th>' for l in labels]) + '</tr></thead>'
+                    html += '<tbody><tr>' + ''.join([f'<td style="text-align:center;padding:6px">{v}</td>' for v in values]) + '</tr></tbody>'
+                    html += '</table>'
+                    put_html(html)
+                    def export_opsi_csv(save_to_desktop: bool = True):
+                        import io
+                        try:
+                            from module.statistics.opsi_month import get_opsi_stats, compute_monthly_cl1_akashi_ap
+                        except Exception as e:
+                            toast(f"导出失败：无法加载统计模块：{e}", color="error")
+                            return
+
+                        try:
+                            s_local = get_opsi_stats().summary() or {}
+                        except Exception:
+                            s_local = {}
+
+                        month_local = s_local.get("month") or datetime.now().strftime("%Y-%m")
+                        total_battles_local = int(s_local.get("total_battles") or 0)
+                        total_rounds_local = int(s_local.get("total_rounds") or ((total_battles_local + 1) // 2))
+                        ap_spent_local = int(s_local.get("ap_spent") or (total_rounds_local * 5))
+                        akashi_count_local = int(s_local.get("akashi_encounters") or s_local.get("akashi_count") or 0)
+
+                        if "akashi_percent" in s_local:
+                            try:
+                                akashi_percent_local = float(s_local.get("akashi_percent") or 0)
+                            except Exception:
+                                akashi_percent_local = 0.0
+                        elif total_rounds_local > 0:
+                            akashi_percent_local = (akashi_count_local / total_rounds_local) * 100
+                        else:
+                            akashi_percent_local = 0.0
+
+                        try:
+                            purchased_local = compute_monthly_cl1_akashi_ap() or 0
+                        except Exception:
+                            purchased_local = 0
+
+                        if akashi_count_local > 0:
+                            try:
+                                avg_ap_local = int(float(purchased_local) / akashi_count_local + 0.5)
+                            except Exception:
+                                avg_ap_local = "-"
+                        else:
+                            avg_ap_local = "-"
+
+                        try:
+                            net_ap_local = int((purchased_local or 0) - ap_spent_local)
+                        except Exception:
+                            net_ap_local = "-"
+
+                        if isinstance(net_ap_local, (int, float)) and ap_spent_local:
+                            try:
+                                eff_local = (net_ap_local / ap_spent_local) * 100
+                            except Exception:
+                                eff_local = "-"
+                        else:
+                            eff_local = "-"
+
+                        labels_local = ["月份", "战斗场次", "战斗轮次", "出击消耗", "遇见明石次数", "遇见明石概率(%)", "平均体力", "净赚体力", "循环效率(%)", "当月购买体力"]
+                        values_local = [
+                            month_local,
+                            total_battles_local,
+                            total_rounds_local,
+                            ap_spent_local,
+                            akashi_count_local,
+                            f"{akashi_percent_local:.2f}" if isinstance(akashi_percent_local, (int, float)) else akashi_percent_local,
+                            avg_ap_local,
+                            net_ap_local,
+                            f"{eff_local:.2f}" if isinstance(eff_local, (int, float)) else eff_local,
+                            purchased_local,
+                        ]
+
+                        output = io.StringIO()
+                        output.write(','.join(labels_local) + "\n")
+                        def _escape(cell):
+                            s = str(cell)
+                            if ',' in s or '"' in s or '\n' in s:
+                                s = '"' + s.replace('"', '""') + '"'
+                            return s
+                        output.write(','.join([_escape(c) for c in values_local]) + "\n")
+                        csv_bytes = output.getvalue().encode('utf-8-sig')
+
+                        filename_local = f"侵蚀1练级_{month_local}_详细数据.csv"
+
+                        if save_to_desktop:
+                            try:
+                                desktop_local = Path.home() / 'Desktop'
+                                desktop_local.mkdir(parents=True, exist_ok=True)
+                                fpath = desktop_local / filename_local
+                                with open(fpath, 'wb') as _f:
+                                    _f.write(csv_bytes)
+                                toast(f"已保存至桌面：{fpath}", color="success")
+                            except Exception as e:
+                                logger.exception(e)
+                                toast(f"保存桌面失败：{e}", color="error")
+
+                    put_row([
+                        put_button("刷新", onclick=_render_opsi_stats, color="off"),
+                        put_button("导出并保存到桌面", onclick=lambda: export_opsi_csv(True), color="off"),
+                    ], size="auto")
+
+            put_scope("opsi_stats", [])
+            _render_opsi_stats()
+
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
 
         task_help: str = t(f"Task.{task}.help")
@@ -306,6 +521,7 @@ class AlasGUI(Frame):
                 self.set_navigator(group)
 
     @use_scope("groups")
+
     def set_group(self, group, arg_dict, config, task):
         group_name = group[0]
 
@@ -394,6 +610,18 @@ class AlasGUI(Frame):
         put_scope("overview", [put_scope("schedulers"), put_scope("logs")])
 
         with use_scope("schedulers"):
+            if getattr(State, "display_screenshots", False) and hasattr(self, 'alas') and self.alas.alive and self.alas.get_latest_screenshot:
+                img_html = f'<img id="screenshot-img" src="data:image/jpg;base64,{self.alas.get_latest_screenshot}" style="max-height:240px; width:auto;">'
+                put_scope("image-container", [put_html(img_html)])
+            else:
+                put_scope(
+                    "image-container",
+                    [
+                        put_html(
+                            f'<img id="screenshot-img" src="{State.get_placeholder_url()}" data-modal-src="{State.get_placeholder_url()}" style="max-height:240px; width:auto;">'
+                        )
+                    ],
+                )
             put_scope(
                 "scheduler-bar",
                 [
@@ -440,22 +668,44 @@ class AlasGUI(Frame):
         )
 
         log = RichLog("log")
+        self._log = log
+        self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
         with use_scope("logs"):
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
-                        ],
-                    ),
-                ],
-            )
+            if 'Maa' in self.ALAS_ARGS:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                            ],
+                        ),
+                    ],
+                ),
+            else:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("screenshot_control_btn"),                                
+                                put_scope("log_scroll_btn"),
+                                put_scope("dashboard_btn"),
+                            ],
+                        ),
+                        put_html('<hr class="hr-group">'),
+                        put_scope("dashboard"),
+                    ],
+                ),
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -470,11 +720,116 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
-
+        switch_dashboard = BinarySwitchButton(
+            label_on=t("Gui.Button.DashboardON"),
+            label_off=t("Gui.Button.DashboardOFF"),
+            onclick_on=lambda: self.set_dashboard_display(False),
+            onclick_off=lambda: self.set_dashboard_display(True),
+            get_state=lambda: log.display_dashboard,
+            color_on="off",
+            color_off="on",
+            scope="dashboard_btn",
+        )
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(log.put_log(self.alas), 0.25, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(self.alas_update_dashboard, 10, True)
+        if hasattr(self, 'alas') and self.alas is not None:
+            self.task_handler.add(log.put_log(self.alas), 0.25, True)
+            self.task_handler.add(self.update_screenshot_display, 0.5, True)
+        else:
+            self.task_handler.add(self.update_screenshot_display, 0.5, True)
+
+        with use_scope("screenshot_control_btn", clear=True):
+            label = "看见了nanoda" if getattr(State, "display_screenshots", False) else "看不见nanoda"
+
+            def _toggle_screenshot(_=None):
+                State.display_screenshots = not getattr(State, "display_screenshots", False)
+                if State.display_screenshots:
+                    try:
+                        img_base64 = None
+                        if hasattr(self, 'alas') and self.alas.alive:
+                            img_base64 = self.alas.get_latest_screenshot
+                        if img_base64 is None:
+                            img_base64 = State.last_screenshot_base64
+                        if img_base64:
+                            src = f"data:image/jpg;base64,{img_base64}"
+                            run_js(f'var img=document.getElementById("screenshot-img"); if(img) {{ img.src="{src}"; img.setAttribute("data-modal-src", "{src}"); }}')
+                    except Exception:
+                        pass
+                else:
+                    current_url = State.get_placeholder_url()
+                    run_js(f'var img=document.getElementById("screenshot-img"); if(img) {{ img.src="{current_url}"; img.setAttribute("data-modal-src", "{current_url}"); }}')
+                try:
+                    for pm in ProcessManager.running_instances():
+                        try:
+                            pm.set_screenshot_enabled(State.display_screenshots)
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+                with use_scope("screenshot_control_btn", clear=True):
+                    put_buttons(
+                        [
+                            {"label": "看见了nanoda" if State.display_screenshots else "看不见nanoda", "value": "toggle", "color": "off"},
+                            {"label": "切换雪风大人图片", "value": "switch", "color": "off"},
+                        ],
+                        onclick=[_toggle_screenshot, _switch_placeholder],
+                    ).style("text-align: center")
+
+            def _switch_placeholder(_=None):
+                try:
+                    url = State.advance_placeholder()
+                    run_js(f'var img=document.getElementById("screenshot-img"); if(img) {{ img.src="{url}"; img.setAttribute("data-modal-src", "{url}"); }}')
+                    gradient = 'linear-gradient(90deg, #00b894, #0984e3)'
+                    toast(t("Gui.Overview.PlaceholderSwitched"), duration=1, position="top", color=gradient)
+                    run_js(r"""
+                        setTimeout(function(){
+                            var el = document.querySelector('.toastify.toastify-top.toastify-right') || document.querySelector('.toastify.toastify-top') || document.querySelector('.toastify');
+                            if (!el) return;
+                            el.classList.add('alas-force-text');
+                            el.style.boxShadow = '0 6px 18px rgba(0,0,0,0.22)';
+                            el.style.zIndex = '2147483647';
+                            /* children inherit via .alas-force-text */
+                            try{
+                                if (el.classList && el.classList.contains('toastify-right')){
+                                    el.style.position = 'fixed';
+                                    el.style.top = '8px';
+                                    el.style.right = '8px';
+                                    el.style.left = 'auto';
+                                    el.style.transform = 'none';
+                                    el.style.margin = '0';
+                                } else {
+                                    el.style.position = 'fixed';
+                                    el.style.top = '8px';
+                                    el.style.left = '50%';
+                                    el.style.right = 'auto';
+                                    el.style.transform = 'translateX(-50%)';
+                                    el.style.margin = '0';
+                                }
+                            }catch(e){}
+                        }, 80);
+                    """)
+                except Exception:
+                    pass
+
+            if not hasattr(State, "display_screenshots"):
+                State.display_screenshots = True
+
+            put_buttons(
+                [
+                    {"label": label, "value": "toggle", "color": "off"},
+                    {"label": "切换雪风大人图片", "value": "switch", "color": "off"},
+                ],
+                onclick=[_toggle_screenshot, _switch_placeholder],
+            ).style("text-align: center")
+
+    def set_dashboard_display(self, b):
+        self._log.set_dashboard_display(b)
+        self.alas_update_dashboard(True)
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -512,6 +867,7 @@ class AlasGUI(Frame):
             config_updater: AzurLaneConfig = State.config_updater,
     ) -> None:
         try:
+            skip_time_record = False
             valid = []
             invalid = []
             config = config_updater.read_file(config_name)
@@ -614,6 +970,296 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+
+    def _update_dashboard(self, num=None, groups_to_display=None):
+        x = 0
+        _num = 10000 if num is None else num
+        _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
+        time_now = datetime.now().replace(microsecond=0)
+        for group_name in _arg_group:
+            group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+            if group is None:
+                continue
+
+            value = str(group['Value'])
+            if 'Limit' in group.keys():
+                value_limit = f' / {group["Limit"]}'
+                value_total = ''
+            elif 'Total' in group.keys():
+                value_total = f' ({group["Total"]})'
+                value_limit = ''
+            elif group_name == 'Pt':
+                value_limit = ' / ' + re.sub(r'[,.\'"，。]', '',
+                                             str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
+                if value_limit == ' / 0':
+                    value_limit = ''
+            else:
+                value_limit = ''
+                value_total = ''
+            # value = value + value_limit + value_total
+
+            value_time = group['Record']
+            if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
+                value_time = datetime(2023, 1, 1, 0, 0, 0)
+
+            # Handle time delta
+            if value_time == datetime(2023, 1, 1, 0, 0, 0):
+                value = 'None'
+                delta = timedelta_to_text()
+            else:
+                delta = timedelta_to_text(time_delta(value_time - time_now))
+            if group_name not in self._log.last_display_time.keys():
+                self._log.last_display_time[group_name] = ''
+            if self._log.last_display_time[group_name] == delta and not self._log.first_display:
+                continue
+            self._log.last_display_time[group_name] = delta
+
+            # if self._log.first_display:
+            # Handle width
+            # value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
+            # value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
+            value_limit = '' if value == 'None' else value_limit
+            # limit_width = len(value_limit) * 0.7
+            # limit_width = str(limit_width) + 'rem'
+            value_total = '' if value == 'None' else value_total
+            limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
+            value_limit = value_limit if value_limit else value_total
+            # Handle dot color
+            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"{group_name}_group",
+                            [
+                                put_column(
+                                    [
+                                        put_row(
+                                            [
+                                                put_text(value
+                                                         ).style(f'--dashboard-value--'),
+                                                put_text(value_limit
+                                                         ).style(limit_style),
+                                            ],
+                                        ).style('grid-template-columns:min-content auto;align-items: baseline;'),
+                                        put_text(
+                                            t(f'Gui.Overview.{group_name}') + " - " + delta
+                                        ).style('---dashboard-help--')
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            x += 1
+            if x >= _num:
+                break
+        if self._log.first_display:
+            self._log.first_display = False
+
+    def alas_update_dashboard(self, _clear=False):
+        if not self.visible:
+            return
+        with use_scope("dashboard", clear=_clear):
+            if not self._log.display_dashboard:
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Pt'])
+            elif self._log.display_dashboard:
+                self._update_dashboard()
+
+    def update_screenshot_display(self):
+        if not getattr(State, "display_screenshots", False):
+            self.last_displayed_screenshot_base64 = None
+            if hasattr(State, "screenshot_queue") and hasattr(State.screenshot_queue, "clear"):
+                State.screenshot_queue.clear()
+            if hasattr(State, "last_screenshot_base64"):
+                State.last_screenshot_base64 = None
+            run_js(f'''
+                var img = document.getElementById("screenshot-img");
+                if (img) {{
+                    img.src = "{State.get_placeholder_url()}";
+                }}
+            ''')
+            return
+        img_base64 = None
+        if hasattr(self, 'alas') and self.alas.alive:
+            try:
+                img_base64 = self.alas.get_latest_screenshot
+            except Exception as e:
+                logger.error(f"从调度器获取截图失败: {e}")
+                with use_scope("image-container", clear=True):
+                    put_text("无法获取实时截图").style("font-size: 1.25rem; color: red; margin: auto;")
+
+        if img_base64 is None and State.last_screenshot_base64 is not None:
+            img_base64 = State.last_screenshot_base64
+
+        if img_base64 is not None and img_base64 != self.last_displayed_screenshot_base64:
+            self.last_displayed_screenshot_base64 = img_base64
+            js = '''
+            (function(){
+                var src = "data:image/jpg;base64,<<IMG>>";
+                var img = document.getElementById("screenshot-img");
+                if (!img) {
+                    return;
+                }
+                img.src = src;
+                img.setAttribute("data-modal-src", src);
+                img.style.maxWidth = "100%";
+                img.style.maxHeight = "240px";
+                img.style.height = "auto";
+                img.style.cursor = "zoom-in";
+                img.style.transform = "";
+
+                var modal = document.getElementById("screenshot-modal");
+                if (!modal) {
+                    modal = document.createElement("div");
+                    modal.id = "screenshot-modal";
+                    Object.assign(modal.style, {
+                        position: "fixed",
+                        left: 0,
+                        top: 0,
+                        width: "100vw",
+                        height: "100vh",
+                        display: "none",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "rgba(0,0,0,0.65)",
+                        zIndex: 99999,
+                        overflow: "hidden",
+                        padding: "20px",
+                        boxSizing: "border-box",
+                        cursor: "grab"
+                    });
+                    var modalImg = document.createElement("img");
+                    modalImg.id = "screenshot-modal-img";
+                    Object.assign(modalImg.style, {
+                        maxWidth: "100%",
+                        maxHeight: "90vh",
+                        objectFit: "contain",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                        transition: "transform 0.05s linear",
+                        transformOrigin: "center center",
+                        willChange: "transform"
+                    });
+                    modal.appendChild(modalImg);
+
+                    modal.dataset.scale = 1;
+                    modal.dataset.tx = 0;
+                    modal.dataset.ty = 0;
+                    modal.dataset.panning = 0;
+
+                    function applyTransform() {
+                        var s = parseFloat(modal.dataset.scale) || 1;
+                        var tx = parseFloat(modal.dataset.tx) || 0;
+                        var ty = parseFloat(modal.dataset.ty) || 0;
+                        modalImg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+                    }
+
+                    modal.addEventListener('wheel', function(e) {
+                        if (e.ctrlKey) return;
+                        e.preventDefault();
+                        var rect = modalImg.getBoundingClientRect();
+                        var cx = e.clientX - (rect.left + rect.width/2);
+                        var cy = e.clientY - (rect.top + rect.height/2);
+                        var scale = parseFloat(modal.dataset.scale) || 1;
+                        var delta = -e.deltaY;
+                        var factor = delta > 0 ? 1.12 : 0.88;
+                        var newScale = Math.min(6, Math.max(0.3, scale * factor));
+
+                        var tx = parseFloat(modal.dataset.tx) || 0;
+                        var ty = parseFloat(modal.dataset.ty) || 0;
+                        modal.dataset.tx = tx - cx * (newScale - scale);
+                        modal.dataset.ty = ty - cy * (newScale - scale);
+                        modal.dataset.scale = newScale;
+                        applyTransform();
+                    }, { passive: false });
+
+                    var start = { x:0, y:0 };
+                    modalImg.addEventListener('mousedown', function(e) {
+                        e.preventDefault();
+                        modal.dataset.panning = 1;
+                        start.x = e.clientX;
+                        start.y = e.clientY;
+                        modal.style.cursor = 'grabbing';
+                    });
+                    window.addEventListener('mousemove', function(e) {
+                        if (modal.dataset.panning !== '1') return;
+                        var dx = e.clientX - start.x;
+                        var dy = e.clientY - start.y;
+                        start.x = e.clientX;
+                        start.y = e.clientY;
+                        modal.dataset.tx = (parseFloat(modal.dataset.tx) || 0) + dx;
+                        modal.dataset.ty = (parseFloat(modal.dataset.ty) || 0) + dy;
+                        applyTransform();
+                    });
+                    window.addEventListener('mouseup', function(e) {
+                        if (modal.dataset.panning === '1') {
+                            modal.dataset.panning = 0;
+                            modal.style.cursor = 'grab';
+                        }
+                    });
+
+                    modalImg.addEventListener('dblclick', function(e) {
+                        modal.dataset.scale = 1;
+                        modal.dataset.tx = 0;
+                        modal.dataset.ty = 0;
+                        applyTransform();
+                    });
+
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal) modal.style.display = "none";
+                    });
+
+                    document.body.appendChild(modal);
+                    document.addEventListener("keydown", function(e) {
+                        if (e.key === "Escape") modal.style.display = "none";
+                    });
+                }
+
+                img.src = src;
+                var modalImgEl = document.getElementById("screenshot-modal-img");
+                if (modalImgEl) {
+                    modalImgEl.src = img.getAttribute("data-modal-src") || src;
+                }
+
+                img.onclick = function(e) {
+                    var m = document.getElementById("screenshot-modal");
+                    var mi = document.getElementById("screenshot-modal-img");
+                    if (m && mi) {
+                        mi.src = img.getAttribute("data-modal-src") || img.src;
+                        m.dataset.scale = 1;
+                        m.dataset.tx = 0;
+                        m.dataset.ty = 0;
+                        mi.style.transform = '';
+                        m.style.display = "flex";
+                        applyTransform();
+                    }
+                };
+
+                function applyTransform() {
+                    var m = document.getElementById("screenshot-modal");
+                    if (!m) return;
+                    var mi = document.getElementById("screenshot-modal-img");
+                    var s = parseFloat(m.dataset.scale) || 1;
+                    var tx = parseFloat(m.dataset.tx) || 0;
+                    var ty = parseFloat(m.dataset.ty) || 0;
+                    if (mi) mi.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+                }
+            })();
+            '''
+            js = js.replace('<<IMG>>', img_base64)
+            run_js(js)
+        elif img_base64 is None:
+            run_js(f'''
+                var img = document.getElementById("screenshot-img");
+                if (img) {{
+                    img.src = "{State.get_placeholder_url()}";
+                    img.setAttribute("data-modal-src", "{State.get_placeholder_url()}");
+                }}
+            ''')
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
@@ -718,7 +1364,8 @@ class AlasGUI(Frame):
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        self.task_handler.add(log.put_log(self.alas), 0.25, True)
+        if hasattr(self, 'alas') and self.alas is not None:
+            self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     @use_scope("menu", clear=True)
     def dev_set_menu(self) -> None:
@@ -933,17 +1580,17 @@ class AlasGUI(Frame):
     def dev_utils(self) -> None:
         self.init_menu(name="Utils")
         self.set_title(t("Gui.MenuDevelop.Utils"))
-        put_button(label="Raise exception", onclick=raise_exception)
+        put_button(label=t("Gui.MenuDevelop.RaiseException"), onclick=raise_exception)
 
         def _force_restart():
             if State.restart_event is not None:
-                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                toast(t("Gui.Toast.AlasRestart"), duration=0, color="error")
                 clearup()
                 State.restart_event.set()
             else:
-                toast("Reload not enabled", color="error")
+                toast(t("Gui.Toast.ReloadEnabled"), color="error")
 
-        put_button(label="Force restart", onclick=_force_restart)
+        put_button(label=t("Gui.MenuDevelop.ForceRestart"), onclick=_force_restart)
 
     @use_scope("content", clear=True)
     def dev_remote(self) -> None:
@@ -1018,7 +1665,11 @@ class AlasGUI(Frame):
         self.alas_name = ""
         if hasattr(self, "alas"):
             del self.alas
-        self.state_switch.switch()
+        if hasattr(self, 'state_switch'):
+            try:
+                self.state_switch.switch()
+            except Exception:
+                pass
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
@@ -1030,7 +1681,12 @@ class AlasGUI(Frame):
         self.alas_mod = get_config_mod(config_name)
         self.alas = ProcessManager.get_manager(config_name)
         self.alas_config = load_config(config_name)
-        self.state_switch.switch()
+        if hasattr(self, 'state_switch'):
+            try:
+                self.state_switch.switch()
+            except Exception:
+                # best-effort: ignore if switch not ready
+                pass
         self.initial()
         self.alas_set_menu()
 
@@ -1133,10 +1789,75 @@ class AlasGUI(Frame):
                 [
                     {"label": "Light", "value": "default", "color": "light"},
                     {"label": "Dark", "value": "dark", "color": "dark"},
+                    {"label": "Azur Lane", "value": "azurlane", "color": "info"},
                 ],
                 onclick=lambda t: set_theme(t),
             ).style("text-align: center")
 
+            # Show a one-time blue-themed popup introducing the new 碧蓝主题 (Azur Lane)
+            # Skip showing if the current theme is already azurlane (no need to promote)
+            try:
+                popup_key = "alas_azurlane_theme_notice_shown"
+                current_theme = getattr(State.deploy_config, 'Theme', None) or getattr(self, 'theme', None)
+                if current_theme == 'azurlane':
+                    pass
+                else:
+                    val = get_localstorage(popup_key)
+                    if val != "1":
+                        def _apply_azurlane(_=None):
+                            try:
+                                set_localstorage(popup_key, "1")
+                            except Exception:
+                                pass
+                            set_theme("azurlane")
+                            try:
+                                close_popup()
+                            except Exception:
+                                pass
+
+                        def _dismiss(_=None):
+                            try:
+                                set_localstorage(popup_key, "1")
+                            except Exception:
+                                pass
+                            try:
+                                close_popup()
+                            except Exception:
+                                pass
+
+                        modal_style = (
+                            "<style>"
+                            " /* Simple azurlane blue modal for azurlane popup */"
+                            " .modal-backdrop{background-color: rgba(0,0,0,0.25) !important;}"
+                            " .modal.show .modal-content{background: #4fc3f7 !important; color: #111 !important; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;}"
+                            " .modal-content.azurlane-popup, .modal.show .modal-content.azurlane-popup{padding: 14px !important;}"
+                            " .modal-content.azurlane-popup h3, .modal-content.azurlane-popup div, .modal-content.azurlane-popup p, .modal-content.azurlane-popup span{color:#111 !important;}"
+                            " .modal-content.azurlane-popup .btn, .modal-content.azurlane-popup button{color:#111 !important;}"
+                            "</style>"
+                        )
+
+                        with popup("", content=put_html(modal_style), size=None) as p:
+                            put_html(
+                                '<div class="azurlane-popup" style="padding: 12px; text-align: center;">'
+                                + '<h3 style="margin:0 0 8px 0;">雪风大人新增碧蓝主题</h3>'
+                                + '<div style="font-size:0.95rem;margin-bottom:12px;">点击下方按钮即可立即应用碧蓝主题。</div>'
+                                + '</div>'
+                            )
+                            put_buttons(
+                                [
+                                    {"label": "立即应用碧蓝主题", "value": "apply", "color": "info"},
+                                    {"label": "不，谢谢", "value": "cancel", "color": "secondary"},
+                                ],
+                                onclick=[_apply_azurlane, _dismiss],
+                                scope=p,
+                            )
+                            run_js(
+                                "(function(){var m=document.querySelector('.modal.show .modal-content'); if(m) m.classList.add('azurlane-popup');})();"
+                            )
+                            run_js("localStorage.setItem('alas_azurlane_theme_notice_shown', '1')")
+            except Exception:
+                pass
+            
             # show something
             put_markdown(
                 """
@@ -1163,6 +1884,7 @@ class AlasGUI(Frame):
     def run(self) -> None:
         # setup gui
         set_env(title="Alas", output_animation=False)
+        run_js('document.head.append(Object.assign(document.createElement(\'link\'), { rel: \'manifest\', href: \'/static/assets/spa/manifest.json\' }))')
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))
@@ -1171,6 +1893,8 @@ class AlasGUI(Frame):
 
         if self.theme == "dark":
             add_css(filepath_css("dark-alas"))
+        elif self.theme == "azurlane":
+            add_css(filepath_css("azurlane-alas"))
         else:
             add_css(filepath_css("light-alas"))
 
@@ -1191,6 +1915,146 @@ class AlasGUI(Frame):
             }
         );
         """
+        )
+
+        run_js(
+            '''
+        (function(){
+            function ensureScreenshotModal(){
+                if (document.getElementById('screenshot-modal')) return;
+                var modal = document.createElement('div');
+                modal.id = 'screenshot-modal';
+                Object.assign(modal.style, {
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    display: 'none',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: 'rgba(0,0,0,0.65)',
+                    zIndex: 99999,
+                    overflow: 'hidden',
+                    padding: '20px',
+                    boxSizing: 'border-box',
+                    cursor: 'grab'
+                });
+                var modalImg = document.createElement('img');
+                modalImg.id = 'screenshot-modal-img';
+                Object.assign(modalImg.style, {
+                    maxWidth: '100%',
+                    maxHeight: '90vh',
+                    objectFit: 'contain',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                    transition: 'transform 0.05s linear',
+                    transformOrigin: 'center center',
+                    willChange: 'transform'
+                });
+                modal.appendChild(modalImg);
+
+                modal.dataset.scale = 1;
+                modal.dataset.tx = 0;
+                modal.dataset.ty = 0;
+                modal.dataset.panning = 0;
+
+                function applyTransform() {
+                    var s = parseFloat(modal.dataset.scale) || 1;
+                    var tx = parseFloat(modal.dataset.tx) || 0;
+                    var ty = parseFloat(modal.dataset.ty) || 0;
+                    modalImg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+                }
+
+                modal.addEventListener('wheel', function(e) {
+                    if (e.ctrlKey) return;
+                    e.preventDefault();
+                    var rect = modalImg.getBoundingClientRect();
+                    var cx = e.clientX - (rect.left + rect.width/2);
+                    var cy = e.clientY - (rect.top + rect.height/2);
+                    var scale = parseFloat(modal.dataset.scale) || 1;
+                    var delta = -e.deltaY;
+                    var factor = delta > 0 ? 1.12 : 0.88;
+                    var newScale = Math.min(6, Math.max(0.3, scale * factor));
+
+                    var tx = parseFloat(modal.dataset.tx) || 0;
+                    var ty = parseFloat(modal.dataset.ty) || 0;
+                    modal.dataset.tx = tx - cx * (newScale - scale);
+                    modal.dataset.ty = ty - cy * (newScale - scale);
+                    modal.dataset.scale = newScale;
+                    applyTransform();
+                }, { passive: false });
+
+                var start = { x:0, y:0 };
+                modalImg.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    modal.dataset.panning = 1;
+                    start.x = e.clientX;
+                    start.y = e.clientY;
+                    modal.style.cursor = 'grabbing';
+                });
+                window.addEventListener('mousemove', function(e) {
+                    if (modal.dataset.panning !== '1') return;
+                    var dx = e.clientX - start.x;
+                    var dy = e.clientY - start.y;
+                    start.x = e.clientX;
+                    start.y = e.clientY;
+                    modal.dataset.tx = (parseFloat(modal.dataset.tx) || 0) + dx;
+                    modal.dataset.ty = (parseFloat(modal.dataset.ty) || 0) + dy;
+                    applyTransform();
+                });
+                window.addEventListener('mouseup', function(e) {
+                    if (modal.dataset.panning === '1') {
+                        modal.dataset.panning = 0;
+                        modal.style.cursor = 'grab';
+                    }
+                });
+
+                modalImg.addEventListener('dblclick', function(e) {
+                    modal.dataset.scale = 1;
+                    modal.dataset.tx = 0;
+                    modal.dataset.ty = 0;
+                    applyTransform();
+                });
+
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) modal.style.display = 'none';
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        var m = document.getElementById('screenshot-modal');
+                        if (m) m.style.display = 'none';
+                    }
+                });
+
+                document.body.appendChild(modal);
+            }
+
+            // Ensure modal exists and wire click handler to #screenshot-img
+            ensureScreenshotModal();
+            function bindScreenshotImg() {
+                var img = document.getElementById('screenshot-img');
+                if (!img) return;
+                img.style.cursor = 'zoom-in';
+                img.onclick = function(e) {
+                    var m = document.getElementById('screenshot-modal');
+                    var mi = document.getElementById('screenshot-modal-img');
+                    if (!m || !mi) return;
+                    var src = img.getAttribute('data-modal-src') || img.src;
+                    mi.src = src;
+                    m.dataset.scale = 1;
+                    m.dataset.tx = 0;
+                    m.dataset.ty = 0;
+                    mi.style.transform = '';
+                    m.style.display = 'flex';
+                };
+            }
+            // Try binding now and also when DOM changes
+            bindScreenshotImg();
+            var obs = new MutationObserver(function(){ bindScreenshotImg(); });
+            obs.observe(document.body, { childList: true, subtree: true });
+        })();
+        '''
         )
 
         aside = get_localstorage("aside")
@@ -1232,15 +2096,41 @@ class AlasGUI(Frame):
             self.ui_develop()
             self.dev_update()
 
+        def show_update_toast():
+            gradient = 'linear-gradient(90deg, #00b894, #0984e3)'
+            toast(t("Gui.Toast.ClickToUpdate"), duration=0, position="right", color=gradient, onclick=goto_update)
+
+            run_js(r"""
+                setTimeout(function(){
+                    var el = document.querySelector('.toastify.toastify-top.toastify-right') || document.querySelector('.toastify.toastify-top') || document.querySelector('.toastify');
+                    if (!el) return;
+                    el.classList.add('alas-force-text');
+                    el.style.boxShadow = '0 6px 18px rgba(0,0,0,0.22)';
+                    el.style.zIndex = '2147483647';
+                    /* children inherit via .alas-force-text */
+                    try{
+                        if (el.classList && el.classList.contains('toastify-right')){
+                            el.style.position = 'fixed';
+                            el.style.top = '8px';
+                            el.style.right = '8px';
+                            el.style.left = 'auto';
+                            el.style.transform = 'none';
+                            el.style.margin = '0';
+                        } else {
+                            el.style.position = 'fixed';
+                            el.style.top = '8px';
+                            el.style.left = '50%';
+                            el.style.right = 'auto';
+                            el.style.transform = 'translateX(-50%)';
+                            el.style.margin = '0';
+                        }
+                    }catch(e){}
+                }, 80);
+            """)
+
         update_switch = Switch(
             status={
-                1: lambda: toast(
-                    t("Gui.Toast.ClickToUpdate"),
-                    duration=0,
-                    position="right",
-                    color="success",
-                    onclick=goto_update,
-                )
+                1: show_update_toast
             },
             get_state=lambda: updater.state,
             name="update_state",
@@ -1492,6 +2382,8 @@ def app():
     from deploy.atomic import atomic_failure_cleanup
     atomic_failure_cleanup('./config')
 
+    static_path = os.getcwd()
+
     def index():
         if key is not None and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
@@ -1513,7 +2405,7 @@ def app():
     app = asgi_app(
         applications=[index, manage],
         cdn=cdn,
-        static_dir=None,
+        static_dir=static_path,
         debug=True,
         on_startup=[
             startup,

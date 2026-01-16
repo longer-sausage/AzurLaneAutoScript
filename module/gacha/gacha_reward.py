@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.campaign.campaign_status import OCR_COIN
+from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import GET_SHIP
 from module.exception import ScriptError
 from module.gacha.assets import *
@@ -8,6 +8,7 @@ from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
+from module.log_res.log_res import LogRes
 
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
@@ -17,7 +18,7 @@ OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), thres
 OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64)
 
 
-class RewardGacha(GachaUI, Retirement):
+class RewardGacha(GachaUI, Retirement, CampaignStatus):
     build_coin_count = 0
     build_cube_count = 0
     build_ticket_count = 0
@@ -125,6 +126,8 @@ class RewardGacha(GachaUI, Retirement):
         logger.info(f'Able to submit up to {target_count} build orders')
         self.build_coin_count -= gold_total
         self.build_cube_count -= cube_total
+        LogRes(self.config).Cube = self.build_cube_count
+        self.config.update()
         return target_count
 
     def gacha_goto_pool(self, target_pool):
@@ -296,7 +299,7 @@ class RewardGacha(GachaUI, Retirement):
         self.gacha_flush_queue()
 
         # OCR Gold and Cubes
-        self.build_coin_count = OCR_COIN.ocr(self.device.image)
+        self.build_coin_count = self.get_coin()
         self.build_cube_count = OCR_BUILD_CUBE_COUNT.ocr(self.device.image)
 
         # Transition to appropriate target construction pool
@@ -322,6 +325,9 @@ class RewardGacha(GachaUI, Retirement):
             buy[0] = self.build_ticket_count
             # Calculate rolls allowed based on configurations and resources
             buy[1] = self.gacha_calculate(self.config.Gacha_Amount - self.build_ticket_count, gold_cost, cube_cost)
+        else:
+            LogRes(self.config).Cube = self.build_cube_count
+            self.config.update()
 
         # Submit 'buy_count' and execute if capable
         # Cannot use handle_popup_confirm, this window

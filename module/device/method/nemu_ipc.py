@@ -273,10 +273,6 @@ class NemuIpcImpl:
         self.connect_id = connect_id
         # logger.info(f'NemuIpc connected: {self.connect_id}')
 
-    @retry
-    def connect_with_retry(self, on_thread=True):
-        self.connect(on_thread=on_thread)
-
     def disconnect(self):
         if self.connect_id == 0:
             return
@@ -501,13 +497,11 @@ class NemuIpc(Platform):
             logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.emulator_instance.path}')
             raise RequestHumanTakeover
         try:
-            impl = NemuIpcImpl(
+            return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
                 instance_id=self.emulator_instance.MuMuPlayer12_id,
                 display_id=0
-            )
-            impl.connect_with_retry()
-            return impl
+            ).__enter__()
         except (NemuIpcIncompatible, NemuIpcError, JobTimeout) as e:
             logger.error(e)
             logger.error('Unable to initialize NemuIpc')

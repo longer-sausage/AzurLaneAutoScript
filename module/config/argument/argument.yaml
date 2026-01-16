@@ -2,6 +2,59 @@
 # Define arguments.
 # --------------------
 
+# ==================== Dashboard ====================
+Oil:
+  Value: 0
+  Limit: 0
+  Color: ^000000
+  Record: 2020-01-01 00:00:00
+Coin:
+  Value: 0
+  Limit: 0
+  Color: ^FFAA33
+  Record: 2020-01-01 00:00:00
+Gem:
+  Value: 0
+  Color: ^FF3333
+  Record: 2020-01-01 00:00:00
+Pt:
+  Value: 0
+  Color: ^00BFFF
+  Record: 2020-01-01 00:00:00
+YellowCoin:
+  Value: 0
+  Color: ^FF8800
+  Record: 2020-01-01 00:00:00
+PurpleCoin:
+  Value: 0
+  Color: ^7700BB
+  Record: 2020-01-01 00:00:00
+ActionPoint:
+  Value: 0
+  Total: 0
+  Color: ^0000FF
+  Record: 2020-01-01 00:00:00
+Merit:
+  Value: 0
+  Color: ^FFFF00
+  Record: 2020-01-01 00:00:00
+Cube:
+  Value: 0
+  Color: ^33FFFF
+  Record: 2020-01-01 00:00:00
+Core:
+  Value: 0
+  Color: ^AAAAAA
+  Record: 2020-01-01 00:00:00
+Medal:
+  Value: 0
+  Color: ^FFDD00
+  Record: 2020-01-01 00:00:00
+GuildCoin:
+  Value: 0
+  Color: ^AAAAAA
+  Record: 2020-01-01 00:00:00
+
 # ==================== Alas ====================
 
 Scheduler:
@@ -123,6 +176,30 @@ Retirement:
   RetireMode:
     value: one_click_retire
     option: [ one_click_retire, enhance, old_retire ]
+YukikazeTaskManager:
+  TaskPriorityAdjustment:
+    type: textarea
+    value: |-
+      Restart
+      > OpsiCrossMonth
+      > Commission > Tactical > Research
+      > Exercise
+      > Dorm > Meowfficer > Guild > Gacha
+      > Reward
+      > ShopFrequent > ShopOnce > Shipyard > Freebies
+      > PrivateQuarters
+      > OpsiExplore
+      > Minigame > Awaken
+      > OpsiAshBeacon
+      > OpsiDaily > OpsiShop > OpsiVoucher
+      > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
+      > Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss
+      > Sos > EventSp > EventA > EventB > EventC > EventD
+      > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
+      > Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > Main > Main2 > Main3
+      > OpsiMeowfficerFarming
+      > GemsFarming
+      > OpsiHazard1Leveling
 OneClickRetire:
   KeepLimitBreak:
     value: keep_limit_break
@@ -265,15 +342,27 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   ChangeVanguard:
     value: ship
-    option: [ disabled, ship ]
+    option: [ disabled, ship, ship_equip ]
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
+  EquipmentCode:
+    type: textarea
+    mode: yaml
+    value: |-
+      DD: null
+      bogue: null
+      hermes: null
+      langley: null
+      ranger: null
   CommissionLimit: true
 
 # ==================== Event ====================
@@ -727,10 +816,17 @@ OpsiMeowfficerFarming:
     option: [ 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
+  StayInZone: false    
 OpsiHazard1Leveling:
   TargetZone:
     value: 0
     option: [ 0, 44, 22 ]
+  YellowCoinPreserve: 100000    
+  SirenResearch_Enable: false
+  MinimumActionPointReserve: 200        
+  ExecuteFixedPatrolScan: false
+  Cl1Filter: |-
+    ActionPoint > PurpleCoins
 
 # ==================== Tools ====================
 

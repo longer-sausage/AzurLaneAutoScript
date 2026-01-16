@@ -1,0 +1,116 @@
+name: Sync upstream and apply patch
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force sync"
+        required: false
+        default: "false"
+        
+  schedule:
+    - cron: "0 */2 * * *"   # every 2 hours (UTC)
+
+concurrency:
+  group: sync-master
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork (master)
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+          token: ${{ secrets.SYNC_PAT }}
+          persist-credentials: true
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream and fetch
+        run: |
+          git remote add upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git || git remote set-url upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git
+          git fetch upstream --prune
+          git fetch origin master --prune
+          git fetch origin patches --prune
+
+      - name: Check if upstream changed (marker file)
+        id: check
+        shell: bash
+        env:
+          FORCE: ${{ github.event.inputs.force || 'false' }}
+        run: |
+          UP="$(git rev-parse upstream/master)"
+          LAST=""
+          if [ -f ".upstream-sha" ]; then
+            LAST="$(tr -d '\r\n' < .upstream-sha || true)"
+          fi
+
+          echo "upstream=$UP"
+          echo "last=$LAST"
+          echo "force=$FORCE"
+
+          if [ "$FORCE" = "true" ]; then
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "Force enabled. Continue."
+          elif [ -n "$LAST" ] && [ "$UP" = "$LAST" ]; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream update. Skip."
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "Upstream updated. Continue."
+          fi
+
+      - name: Load patch from patches branch
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git show origin/patches:patches/custom.patch > "$RUNNER_TEMP/custom.patch"
+          test -s "$RUNNER_TEMP/custom.patch"
+
+      - name: Backup .github/workflows from current master
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          if [ -d ".github/workflows" ]; then
+            rm -rf "$RUNNER_TEMP/workflows"
+            cp -a ".github/workflows" "$RUNNER_TEMP/workflows"
+          else
+            echo "Warning: .github/workflows not found on master."
+          fi
+
+      - name: Reset to upstream, restore .github/workflows, apply patch, update marker
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git checkout master
+          git pull --ff-only origin master
+          git reset --hard upstream/master
+          if [ -d "$RUNNER_TEMP/workflows" ]; then
+            rm -rf ".github/workflows"
+            cp -a "$RUNNER_TEMP/workflows" ".github/workflows"
+          fi
+          git apply --3way --whitespace=nowarn "$RUNNER_TEMP/custom.patch"
+          git rev-parse upstream/master > .upstream-sha
+
+      - name: Commit if changed
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Sync upstream + apply custom patch"
+          else
+            echo "No changes after applying patch."
+          fi
+
+      - name: Push to fork master
+        if: steps.check.outputs.updated == 'true'
+        shell: bash
+        run: |
+          git push --force-with-lease origin master

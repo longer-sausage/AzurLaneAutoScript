@@ -20,6 +20,13 @@ from module.shop.shop_voucher import VoucherShop
 
 
 class OperationSiren(OSMap):
+    def __init__(self, *args, **kwargs):
+        try:
+            super().__init__(*args, **kwargs)
+        except Exception as e:
+            logger.exception("OperationSiren init failed")
+            raise
+
     def os_port_mission(self):
         """
         Visit all ports and do the daily mission in it.
@@ -220,6 +227,7 @@ class OperationSiren(OSMap):
             OpsiMeowfficerFarming_ActionPointPreserve=0,
             OpsiMeowfficerFarming_HazardLevel=3,
             OpsiMeowfficerFarming_TargetZone=0,
+            OpsiMeowfficerFarming_StayInZone=self.config.cross_get('OpsiMeowfficerFarming.OpsiMeowfficerFarming.StayInZone')
         )
         while True:
             zones = self.zone_select(hazard_level=3) \
@@ -321,6 +329,8 @@ class OperationSiren(OSMap):
             logger.info('With CL1 leveling enabled, set action point preserve to 1000')
             self.config.OpsiMeowfficerFarming_ActionPointPreserve = 1000
         preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve, 2000)
+        #if getattr(self.config, 'OpsiMeowfficerFarming_StayInZone', False):
+        #    preserve = 0
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
         if self.is_cl1_enabled:
@@ -358,7 +368,7 @@ class OperationSiren(OSMap):
                 # When not running CL1 and use oil
                 keep_current_ap = True
                 check_rest_ap = True
-                if self.is_cl1_enabled and self.get_yellow_coins() >= self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                if self.is_cl1_enabled and self.get_yellow_coins() >= self.config.OpsiHazard1Leveling_YellowCoinPreserve:
                     check_rest_ap = False
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
@@ -366,7 +376,7 @@ class OperationSiren(OSMap):
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
-            if self.config.OpsiMeowfficerFarming_TargetZone != 0:
+            if self.config.OpsiMeowfficerFarming_TargetZone != 0 and not self.config.OpsiMeowfficerFarming_StayInZone:
                 try:
                     zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
                 except ScriptError:
@@ -382,34 +392,82 @@ class OperationSiren(OSMap):
                     self.run_auto_search()
                     self.handle_after_auto_search()
                     self.config.check_task_switch()
-            else:
-                zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
-                    .delete(SelectedGrids([self.zone])) \
-                    .delete(SelectedGrids(self.zones.select(is_port=True))) \
-                    .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
+                continue
 
-                logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
-                self.globe_goto(zones[0])
+            if self.config.OpsiMeowfficerFarming_StayInZone:
+                if self.config.OpsiMeowfficerFarming_TargetZone == 0:
+                    logger.warning('StayInZone 已启用但未设置 TargetZone，跳过本次出击')
+                    self.config.task_delay(server_update=True)
+                    self.config.task_stop()
+                try:
+                    zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
+                except ScriptError:
+                    logger.error('无法定位配置的 TargetZone，停止任务')
+                    self.config.task_delay(server_update=True)
+                    self.config.task_stop()
+                logger.hr(f'OS meowfficer farming (stay in zone), zone_id={zone.zone_id}', level=1)
+                self.get_current_zone()
+                if self.zone.zone_id != zone.zone_id or not self.is_zone_name_hidden:
+                    self.globe_goto(zone, types='SAFE', refresh=True)
+
+                #self.config.OS_ACTION_POINT_PRESERVE = 0
+                keep_current_ap = True
+                if self.config.OpsiGeneral_BuyActionPointLimit > 0:
+                    keep_current_ap = False
+
+                self.action_point_set(cost=120, keep_current_ap=keep_current_ap, check_rest_ap=True)
                 self.fleet_set(self.config.OpsiFleet_Fleet)
-                self.os_order_execute(
-                    recon_scan=False,
-                    submarine_call=self.config.OpsiFleet_Submarine)
-                self.run_auto_search()
-                self.handle_after_auto_search()
+                self.os_order_execute(recon_scan=False, submarine_call=self.config.OpsiFleet_Submarine)
+                try:
+                    self.run_strategic_search()
+                except Exception as e:
+                    logger.warning(f'Strategic search exception: {e}')
+
+                try:
+                    self.handle_after_auto_search()
+                except Exception:
+                    logger.exception('Exception in handle_after_auto_search')
+
+                #if not self.is_zone_name_hidden:
+                #    try:
+                #        self.globe_goto(zone, types='SAFE', refresh=True)
+                #    except Exception as e2:
+                #        logger.warning(f'重新进入目标海域失败: {e2}')
+
                 self.config.check_task_switch()
+                continue
+
+            zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
+                .delete(SelectedGrids([self.zone])) \
+                .delete(SelectedGrids(self.zones.select(is_port=True))) \
+                .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
+
+            logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
+            self.globe_goto(zones[0])
+            self.fleet_set(self.config.OpsiFleet_Fleet)
+            self.os_order_execute(
+                recon_scan=False,
+                submarine_call=self.config.OpsiFleet_Submarine)
+            self.run_auto_search()
+            self.handle_after_auto_search()
+            self.config.check_task_switch()
 
     def os_hazard1_leveling(self):
         logger.hr('OS hazard 1 leveling', level=1)
         # Without these enabled, CL1 gains 0 profits
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=True,
-            OpsiGeneral_AkashiShopFilter='ActionPoint',
         )
-        if not self.config.is_task_enabled('OpsiMeowfficerFarming'):
-            self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
+        #if not self.config.is_task_enabled('OpsiMeowfficerFarming'):
+        #    self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
         while True:
-            # Limited action point preserve of hazard 1 to 200
-            self.config.OS_ACTION_POINT_PRESERVE = 200
+            try:
+                self.config.OS_ACTION_POINT_PRESERVE = int(self.config.cross_get(
+                    keys='OpsiHazard1Leveling.OpsiHazard1Leveling.MinimumActionPointReserve',
+                    default=200
+                ))
+            except Exception:
+                self.config.OS_ACTION_POINT_PRESERVE = 200
             if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
@@ -417,12 +475,12 @@ class OperationSiren(OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
-                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
+            if self.get_yellow_coins() < self.config.OpsiHazard1Leveling_YellowCoinPreserve:
+                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OpsiHazard1Leveling_YellowCoinPreserve}')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    if not self.is_in_opsi_explore():
-                        self.config.task_call('OpsiMeowfficerFarming')
+                #    if not self.is_in_opsi_explore():
+                #        self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             self.get_current_zone()
@@ -432,13 +490,13 @@ class OperationSiren(OSMap):
             keep_current_ap = True
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
-            self.action_point_set(cost=70, keep_current_ap=keep_current_ap, check_rest_ap=True)
-            if self._action_point_total >= 3000:
-                with self.config.multi_set():
-                    self.config.task_delay(server_update=True)
-                    if not self.is_in_opsi_explore():
-                        self.config.task_call('OpsiMeowfficerFarming')
-                self.config.task_stop()
+            self.action_point_set(cost=120, keep_current_ap=keep_current_ap, check_rest_ap=True)
+            #if self._action_point_total >= 3000:
+            #    with self.config.multi_set():
+            #        self.config.task_delay(server_update=True)
+            #        if not self.is_in_opsi_explore():
+            #            self.config.task_call('OpsiMeowfficerFarming')
+            #    self.config.task_stop()
 
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
                 zone = self.config.OpsiHazard1Leveling_TargetZone
@@ -450,7 +508,24 @@ class OperationSiren(OSMap):
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.run_strategic_search()
 
+            if self.config.OpsiHazard1Leveling_ExecuteFixedPatrolScan:
+                exec_fixed = getattr(self.config, 'OpsiHazard1Leveling_ExecuteFixedPatrolScan', False)
+                if exec_fixed:
+                    self._execute_fixed_patrol_scan(ExecuteFixedPatrolScan=True)
+
             self.handle_after_auto_search()
+            solved_events = getattr(self, '_solved_map_event', set())
+            if 'is_akashi' in solved_events:
+                try:
+                    from datetime import datetime
+                    key = f"{datetime.now():%Y-%m}-akashi"
+                    data = self._load_cl1_monthly()
+                    data[key] = int(data.get(key, 0)) + 1
+                    self._save_cl1_monthly(data)
+                    logger.attr('cl1_akashi_monthly', data[key])
+                except Exception:
+                    logger.exception('Failed to persist CL1 akashi monthly count')
+
             self.config.check_task_switch()
 
     def _os_explore_task_delay(self):
